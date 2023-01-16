@@ -1,0 +1,32 @@
+{
+  "name": "@thomashambach/ncalcjs",
+  "version": "0.0.1",
+  "description": "Typescript/Javascript implementation of NCalc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "antlr4ts": "antlr4ts -visitor src/Grammar/NCalc.g4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasHambach/NcalcJS.git"
+  },
+  "keywords": [
+    "ncalc",
+    "expression",
+    "parser"
+  ],
+  "author": "Thomas Hambach",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ThomasHambach/NcalcJS/issues"
+  },
+  "homepage": "https://github.com/ThomasHambach/NcalcJS#readme",
+  "dependencies": {
+    "antlr4ts": "^0.5.0-alpha.4"
+  },
+  "devDependencies": {
+    "antlr4ts-cli": "^0.5.0-alpha.4",
+    "typescript": "^4.9.4"
+  }
+}
