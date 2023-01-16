@@ -1,16 +1,34 @@
 // Generated from src/Grammar/NCalc.g4 by ANTLR 4.9.0-SNAPSHOT
 
 
-// using System;
-// using System.Text;
-// using System.Globalization;
-// using NCalc.Domain;
-	import {BinaryExpressionType} from "../NCalc/Domain/BinaryExpression"
+import dayjs from "dayjs";
+import { Identifier } from "../NCalc/Domain/Parameter";
+
+import { BinaryExpression, BinaryExpressionType } from "../NCalc/Domain/BinaryExpression";
+import { NCalcFunction } from "../NCalc/Domain/Function";
+import { LogicalExpressionVisitor } from "../NCalc/Domain/LogicalExpressionVisitor";
+import { LogicalExpression } from "../NCalc/LogicalExpression";
+import { UnaryExpression, UnaryExpressionType } from "../NCalc/Domain/UnaryExpression";
+import { TernaryExpression } from "../NCalc/Domain/TernaryExpression";
+import { ValueExpression, ValueType } from "../NCalc/Domain/ValueExpression";
 
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
+import { NcalcExpressionContext } from "./NCalcParser";
+import { LogicalExpressionContext } from "./NCalcParser";
+import { ConditionalExpressionContext } from "./NCalcParser";
+import { BooleanExpressionContext } from "./NCalcParser";
+import { RelationalExpressionContext } from "./NCalcParser";
+import { ShiftExpressionContext } from "./NCalcParser";
+import { AdditiveExpressionContext } from "./NCalcParser";
+import { MultiplicativeExpressionContext } from "./NCalcParser";
+import { UnaryExpressionContext } from "./NCalcParser";
+import { PrimaryExpressionContext } from "./NCalcParser";
+import { ValueContext } from "./NCalcParser";
 import { IdentifierContext } from "./NCalcParser";
+import { ExpressionListContext } from "./NCalcParser";
+import { ArgumentsContext } from "./NCalcParser";
 
 
 /**
@@ -22,10 +40,101 @@ import { IdentifierContext } from "./NCalcParser";
  */
 export interface NCalcVisitor<Result> extends ParseTreeVisitor<Result> {
 	/**
+	 * Visit a parse tree produced by `NCalcParser.ncalcExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitNcalcExpression?: (ctx: NcalcExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.logicalExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitLogicalExpression?: (ctx: LogicalExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.conditionalExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitConditionalExpression?: (ctx: ConditionalExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitBooleanExpression?: (ctx: BooleanExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.relationalExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitRelationalExpression?: (ctx: RelationalExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.shiftExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitShiftExpression?: (ctx: ShiftExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.additiveExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitAdditiveExpression?: (ctx: AdditiveExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.multiplicativeExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitMultiplicativeExpression?: (ctx: MultiplicativeExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.unaryExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitUnaryExpression?: (ctx: UnaryExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.primaryExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitPrimaryExpression?: (ctx: PrimaryExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.value`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitValue?: (ctx: ValueContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `NCalcParser.identifier`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitIdentifier?: (ctx: IdentifierContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.expressionList`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitExpressionList?: (ctx: ExpressionListContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.arguments`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitArguments?: (ctx: ArgumentsContext) => Result;
 }
 

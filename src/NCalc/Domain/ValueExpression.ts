@@ -9,6 +9,8 @@ export class EvaluationException extends Error { }
         public constructor();
         public constructor(value: string);
         public constructor(value: number);
+        public constructor(value: boolean);
+        public constructor(value: string, valueType: ValueType);
         public constructor(value?: any, valueType?: ValueType)
         {
             super();
@@ -32,6 +34,8 @@ export class EvaluationException extends Error { }
                                 this.Type = ValueType.String;
                             }
                             break;
+                        case "boolean":
+                            this.Type = ValueType.Boolean;
                         default:
                             throw new EvaluationException("This value could not be handled: " + value);
                     }

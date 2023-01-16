@@ -4,8 +4,9 @@ import { LogicalExpressionVisitor } from "./LogicalExpressionVisitor";
 
     export class Identifier extends LogicalExpression
     {
-        public Identifier(name: string)
+        public constructor(name: string)
         {
+            super();
             this.Name = name;
         }
 

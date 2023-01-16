@@ -1,19 +1,19 @@
 grammar NCalc;
 
-options {
-	// output = AST; ASTLabelType = CommonTree;
-	language = JavaScript;
+@parser::header {
+import dayjs from "dayjs";
+import { Identifier } from "../NCalc/Domain/Parameter";
+
+import { BinaryExpression, BinaryExpressionType } from "../NCalc/Domain/BinaryExpression";
+import { NCalcFunction } from "../NCalc/Domain/Function";
+import { LogicalExpressionVisitor } from "../NCalc/Domain/LogicalExpressionVisitor";
+import { LogicalExpression } from "../NCalc/LogicalExpression";
+import { UnaryExpression, UnaryExpressionType } from "../NCalc/Domain/UnaryExpression";
+import { TernaryExpression } from "../NCalc/Domain/TernaryExpression";
+import { ValueExpression, ValueType } from "../NCalc/Domain/ValueExpression";
 }
 
-@header {
-// using System;
-// using System.Text;
-// using System.Globalization;
-// using NCalc.Domain;
-	import {BinaryExpressionType} from "../NCalc/Domain/BinaryExpression"
-}
-
-@members {
+@parser::members {
 
 	public BS: string = "\\";
 
@@ -66,269 +66,199 @@ options {
 	}
 
 	public Errors: any[] = [];
-	public GetExpression(): any { return (ncalcExpression() as any).value };
+	public GetExpression(): any { return (this.ncalcExpression() as any).value };
 
 }
 
 @init {
-    numberFormatInfo.NumberDecimalSeparator = ".";
+    // numberFormatInfo.NumberDecimalSeparator = ".";
 }
 
-@lexer::namespace { NCalc }
-@parser::namespace { NCalc }
+ncalcExpression returns [LogicalExpression val]
+	: logicalExpression EOF {$val = $logicalExpression.val; }
+	;
 
-ncalcExpression
-	returns[value: LogicalExpression]:
-	logicalExpression EOF {$value =
-$logicalExpression.value; };
+logicalExpression returns [LogicalExpression val]
+	:	left=conditionalExpression { $val = $left.val; } ( WS* '?' WS* middle=conditionalExpression WS* ':' WS* right=conditionalExpression { $val = new TernaryExpression($left.val, $middle.val, $right.val); })? 
+	;
 
-logicalExpression
-	returns[value: LogicalExpression]:
-	left = conditionalExpression { $value =
-$left.value; } (
-		'?' middle = conditionalExpression ':' right = conditionalExpression { $value =
-new TernaryExpression($left.value, $middle.value, $right.value); }
-	)?;
+conditionalExpression returns [LogicalExpression val]
+@init {
+let type = BinaryExpressionType.Unknown;
+}
+	:	left=booleanExpression { $val = $left.val; } (
+			( ('&&' | 'and') { type = BinaryExpressionType.And; } 
+			| ('||' | 'or') { type = BinaryExpressionType.Or; } )
+			right=booleanExpression { $val = new BinaryExpression(type, $val, $right.val); }
+			)* 
+	;
+		
+booleanExpression returns [LogicalExpression val]
+@init {
+let type = BinaryExpressionType.Unknown;
+}
+	:	left=relationalExpression { $val = $left.val; } (
+			( '&' { type = BinaryExpressionType.BitwiseAnd; } 
+			| '|' { type = BinaryExpressionType.BitwiseOr; }
+			| '^' { type = BinaryExpressionType.BitwiseXOr; } )
+			right=relationalExpression { $val = new BinaryExpression(type, $val, $right.val); } 
+			)* 
+	;
 
-conditionalExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = booleanAndExpression { $value = $left.value; } (
-		('||' | OR) { type = BinaryExpressionType.Or; } right = conditionalExpression { $value = new BinaryExpression(type, $value, $right.value); 
-			}
-	)*;
+relationalExpression returns [LogicalExpression val]
+@init {
+let type = BinaryExpressionType.Unknown;
+}
+	:	left=shiftExpression { $val = $left.val; } (
+			( ('==' | '=' ) { type = BinaryExpressionType.Equal; } 
+			| ('!=' | '<>' ) { type = BinaryExpressionType.NotEqual; } 
+			| '<' { type = BinaryExpressionType.Lesser; } 
+			| '<=' { type = BinaryExpressionType.LesserOrEqual; }  
+			| '>' { type = BinaryExpressionType.Greater; } 
+			| '>=' { type = BinaryExpressionType.GreaterOrEqual; } ) 
+			right=shiftExpression { $val = new BinaryExpression(type, $val, $right.val); } 
+			)* 
+	;
 
-booleanAndExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = bitwiseOrExpression { $value = $left.value; } (
-		('&&' | AND) { type = BinaryExpressionType.And; } right = bitwiseOrExpression { $value = new BinaryExpression(type, $value, $right.value); 
-			}
-	)*;
+shiftExpression returns [LogicalExpression val]
+@init {
+let type = BinaryExpressionType.Unknown;
+}
+	: left=additiveExpression { $val = $left.val; } (
+			( '<<' { type = BinaryExpressionType.LeftShift; } 
+			| '>>' { type = BinaryExpressionType.RightShift; }  )
+			right=additiveExpression { $val = new BinaryExpression(type, $val, $right.val); } 
+			)* 
+	;
 
-bitwiseOrExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = bitwiseXOrExpression { $value = $left.value; } (
-		'|' { type = BinaryExpressionType.BitwiseOr; } right = bitwiseOrExpression { $value = new BinaryExpression(type, $value, $right.value); 
-			}
-	)*;
+additiveExpression returns [LogicalExpression val]
+@init {
+let type = BinaryExpressionType.Unknown;
+}
+	:	left=multiplicativeExpression { $val = $left.val; } (
+			( '+' { type = BinaryExpressionType.Plus; } 
+			| '-' { type = BinaryExpressionType.Minus; } ) 
+			right=multiplicativeExpression { $val = new BinaryExpression(type, $val, $right.val); } 
+			)* 
+	;
 
-bitwiseXOrExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = bitwiseAndExpression { $value = $left.value; } (
-		'^' { type = BinaryExpressionType.BitwiseXOr; } right = bitwiseAndExpression { $value = new BinaryExpression(type, $value, $right.value); 
-			}
-	)*;
+multiplicativeExpression returns [LogicalExpression val]
+@init {
+let type = BinaryExpressionType.Unknown;
+}
+	:	left=unaryExpression { $val = $left.val; } (
+			( '*' { type = BinaryExpressionType.Times; } 
+			| '/' { type = BinaryExpressionType.Div; } 
+			| '%' { type = BinaryExpressionType.Modulo; } )
+			right=unaryExpression { $val = new BinaryExpression(type, $val, $right.val); } 
+			)* 
+	;
 
-bitwiseAndExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = equalityExpression { $value = $left.value; } (
-		'&' { type = BinaryExpressionType.BitwiseAnd; } right = equalityExpression { $value = new BinaryExpression(type, $value, $right.value); 
-			}
-	)*;
+	
+unaryExpression returns [LogicalExpression val]
+	:	WS* ( primaryExpression { $val = $primaryExpression.val; }
+    	|	('!' | 'not') primaryExpression { $val = new UnaryExpression(UnaryExpressionType.Not, $primaryExpression.val); }
+    	|	('~') primaryExpression { $val = new UnaryExpression(UnaryExpressionType.BitwiseNot, $primaryExpression.val); }
+    	|	'-' primaryExpression { $val = new UnaryExpression(UnaryExpressionType.Negate, $primaryExpression.val); } ) WS*
+   	;
+		
+primaryExpression returns [LogicalExpression val]
+	:	'(' logicalExpression ')' 	{ $val = $logicalExpression.val; }
+	|	expr=value		{ $val = $expr.val; }
+	|	identifier {$val = $identifier.val; } (arguments {$val = new NCalcFunction($identifier.val, ($arguments.val)); })?
+	;
 
-equalityExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = relationalExpression { $value = $left.value; } (
-		(
-			('==' | '=') { type =
-BinaryExpressionType.Equal; }
-			| ('!=' | '<>') { type = BinaryExpressionType.NotEqual; }
-		) right = relationalExpression { $value = new BinaryExpression(type, $value, $right.value); 
-			}
-	)*;
+value returns [ValueExpression val]
+	:	FLOAT		{ $val = new ValueExpression(parseFloat($FLOAT.text)); }
+	| 	INTEGER		{ try { $val = new ValueExpression(parseInt($INTEGER.text)); } catch(e) { $val = new ValueExpression(parseFloat($INTEGER.text)); } } // @todo support bigint
+	|	STRING		{ $val = new ValueExpression(this.ExtractString($STRING.text)); }
+	| 	DATETIME	{ $val = new ValueExpression(dayjs($DATETIME.text.substring(1, $DATETIME.text.length-2)).toString(), ValueType.DateTime); }
+	|	TRUE		{ $val = new ValueExpression(true); }
+	|	FALSE		{ $val = new ValueExpression(false); }
+	;
 
-relationalExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = shiftExpression { $value = $left.value; } (
-		(
-			'<' { type = BinaryExpressionType.Lesser; }
-			| '<=' { type = BinaryExpressionType.LesserOrEqual; }
-			| '>' { type = BinaryExpressionType.Greater; }
-			| '>=' { type = BinaryExpressionType.GreaterOrEqual; }
-		) right = shiftExpression { $value = new
-BinaryExpression(type, $value, $right.value); }
-	)*;
+identifier returns[Identifier val]
+	: 	ID { $val = new Identifier($ID.text); }
+	| 	NAME { $val = new Identifier($NAME.text.substring(1, $NAME.text.length-2)); }
+	;
 
-shiftExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = additiveExpression { $value = $left.value; } (
-		(
-			'<<' { type = BinaryExpressionType.LeftShift; }
-			| '>>' { type = BinaryExpressionType.RightShift; }
-		) right = additiveExpression { $value = new
-BinaryExpression(type, $value, $right.value); }
-	)*;
+expressionList returns [LogicalExpression[] val = []]
+@init {
+let expressions = [];
+}
+	:	first=logicalExpression {expressions.push($first.val);}  ( WS* ',' WS* follow=logicalExpression {expressions.push($follow.val);})* 
+	{ $val = expressions; }
+	;
+	
+arguments returns [LogicalExpression[] val = []]
+@init {
+$val = [];
+}
+	:	'(' ( expressionList {$val = $expressionList.val;} )? ')' 
+	;			
 
-additiveExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = multiplicativeExpression { $value = $left.value; } (
-		(
-			'+' { type = BinaryExpressionType.Plus; }
-			| '-' { type = BinaryExpressionType.Minus; }
-		) right = multiplicativeExpression { $value = new
-BinaryExpression(type, $value, $right.value); }
-	)*;
+TRUE
+	:	'true'
+	;
 
-multiplicativeExpression
-	returns[value]
-	@init { const type = BinaryExpressionType.Unknown; }:
-	left = unaryExpression { $value = $left.value; } (
-		(
-			'*' { type = BinaryExpressionType.Times; }
-			| '/' { type = BinaryExpressionType.Div; }
-			| '%' { type = BinaryExpressionType.Modulo; }
-		) right = unaryExpression { $value = new BinaryExpression(type, $value, $right.value); }
-	)*;
-
-unaryExpression
-	returns[value: LogicalExpression]:
-	exponentialExpression { $value =
-$exponentialExpression.value; }
-	| ('!' | NOT) exponentialExpression { $value = new
-UnaryExpression(UnaryExpressionType.Not, $exponentialExpression.value); }
-	| ('~') exponentialExpression { $value = new UnaryExpression(UnaryExpressionType.BitwiseNot,
-$exponentialExpression.value); }
-	| '-' exponentialExpression { $value = new
-UnaryExpression(UnaryExpressionType.Negate, $exponentialExpression.value); }
-	| '+' exponentialExpression { $value = new UnaryExpression(UnaryExpressionType.Positive,
-$exponentialExpression.value); };
-
-exponentialExpression
-	returns[value]:
-	left = primaryExpression { $value = $left.value; } (
-		'**' right = unaryExpression { $value = new BinaryExpression(BinaryExpressionType.Exponentiation,
-$value, $right.value); }
-	)*;
-
-primaryExpression
-	returns[value: LogicalExpression]:
-	'(' logicalExpression ')' { $value =
-$logicalExpression.value; }
-	| expr = value { $value = $expr.value; }
-	| identifier {$value =
-(LogicalExpression) $identifier.value; } (
-		arguments {$value = new Function($identifier.value,
-($arguments.value).ToArray()); }
-	)?;
-
-value
-	returns[value: ValueExpression]:
-	INTEGER { try { $value = new
-ValueExpression(int.Parse($INTEGER.text)); } catch(System.OverflowException) { $value = new
-ValueExpression(long.Parse($INTEGER.text)); } }
-	| FLOAT { $value = new
-ValueExpression(double.Parse($FLOAT.text, NumberStyles.Float, numberFormatInfo)); }
-	| STRING {
-$value = new ValueExpression(extractString($STRING.text)); }
-	| DATETIME { $value = new
-ValueExpression(DateTime.Parse($DATETIME.text.Substring(1, $DATETIME.text.Length-2))); }
-	| TRUE {
-$value = new ValueExpression(true); }
-	| FALSE { $value = new ValueExpression(false); };
-identifier
-	returns[value: Identifier]:
-	ID { $value = new Identifier($ID.text); }
-	| NAME { $value
-= new Identifier($NAME.text.Substring(1, $NAME.text.Length-2)); };
-
-// expressionList returns[value] @init { let expressions = []; }: first = logicalExpression
-// {expressions.Add($first.value);} ( ',' follow = logicalExpression
-// {expressions.Add($follow.value);} )* { $value = expressions; };
-
-// arguments returns[value] @init { $value = []; }: '(' ( expressionList {$value =
-// $expressionList.value;})? ')';
-
-TRUE: T R U E;
-FALSE: F A L S E;
-AND: A N D;
-OR: O R;
-NOT: N O T;
-
-ID: LETTER (LETTER | DIGIT)*;
-
-INTEGER: DIGIT+;
-
-FLOAT:
-	DIGIT* '.' DIGIT+ EXPONENT?
-	| DIGIT+ '.' DIGIT* EXPONENT?
-	| DIGIT+ EXPONENT;
-
-STRING: '\'' ( EscapeSequence | (options {greedy = false;
-			}: ~('\u0000' ..'\u001f' | '\\' | '\'')
-			)
-		)* '\'';
-
-	DATETIME: '#' (options {greedy = false;
-			}: ~('#')*
-			) '#';
-
-		NAME: '[' (options {greedy = false;
-				}: ~(']')*
-				) ']';
-
-			EXPONENT: ('E' | 'e') ('+' | '-')? DIGIT+;
-
-			fragment LETTER: 'a' ..'z' | 'A' ..'Z' | '_';
-
-			fragment DIGIT: '0' ..'9';
-
-			fragment EscapeSequence:
-				'\\' (
-					'n'
-					| 'r'
-					| 't'
-					| '\''
-					| '\\'
-					| UnicodeEscape
-				);
-
-			fragment HexDigit: (
-					'0' ..'9'
-					| 'a' ..'f'
-					| 'A' ..'F'
-				);
-
-			fragment UnicodeEscape:
-				'u' HexDigit HexDigit HexDigit HexDigit;
-
-			/* Ignore white spaces */
-			WS: (' ' | '\r' | '\t' | '\u000C' | '\n') -> channel(HIDDEN);
-
-			/* Allow case-insensitive operators by constructing them out of fragments. Solution
-			 * adapted from https://stackoverflow.com/a/22160240
-			 */
-			fragment A: 'a' | 'A';
-			fragment B: 'b' | 'B';
-			fragment C: 'c' | 'C';
-			fragment D: 'd' | 'D';
-			fragment E: 'e' | 'E';
-			fragment F: 'f' | 'F';
-			fragment G: 'g' | 'G';
-			fragment H: 'h' | 'H';
-			fragment I: 'i' | 'I';
-			fragment J: 'j' | 'J';
-			fragment K: 'k' | 'K';
-			fragment L: 'l' | 'L';
-			fragment M: 'm' | 'M';
-			fragment N: 'n' | 'N';
-			fragment O: 'o' | 'O';
-			fragment P: 'p' | 'P';
-			fragment Q: 'q' | 'Q';
-			fragment R: 'r' | 'R';
-			fragment S: 's' | 'S';
-			fragment T: 't' | 'T';
-			fragment U: 'u' | 'U';
-			fragment V: 'v' | 'V';
-			fragment W: 'w' | 'W';
-			fragment X: 'x' | 'X';
-			fragment Y: 'y' | 'Y';
-			fragment Z: 'z' | 'Z';
+FALSE
+	:	'false'
+	;
 			
+ID 
+	: 	LETTER (LETTER | DIGIT)*
+	;
+
+FLOAT 
+	:	DIGIT* '.' DIGIT+ E?
+	|	DIGIT+ E
+	;
+
+INTEGER
+	:	DIGIT+
+	;
+
+STRING
+	:  	'\'' ( EscapeSequence | ~('\u0000'..'\u001f' | '\\' | '\'' ) )*? '\''
+	;
+
+DATETIME 
+ 	:	'#' .*? '#'
+        ;
+
+NAME	:	'[' (~('[' | ']') | NAME)*? ']'
+	;
+
+E	:	('E'|'e') ('+'|'-')? DIGIT+ 
+	;	
+
+fragment LETTER
+	:	'a'..'z'
+	|	'A'..'Z'
+	|	'_'
+	;
+
+fragment EscapeSequence 
+	:	'\\'
+  	(	
+  		'n' 
+	|	'r' 
+	|	't'
+	|	'\'' 
+	|	'\\'
+	|	UnicodeEscape
+	)
+  ;
+
+fragment UnicodeEscape
+	:    'u' HexDigit HexDigit HexDigit HexDigit ;
+
+fragment HexDigit 
+	: 	DIGIT|'a'..'f'|'A'..'F' ;
+
+fragment DIGIT
+	:	'0'..'9' ;
+
+/* Ignore white spaces */	
+WS	:  (' '|'\r'|'\t'|'\u000C'|'\n')
+	;

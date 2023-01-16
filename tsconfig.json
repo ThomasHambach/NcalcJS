@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "commonjs",
-    "lib": ["es2022", "ES2021.WeakRef"],
+    "lib": ["es2022", "ES2021.WeakRef", "dom"],
     "declaration": true,
     "outDir": "dist",
     "strict": false,

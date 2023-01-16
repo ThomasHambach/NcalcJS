@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "antlr4ts": "antlr4ts -visitor src/Grammar/NCalc.g4"
+    "antlr4ts": "antlr4ts -visitor src/Grammar/NCalc.g4 -o src/Grammar"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/ThomasHambach/NcalcJS#readme",
   "dependencies": {
-    "antlr4ts": "^0.5.0-alpha.4"
+    "antlr4ts": "^0.5.0-alpha.4",
+    "dayjs": "^1.11.7"
   },
   "devDependencies": {
     "antlr4ts-cli": "^0.5.0-alpha.4",
