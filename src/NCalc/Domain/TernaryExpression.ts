@@ -1,5 +1,5 @@
-import { LogicalExpression } from "../LogicalExpression";
-import { LogicalExpressionVisitor } from "./LogicalExpressionVisitor";
+import { LogicalExpression } from ".";
+import { LogicalExpressionVisitor } from ".";
 
 export class TernaryExpression extends LogicalExpression
 {

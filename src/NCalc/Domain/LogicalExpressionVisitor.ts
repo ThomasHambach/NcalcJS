@@ -1,10 +1,10 @@
-import { LogicalExpression } from "../LogicalExpression";
-import { BinaryExpression } from "./BinaryExpression";
-import { NCalcFunction } from "./Function";
-import { Identifier } from "./Parameter";
-import { TernaryExpression } from "./TernaryExpression";
-import { UnaryExpression } from "./UnaryExpression";
-import { ValueExpression } from "./ValueExpression";
+import { LogicalExpression } from ".";
+import { BinaryExpression } from ".";
+import { NCalcFunction } from ".";
+import { Identifier } from ".";
+import { TernaryExpression } from ".";
+import { UnaryExpression } from ".";
+import { ValueExpression } from ".";
 
     export abstract class LogicalExpressionVisitor
     {
@@ -15,4 +15,5 @@ import { ValueExpression } from "./ValueExpression";
 	    public abstract Visit(expression: ValueExpression): void;
         public abstract Visit(func: NCalcFunction): void;
         public abstract Visit(func: Identifier): void;
+        public abstract Visit(expression: any): void;
     }

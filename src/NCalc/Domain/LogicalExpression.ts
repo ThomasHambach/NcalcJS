@@ -1,61 +1,9 @@
-import { BinaryExpression, BinaryExpressionType } from "./Domain/BinaryExpression";
-import { LogicalExpressionVisitor } from "./Domain/LogicalExpressionVisitor";
-import { SerializationVisitor } from "./Domain/SerializationVisitor";
-import { ValueExpression } from "./Domain/ValueExpression";
-const BS: string = '\\';
+import { BinaryExpression, BinaryExpressionType, LogicalExpressionVisitor, SerializationVisitor, ValueExpression } from ".";
 
 export class LogicalExpression
 {
     
-
-    private static extractString(text: string): string
-    {
-        let sb: string[] = [];
-        let startIndex = 1; // Skip initial quote
-        let slashIndex = -1;
-
-        const textencoder = new TextEncoder();
-        const decoder = new TextDecoder();
-
-        while ((slashIndex = sb.join().indexOf(BS, startIndex)) != -1)
-        {
-            let escapeType = sb[slashIndex + 1];
-            switch (escapeType)
-            {
-                case 'u':
-                    let hcode = [sb[slashIndex + 4], sb[slashIndex + 5]].join();
-                    let lcode = [sb[slashIndex + 2], sb[slashIndex + 3]].join();
-
-                    const hBytes = new Uint16Array(hcode.length);
-                    const lBytes = new Uint16Array(lcode.length);
-
-                    const merged = new Uint16Array(hBytes.length + lBytes.length);
-                    merged.set(hBytes);
-                    merged.set(lBytes, hBytes.length);
-
-                    const unicodeChar = decoder.decode(merged);
-
-                    // let unicodeChar = Encoding.Unicode.GetChars(new byte[] { System.Convert.ToByte(hcode, 16), System.Convert.ToByte(lcode, 16) })[0];
-                    sb.splice(slashIndex, 6, unicodeChar);
-                    // sb.Insert(slashIndex, unicodeChar);
-                    break;
-                case 'n': sb.splice(slashIndex, 2, '\n'); break;
-                case 'r': sb.splice(slashIndex, 2, '\r'); break;
-                case 't': sb.splice(slashIndex, 2, '\t'); break;
-                case '\'': sb.splice(slashIndex, 2, '\''); break;
-                case '\\': sb.splice(slashIndex, 2, '\\'); break;
-                default: throw new Error("Unvalid escape sequence: \\" + escapeType);
-            }
-
-            startIndex = slashIndex + 1;
-
-        }
-
-        sb.splice(0, 1);
-        sb.splice(sb.length - 1, 1);
-
-        return sb.join();
-    }
+    public constructor() {}
     
     public And(operand: object): BinaryExpression;
     public And(operand: LogicalExpression): BinaryExpression;

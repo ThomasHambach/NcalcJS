@@ -1,16 +1,13 @@
 grammar NCalc;
 
-@parser::header {
-import dayjs from "dayjs";
-import { Identifier } from "../NCalc/Domain/Parameter";
+// Thanks to Thaina (https://github.com/Thaina) for having the ANTLR4 version of NCalc grammar file ready.
+// The below grammar file is changed to use TypeScript.
+// Original available at: https://github.com/Thaina/NCalc2/blob/master/grammer/NCalc.g
 
-import { BinaryExpression, BinaryExpressionType } from "../NCalc/Domain/BinaryExpression";
-import { NCalcFunction } from "../NCalc/Domain/Function";
-import { LogicalExpressionVisitor } from "../NCalc/Domain/LogicalExpressionVisitor";
-import { LogicalExpression } from "../NCalc/LogicalExpression";
-import { UnaryExpression, UnaryExpressionType } from "../NCalc/Domain/UnaryExpression";
-import { TernaryExpression } from "../NCalc/Domain/TernaryExpression";
-import { ValueExpression, ValueType } from "../NCalc/Domain/ValueExpression";
+@parser::header {
+
+import dayjs from "dayjs";
+import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, LogicalExpressionVisitor, UnaryExpression, UnaryExpressionType, TernaryExpression, ValueExpression, ValueType, LogicalExpression } from "../NCalc/Domain";
 }
 
 @parser::members {

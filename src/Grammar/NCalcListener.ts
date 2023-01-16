@@ -1,16 +1,9 @@
 // Generated from src/Grammar/NCalc.g4 by ANTLR 4.9.0-SNAPSHOT
 
 
-import dayjs from "dayjs";
-import { Identifier } from "../NCalc/Domain/Parameter";
 
-import { BinaryExpression, BinaryExpressionType } from "../NCalc/Domain/BinaryExpression";
-import { NCalcFunction } from "../NCalc/Domain/Function";
-import { LogicalExpressionVisitor } from "../NCalc/Domain/LogicalExpressionVisitor";
-import { LogicalExpression } from "../NCalc/LogicalExpression";
-import { UnaryExpression, UnaryExpressionType } from "../NCalc/Domain/UnaryExpression";
-import { TernaryExpression } from "../NCalc/Domain/TernaryExpression";
-import { ValueExpression, ValueType } from "../NCalc/Domain/ValueExpression";
+import dayjs from "dayjs";
+import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, LogicalExpressionVisitor, UnaryExpression, UnaryExpressionType, TernaryExpression, ValueExpression, ValueType, LogicalExpression } from "../NCalc/Domain";
 
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
