@@ -6,7 +6,11 @@
     "declaration": true,
     "outDir": "dist",
     "strict": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*":["src/*"]
+    }
   },
   "exclude": [
     "node_modules",

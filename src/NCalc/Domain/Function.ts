@@ -1,6 +1,7 @@
-import { LogicalExpression } from ".";
-import { LogicalExpressionVisitor } from ".";
-import { Identifier } from ".";
+import { LogicalExpression } from "./LogicalExpression";
+import { LogicalExpressionVisitor } from "./LogicalExpressionVisitor";
+import { Identifier } from "./Parameter";
+
 
     export class NCalcFunction extends LogicalExpression
     {

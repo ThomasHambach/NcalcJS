@@ -1,11 +1,12 @@
-import { LogicalExpression } from ".";
-import { BinaryExpression, BinaryExpressionType } from ".";
-import { NCalcFunction } from ".";
-import { LogicalExpressionVisitor } from ".";
-import { Identifier } from ".";
-import { TernaryExpression } from ".";
-import { UnaryExpression, UnaryExpressionType } from ".";
-import { ValueExpression, ValueType } from ".";
+import { BinaryExpression, BinaryExpressionType } from "./BinaryExpression";
+import { NCalcFunction } from "./Function";
+import { LogicalExpression } from "./LogicalExpression";
+import { LogicalExpressionVisitor } from "./LogicalExpressionVisitor";
+import { Identifier } from "./Parameter";
+import { TernaryExpression } from "./TernaryExpression";
+import { UnaryExpression, UnaryExpressionType } from "./UnaryExpression";
+import { ValueExpression, ValueType } from "./ValueExpression";
+
 
     export class SerializationVisitor extends LogicalExpressionVisitor
     {

@@ -1,9 +1,7 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
-import { NCalcLexer } from "../Grammar/NCalcLexer";
-import { NCalcParser } from "../Grammar/NCalcParser";
-import { EvaluationVisitor } from "./Domain/EvaluationVisitor";
+import { NCalcLexer, NCalcParser } from "@/Grammar";
+import { EvaluationVisitor, LogicalExpression } from "@/NCalc/Domain";
 import { EvaluateOptions } from "./EvaluationOptions";
-import { LogicalExpression } from "./Domain/LogicalExpression";
 
 export class Expression {
 

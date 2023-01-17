@@ -1,10 +1,10 @@
-import { LogicalExpression } from ".";
-import { BinaryExpression } from ".";
-import { NCalcFunction } from ".";
-import { Identifier } from ".";
-import { TernaryExpression } from ".";
-import { UnaryExpression } from ".";
-import { ValueExpression } from ".";
+import { BinaryExpression } from "./BinaryExpression";
+import { NCalcFunction } from "./Function";
+import { LogicalExpression } from "./LogicalExpression";
+import { Identifier } from "./Parameter";
+import { TernaryExpression } from "./TernaryExpression";
+import { UnaryExpression } from "./UnaryExpression";
+import { ValueExpression } from "./ValueExpression";
 
     export abstract class LogicalExpressionVisitor
     {

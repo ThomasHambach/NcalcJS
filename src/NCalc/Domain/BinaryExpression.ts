@@ -1,4 +1,6 @@
-import { LogicalExpression, LogicalExpressionVisitor } from ".";
+import { LogicalExpression } from "./LogicalExpression";
+import { LogicalExpressionVisitor } from "./LogicalExpressionVisitor";
+
     export class BinaryExpression extends LogicalExpression
     {
         constructor(type: BinaryExpressionType, leftExpression: LogicalExpression, rightExpression: LogicalExpression)

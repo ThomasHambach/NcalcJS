@@ -1,4 +1,8 @@
-import { BinaryExpression, BinaryExpressionType, LogicalExpressionVisitor, SerializationVisitor, ValueExpression } from ".";
+import { BinaryExpression, BinaryExpressionType } from "./BinaryExpression";
+import { LogicalExpressionVisitor } from "./LogicalExpressionVisitor";
+import { SerializationVisitor } from "./SerializationVisitor";
+import { ValueExpression } from "./ValueExpression";
+
 
 export class LogicalExpression
 {

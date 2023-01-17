@@ -1,5 +1,5 @@
-import { LogicalExpression } from ".";
-import { LogicalExpressionVisitor } from ".";
+import { LogicalExpression } from "@/NCalc/Domain";
+import { LogicalExpressionVisitor } from "@/NCalc/Domain";
 
 
     export class Identifier extends LogicalExpression

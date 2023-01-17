@@ -1,5 +1,5 @@
-import { LogicalExpression } from ".";
-import { LogicalExpressionVisitor } from ".";
+import { LogicalExpression } from "./LogicalExpression";
+import { LogicalExpressionVisitor } from "./LogicalExpressionVisitor";
 
 export class EvaluationException extends Error { }
 

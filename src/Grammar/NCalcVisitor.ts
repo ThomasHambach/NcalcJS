@@ -3,7 +3,7 @@
 
 
 import dayjs from "dayjs";
-import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, LogicalExpressionVisitor, UnaryExpression, UnaryExpressionType, TernaryExpression, ValueExpression, ValueType, LogicalExpression } from "../NCalc/Domain";
+import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, LogicalExpressionVisitor, UnaryExpression, UnaryExpressionType, TernaryExpression, ValueExpression, ValueType, LogicalExpression } from "@/NCalc/Domain";
 
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
