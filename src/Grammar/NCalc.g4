@@ -63,7 +63,7 @@ import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, Logi
 	}
 
 	public Errors: any[] = [];
-	public GetExpression(): any { return (this.ncalcExpression() as any).value };
+	public GetExpression(): any { return (this.ncalcExpression() as any) };
 
 }
 

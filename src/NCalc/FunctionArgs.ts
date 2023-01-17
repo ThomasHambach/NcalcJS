@@ -6,7 +6,7 @@ export class FunctionArgs
 
     public HasResult: boolean;
 
-    private _parameters: Expression[] = new Expression[0];
+    private _parameters: Expression[] = [];
     
     public get Result() {
         return this._result;

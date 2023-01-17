@@ -1,7 +1,14 @@
-import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
+import { ANTLRErrorListener, ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import { NCalcLexer, NCalcParser } from "@/Grammar";
 import { EvaluationVisitor, LogicalExpression } from "@/NCalc/Domain";
 import { EvaluateOptions } from "./EvaluationOptions";
+
+export class ErrorListener implements ANTLRErrorListener<number> {
+    public syntaxError(...args)
+    {
+        console.error(args);
+    }
+}
 
 export class Expression {
 
@@ -66,6 +73,7 @@ export class Expression {
             // Create the lexer and parser
             let inputStream = new ANTLRInputStream(expression);
             let lexer = new NCalcLexer(inputStream);
+            lexer.addErrorListener(new ErrorListener());
             let tokenStream = new CommonTokenStream(lexer);
             let parser = new NCalcParser(tokenStream);
 
@@ -163,7 +171,7 @@ export class Expression {
 
             return results;
         }
-
+        console.log(this.ParsedExpression);
         this.ParsedExpression.Accept(visitor);
         return visitor.Result;
         
