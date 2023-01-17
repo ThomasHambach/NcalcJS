@@ -32,13 +32,14 @@ NCalc is a mathematical expressions evaluator in JavaScript/TypeScript. NCalc ca
   - [x] Implementation
   - [ ] Document different API from regular NCalc
 - [ ] Custom parameters
-  - [ ] Implementation
+  - [ ] Implementation (partially done)
   - [ ] Document different API from regular NCalc
 - [ ] Unit tests
 - [ ] Documentation
 - [ ] Usage examples
 - [ ] Support older Node/JS versions
 - [ ] Confirm browser support
+- [ ] Resolve circular dependencies so we do not need 1 massive file
 
 ## Related projects
 
