@@ -166,12 +166,12 @@ primaryExpression returns [LogicalExpression val]
 	;
 
 value returns [ValueExpression val]
-	:	FLOAT		{ $val = new ValueExpression(parseFloat($FLOAT.text)); }
-	| 	INTEGER		{ try { $val = new ValueExpression(parseInt($INTEGER.text)); } catch(e) { $val = new ValueExpression(parseFloat($INTEGER.text)); } } // @todo support bigint
-	|	STRING		{ $val = new ValueExpression(this.ExtractString($STRING.text)); }
+	:	FLOAT		{ $val = new ValueExpression(parseFloat($FLOAT.text), ValueType.Float); }
+	| 	INTEGER		{ try { $val = new ValueExpression(parseInt($INTEGER.text), ValueType.Integer); } catch(e) { $val = new ValueExpression(parseFloat($INTEGER.text), ValueType.Float); } } // @todo support bigint
+	|	STRING		{ $val = new ValueExpression(this.ExtractString($STRING.text), ValueType.String); }
 	| 	DATETIME	{ $val = new ValueExpression(dayjs($DATETIME.text.substring(1, $DATETIME.text.length-2)).toString(), ValueType.DateTime); }
-	|	TRUE		{ $val = new ValueExpression(true); }
-	|	FALSE		{ $val = new ValueExpression(false); }
+	|	TRUE		{ $val = new ValueExpression(true, ValueType.Boolean); }
+	|	FALSE		{ $val = new ValueExpression(false, ValueType.Float); }
 	;
 
 identifier returns[Identifier val]

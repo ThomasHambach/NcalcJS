@@ -3,6 +3,7 @@ import { Expression } from "../Expression";
 import { FunctionArgs } from "../FunctionArgs";
 import { TypeCode, Numbers } from "../Numbers";
 import { ParameterArgs } from "../ParameterArgs";
+import { EvaluateFunctionHandler, EvaluateParameterHandler } from "../types";
 
 export abstract class LogicalExpressionVisitor
 {
@@ -319,7 +320,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
 
         public Result: any;
 
-        private Evaluate(expression: any): object
+        private Evaluate(expression: any): any
         {
             expression.Accept(this);
             return this.Result;
@@ -590,16 +591,15 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 // args.Parameters[i].Parameters = Parameters;
             }
 
-            // @todo allow external functions
-            // // Calls external implementation
-            // this.OnEvaluateFunction(this.IgnoreCase ? func.Identifier.Name.toLowerCase() : func.Identifier.Name, args);
+            // Calls external implementation
+            this.OnEvaluateFunction(this.IgnoreCase ? func.Identifier.Name.toLowerCase() : func.Identifier.Name, args);
 
             // // If an external implementation was found get the result back
-            // if (args.HasResult)
-            // {
-            //     this.Result = args.Result;
-            //     return;
-            // }
+            if (args.HasResult)
+            {
+                this.Result = args.Result;
+                return;
+            }
 
             switch (func.Identifier.Name.toLowerCase())
             {
@@ -610,287 +610,287 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                     if (func.Expressions.length != 1)
                         throw new ArgumentException("Abs() takes exactly 1 argument");
 
-                    this.Result = Math.abs(parseFloat(this.Evaluate(func.Expressions[0]) as unknown as string));
+                    this.Result = Math.abs(parseFloat(this.Evaluate(func.Expressions[0])));
 
                     break;
 
                 // end
 
                 // Start Acos
-                // case string n when n.Equals("acos", StringComparison.OrdinalIgnoreCase):
+                case "acos":
 
-                //     CheckCase("Acos", func.Identifier.Name);
+                    this.CheckCase("Acos", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Acos() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Acos() takes exactly 1 argument");
 
-                //         this.Result = Math.Acos(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.acos(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Asin
-                // case string n when n.Equals("asin", StringComparison.OrdinalIgnoreCase):
+                // Start Asin
+                case "asin":
 
-                //     CheckCase("Asin", func.Identifier.Name);
+                    this.CheckCase("Asin", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Asin() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Asin() takes exactly 1 argument");
 
-                //         this.Result = Math.Asin(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.asin(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Atan
-                // case string n when n.Equals("atan", StringComparison.OrdinalIgnoreCase):
+                // Start Atan
+                case "atan":
 
-                //     CheckCase("Atan", func.Identifier.Name);
+                    this.CheckCase("Atan", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Atan() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Atan() takes exactly 1 argument");
 
-                //     Result = Math.Atan(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.atan(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Atan2
-                // case string n when n.Equals("atan2", StringComparison.OrdinalIgnoreCase):
+                // Start Atan2
+                case "atan2":
 
-                //     CheckCase("Atan2", func.Identifier.Name);
+                    this.CheckCase("Atan2", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 2)
-                //         throw new ArgumentException("Atan2() takes exactly 2 argument");
+                    if (func.Expressions.length != 2)
+                        throw new ArgumentException("Atan2() takes exactly 2 argument");
 
-                //     Result = Math.Atan2(Convert.ToDouble(Evaluate(func.Expressions[0])), Convert.ToDouble(Evaluate(func.Expressions[1])));
+                    this.Result = Math.atan2(parseFloat(this.Evaluate(func.Expressions[0])), parseFloat(this.Evaluate(func.Expressions[1])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Ceiling
-                // case string n when n.Equals("ceiling", StringComparison.OrdinalIgnoreCase):
+                // Start Ceiling
+                case "ceiling":
 
-                //     CheckCase("Ceiling", func.Identifier.Name);
+                    this.CheckCase("Ceiling", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Ceiling() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Ceiling() takes exactly 1 argument");
 
-                //     Result = Math.Ceiling(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.ceil(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Cos
+                // Start Cos
 
-                // case string n when n.Equals("cos", StringComparison.OrdinalIgnoreCase):
+                case "cos":
 
-                //     CheckCase("Cos", func.Identifier.Name);
+                    this.CheckCase("Cos", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Cos() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Cos() takes exactly 1 argument");
 
-                //     Result = Math.Cos(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.cos(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Exp
-                // case string n when n.Equals("exp", StringComparison.OrdinalIgnoreCase):
+                // Start Exp
+                case "exp":
 
-                //     CheckCase("Exp", func.Identifier.Name);
+                    this.CheckCase("Exp", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Exp() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Exp() takes exactly 1 argument");
 
-                //     Result = Math.Exp(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.exp(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Floor
-                // case string n when n.Equals("floor", StringComparison.OrdinalIgnoreCase):
+                // Start Floor
+                case "floor":
 
-                //     CheckCase("Floor", func.Identifier.Name);
+                    this.CheckCase("Floor", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Floor() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Floor() takes exactly 1 argument");
 
-                //     Result = Math.Floor(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.floor(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
                 // // Start IEEERemainder
-                // case string n when n.Equals("ieeeremainder", StringComparison.OrdinalIgnoreCase):
+                // case "ieeeremainder":
 
-                //     CheckCase("IEEERemainder", func.Identifier.Name);
+                //     this.CheckCase("IEEERemainder", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 2)
+                //     if (func.Expressions.length != 2)
                 //         throw new ArgumentException("IEEERemainder() takes exactly 2 arguments");
 
-                //     Result = Math.IEEERemainder(Convert.ToDouble(Evaluate(func.Expressions[0])), Convert.ToDouble(Evaluate(func.Expressions[1])));
+                //     Result = Math.IEEERemainder(parseFloat(this.Evaluate(func.Expressions[0])), parseFloat(this.Evaluate(func.Expressions[1])));
 
                 //     break;
 
                 // // end
 
-                // // Start Ln
-                // case string n when n.Equals("ln", StringComparison.OrdinalIgnoreCase):
+                // Start Ln
+                case "ln":
 
-                //     CheckCase("Ln", func.Identifier.Name);
+                    this.CheckCase("Ln", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Ln() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Ln() takes exactly 1 argument");
 
-                //     Result = Math.Log(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.log(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Log
-                // case string n when n.Equals("log", StringComparison.OrdinalIgnoreCase):
+                // Start Log
+                case "log":
 
-                //     CheckCase("Log", func.Identifier.Name);
+                    this.CheckCase("Log", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 2)
-                //         throw new ArgumentException("Log() takes exactly 2 arguments");
+                    if (func.Expressions.length != 2)
+                        throw new ArgumentException("Log() takes exactly 2 arguments");
 
-                //     Result = Math.Log(Convert.ToDouble(Evaluate(func.Expressions[0])), Convert.ToDouble(Evaluate(func.Expressions[1])));
+                    this.Result = Math.log(parseFloat(this.Evaluate(func.Expressions[0]))) / Math.log(parseFloat(this.Evaluate(func.Expressions[1])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Log10
-                // case string n when n.Equals("log10", StringComparison.OrdinalIgnoreCase):
+                // Start Log10
+                case "log10":
 
-                //     CheckCase("Log10", func.Identifier.Name);
+                    this.CheckCase("Log10", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Log10() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Log10() takes exactly 1 argument");
 
-                //     Result = Math.Log10(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.log10(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Pow
-                // case string n when n.Equals("pow", StringComparison.OrdinalIgnoreCase):
+                // Start Pow
+                case "pow":
 
-                //     CheckCase("Pow", func.Identifier.Name);
+                    this.CheckCase("Pow", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 2)
-                //         throw new ArgumentException("Pow() takes exactly 2 arguments");
+                    if (func.Expressions.length != 2)
+                        throw new ArgumentException("Pow() takes exactly 2 arguments");
 
-                //     Result = Math.Pow(Convert.ToDouble(Evaluate(func.Expressions[0])), Convert.ToDouble(Evaluate(func.Expressions[1])));
+                    this.Result = Math.pow(parseFloat(this.Evaluate(func.Expressions[0])), parseFloat(this.Evaluate(func.Expressions[1])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
                 // // Start Round
-                // case string n when n.Equals("round", StringComparison.OrdinalIgnoreCase):
+                // case "round":
 
-                //     CheckCase("Round", func.Identifier.Name);
+                //     this.CheckCase("Round", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 2)
+                //     if (func.Expressions.length != 2)
                 //         throw new ArgumentException("Round() takes exactly 2 arguments");
 
-                //     MidpointRounding rounding = (_options & EvaluateOptions.RoundAwayFromZero) == EvaluateOptions.RoundAwayFromZero ? MidpointRounding.AwayFromZero : MidpointRounding.ToEven;
+                //     const rounding = (this._options & EvaluateOptions.RoundAwayFromZero) == EvaluateOptions.RoundAwayFromZero ? MidpointRounding.AwayFromZero : MidpointRounding.ToEven;
 
-                //     Result = Math.Round(Convert.ToDouble(Evaluate(func.Expressions[0])), Convert.ToInt16(Evaluate(func.Expressions[1])), rounding);
-
-                //     break;
-
-                // // end
-
-                // // Start Sign
-                // case string n when n.Equals("sign", StringComparison.OrdinalIgnoreCase):
-
-                //     CheckCase("Sign", func.Identifier.Name);
-
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Sign() takes exactly 1 argument");
-
-                //     Result = Math.Sign(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                //     Result = Math.round(parseFloat(this.Evaluate(func.Expressions[0])), Convert.ToInt16(Evaluate(func.Expressions[1])), rounding);
 
                 //     break;
 
                 // // end
 
-                // // Start Sin
-                // case string n when n.Equals("sin", StringComparison.OrdinalIgnoreCase):
+                // Start Sign
+                case "sign":
 
-                //     CheckCase("Sin", func.Identifier.Name);
+                    this.CheckCase("Sign", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Sin() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Sign() takes exactly 1 argument");
 
-                //     Result = Math.Sin(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.sign(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Sqrt
-                // case string n when n.Equals("sqrt", StringComparison.OrdinalIgnoreCase):
+                // Start Sin
+                case "sin":
 
-                //     CheckCase("Sqrt", func.Identifier.Name);
+                    this.CheckCase("Sin", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Sqrt() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Sin() takes exactly 1 argument");
 
-                //     Result = Math.Sqrt(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.sin(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Tan
-                // case string n when n.Equals("tan", StringComparison.OrdinalIgnoreCase):
+                // Start Sqrt
+                case "sqrt":
 
-                //     CheckCase("Tan", func.Identifier.Name);
+                    this.CheckCase("Sqrt", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Tan() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Sqrt() takes exactly 1 argument");
 
-                //     Result = Math.Tan(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.sqrt(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
-                // // Start Truncate
-                // case string n when n.Equals("truncate", StringComparison.OrdinalIgnoreCase):
+                // Start Tan
+                case "tan":
 
-                //     CheckCase("Truncate", func.Identifier.Name);
+                    this.CheckCase("Tan", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 1)
-                //         throw new ArgumentException("Truncate() takes exactly 1 argument");
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Tan() takes exactly 1 argument");
 
-                //     Result = Math.Truncate(Convert.ToDouble(Evaluate(func.Expressions[0])));
+                    this.Result = Math.tan(parseFloat(this.Evaluate(func.Expressions[0])));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
+
+                // Start Truncate
+                case "truncate":
+
+                    this.CheckCase("Truncate", func.Identifier.Name);
+
+                    if (func.Expressions.length != 1)
+                        throw new ArgumentException("Truncate() takes exactly 1 argument");
+
+                    this.Result = Math.trunc(parseFloat(this.Evaluate(func.Expressions[0])));
+
+                    break;
+
+                // end
 
                 // // Start Max
-                // case string n when n.Equals("max", StringComparison.OrdinalIgnoreCase):
+                // case "max":
 
-                //     CheckCase("Max", func.Identifier.Name);
+                //     this.CheckCase("Max", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 2)
+                //     if (func.Expressions.length != 2)
                 //         throw new ArgumentException("Max() takes exactly 2 arguments");
 
                 //     object maxleft = Evaluate(func.Expressions[0]);
@@ -902,11 +902,11 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 // // end
 
                 // // Start Min
-                // case string n when n.Equals("min", StringComparison.OrdinalIgnoreCase):
+                // case "min":
 
-                //     CheckCase("Min", func.Identifier.Name);
+                //     this.CheckCase("Min", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 2)
+                //     if (func.Expressions.length != 2)
                 //         throw new ArgumentException("Min() takes exactly 2 arguments");
 
                 //     object minleft = Evaluate(func.Expressions[0]);
@@ -918,11 +918,11 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 // // end
 
                 // // Start if
-                // case string n when n.Equals("if", StringComparison.OrdinalIgnoreCase):
+                // case "if":
 
-                //     CheckCase("if", func.Identifier.Name);
+                //     this.CheckCase("if", func.Identifier.Name);
 
-                //     if (func.Expressions.Length != 3)
+                //     if (func.Expressions.length != 3)
                 //         throw new ArgumentException("if() takes exactly 3 arguments");
 
                 //     bool cond = Convert.ToBoolean(Evaluate(func.Expressions[0]));
@@ -933,11 +933,11 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 // // end
 
                 // // Start in
-                // case string n when n.Equals("in", StringComparison.OrdinalIgnoreCase):
+                // case "in":
 
-                //     CheckCase("in", func.Identifier.Name);
+                //     this.CheckCase("in", func.Identifier.Name);
 
-                //     if (func.Expressions.Length < 2)
+                //     if (func.Expressions.length < 2)
                 //         throw new ArgumentException("in() takes at least 2 arguments");
 
                 //     object parameter = Evaluate(func.Expressions[0]);
@@ -945,7 +945,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 //     bool evaluation = false;
 
                 //     // Goes through any values, and stop whe one is found
-                //     for (int i = 1; i < func.Expressions.Length; i++)
+                //     for (int i = 1; i < func.Expressions.length; i++)
                 //     {
                 //         object argument = Evaluate(func.Expressions[i]);
                 //         if (CompareUsingMostPreciseType(parameter, argument) == 0)
@@ -986,14 +986,24 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
 
         public Parameters: {[key: string]: any} = {};
 
-        public EvaluateFunction: any = null;
+        public EvaluateFunction: {[key: string]: EvaluateFunctionHandler} = {};
+        public EvaluateParameter: {[key: string]: EvaluateParameterHandler} = {};
 
         private OnEvaluateFunction(name: string, args: FunctionArgs): void
         {
-            if (this.EvaluateFunction != null)
+            if(this.EvaluateFunction.hasOwnProperty(name))
             {
-                this.EvaluateFunction(name, args);
-            }       
+                // @todo
+                this.EvaluateFunction[name](args);
+            }      
+        }
+
+        private OnEvaluateParameter(name: string, args: ParameterArgs): void
+        {
+            if(this.EvaluateParameter.hasOwnProperty(name))
+            {
+                //this.EvaluateParameter[name](args);
+            }      
         }
 
         public VisitIdentifier(parameter: Identifier): void
@@ -1037,16 +1047,6 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 this.Result = args.Result;
             }
         }
-
-        // @todo
-        public EvaluateParameter: any;
-
-        private OnEvaluateParameter(name: string, args: ParameterArgs): void
-        {
-            if (this.EvaluateParameter != null)
-                this.EvaluateParameter(name, args);
-        }
-
         
     }
 
@@ -1392,13 +1392,15 @@ export class EvaluationException extends Error { }
         public constructor(value: number);
         public constructor(value: boolean);
         public constructor(value: string, valueType: ValueType);
+        public constructor(value: number, valueType: ValueType);
+        public constructor(value: boolean, valueType: ValueType);
         public constructor(value?: any, valueType?: ValueType)
         {
             super();
-            if (value)
+            if (value !== null && value != undefined)
             {
                 this.Value = value;
-                if (!valueType)
+                if (valueType === null || valueType === undefined)
                 {
                     const detectedType = typeof value;
                     switch (detectedType)
@@ -1430,8 +1432,8 @@ export class EvaluationException extends Error { }
             }
         }
 
-        public Value: object = "" as unknown as object; // @todo also wrong to be undefined
-        public Type: ValueType = ValueType.Boolean; // @todo what
+        public Value: any = "";
+        public Type: ValueType = ValueType.Boolean;
 
         public Accept(visitor: LogicalExpressionVisitor)
         {
@@ -1441,9 +1443,10 @@ export class EvaluationException extends Error { }
 
     export enum ValueType
     {
-        Integer,
-        String,
-        DateTime,
-        Float,
-        Boolean
+        None = 0,
+        Integer = 1,
+        String = 2,
+        DateTime = 3,
+        Float = 4,
+        Boolean = 5
     }

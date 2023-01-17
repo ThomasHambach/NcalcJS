@@ -2,6 +2,7 @@ import { ANTLRErrorListener, ANTLRInputStream, CommonTokenStream } from "antlr4t
 import { NCalcLexer, NCalcParser } from "@/Grammar";
 import { EvaluationVisitor, LogicalExpression } from "@/NCalc/Domain";
 import { EvaluateOptions } from "./EvaluationOptions";
+import { EvaluateFunctionHandler, EvaluateParameterHandler } from "./types";
 
 export class ErrorListener implements ANTLRErrorListener<number> {
     public syntaxError(...args)
@@ -94,6 +95,9 @@ export class Expression {
         return false;
     }
 
+    public EvaluateFunction: {[key: string]: EvaluateFunctionHandler} = {};
+    public EvaluateParameter: {[key: string]: EvaluateParameterHandler} = {};
+
     public Evaluate(): any
     {
         if (this.HasErrors())
@@ -108,8 +112,8 @@ export class Expression {
 
 
         var visitor = new EvaluationVisitor(this.Options);
-        // visitor.EvaluateFunction += EvaluateFunction;
-        // visitor.EvaluateParameter += EvaluateParameter;
+        visitor.EvaluateFunction = this.EvaluateFunction;
+        visitor.EvaluateParameter = this.EvaluateParameter;
         visitor.Parameters = this.Parameters;
 
         // if array evaluation, execute the same expression multiple times
@@ -171,7 +175,7 @@ export class Expression {
 
             return results;
         }
-        console.log(this.ParsedExpression);
+
         this.ParsedExpression.Accept(visitor);
         return visitor.Result;
         

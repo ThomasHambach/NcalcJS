@@ -1001,7 +1001,7 @@ export class NCalcParser extends Parser {
 				{
 				this.state = 220;
 				_localctx._FLOAT = this.match(NCalcParser.FLOAT);
-				 _localctx.val =  new ValueExpression(parseFloat((_localctx._FLOAT != null ? _localctx._FLOAT.text : undefined))); 
+				 _localctx.val =  new ValueExpression(parseFloat((_localctx._FLOAT != null ? _localctx._FLOAT.text : undefined)), ValueType.Float); 
 				}
 				break;
 			case NCalcParser.INTEGER:
@@ -1009,7 +1009,7 @@ export class NCalcParser extends Parser {
 				{
 				this.state = 222;
 				_localctx._INTEGER = this.match(NCalcParser.INTEGER);
-				 try { _localctx.val =  new ValueExpression(parseInt((_localctx._INTEGER != null ? _localctx._INTEGER.text : undefined))); } catch(e) { _localctx.val =  new ValueExpression(parseFloat((_localctx._INTEGER != null ? _localctx._INTEGER.text : undefined))); } 
+				 try { _localctx.val =  new ValueExpression(parseInt((_localctx._INTEGER != null ? _localctx._INTEGER.text : undefined)), ValueType.Integer); } catch(e) { _localctx.val =  new ValueExpression(parseFloat((_localctx._INTEGER != null ? _localctx._INTEGER.text : undefined)), ValueType.Float); } 
 				}
 				break;
 			case NCalcParser.STRING:
@@ -1017,7 +1017,7 @@ export class NCalcParser extends Parser {
 				{
 				this.state = 224;
 				_localctx._STRING = this.match(NCalcParser.STRING);
-				 _localctx.val =  new ValueExpression(this.ExtractString((_localctx._STRING != null ? _localctx._STRING.text : undefined))); 
+				 _localctx.val =  new ValueExpression(this.ExtractString((_localctx._STRING != null ? _localctx._STRING.text : undefined)), ValueType.String); 
 				}
 				break;
 			case NCalcParser.DATETIME:
@@ -1033,7 +1033,7 @@ export class NCalcParser extends Parser {
 				{
 				this.state = 228;
 				this.match(NCalcParser.TRUE);
-				 _localctx.val =  new ValueExpression(true); 
+				 _localctx.val =  new ValueExpression(true, ValueType.Boolean); 
 				}
 				break;
 			case NCalcParser.FALSE:
@@ -1041,7 +1041,7 @@ export class NCalcParser extends Parser {
 				{
 				this.state = 230;
 				this.match(NCalcParser.FALSE);
-				 _localctx.val =  new ValueExpression(false); 
+				 _localctx.val =  new ValueExpression(false, ValueType.Float); 
 				}
 				break;
 			default:
