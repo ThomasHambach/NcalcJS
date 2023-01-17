@@ -15,7 +15,7 @@ import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, Logi
 	public BS: string = "\\";
 
 	public ExtractString(text: string): string {
-		let sb: string[] = [];
+		let sb: string[] = text.split(/(?!$)/u);
         let startIndex = 1; // Skip initial quote
         let slashIndex = -1;
 
@@ -59,11 +59,11 @@ import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, Logi
         sb.splice(0, 1);
         sb.splice(sb.length - 1, 1);
 
-        return sb.join();
+        return sb.join('');
 	}
 
 	public Errors: any[] = [];
-	public GetExpression(): any { return (this.ncalcExpression() as any) };
+	public GetExpression(): any { return (this.ncalcExpression().val as any) };
 
 }
 

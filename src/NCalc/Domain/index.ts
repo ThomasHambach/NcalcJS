@@ -574,7 +574,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
         public VisitNCalcFunction(func: NCalcFunction): void
         {
             let args = new FunctionArgs();
-            args.Parameters = new Expression[func.Expressions.length]
+            args.Parameters = [];
 
             // Don't call parameters right now, instead let the func do it as needed.
             // Some parameters shouldn't be called, for instance, in a if(), the "not" value might be a division by zero
@@ -590,15 +590,16 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 // args.Parameters[i].Parameters = Parameters;
             }
 
-            // Calls external implementation
-            OnEvaluatefunc(this.IgnoreCase ? func.Identifier.Name.toLowerCase() : func.Identifier.Name, args);
+            // @todo allow external functions
+            // // Calls external implementation
+            // this.OnEvaluateFunction(this.IgnoreCase ? func.Identifier.Name.toLowerCase() : func.Identifier.Name, args);
 
-            // If an external implementation was found get the result back
-            if (args.HasResult)
-            {
-                this.Result = args.Result;
-                return;
-            }
+            // // If an external implementation was found get the result back
+            // if (args.HasResult)
+            // {
+            //     this.Result = args.Result;
+            //     return;
+            // }
 
             switch (func.Identifier.Name.toLowerCase())
             {
@@ -609,7 +610,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                     if (func.Expressions.length != 1)
                         throw new ArgumentException("Abs() takes exactly 1 argument");
 
-                    // this.Result = Math.abs(parseFloat(this.Evaluate(func.Expressions[0])));
+                    this.Result = Math.abs(parseFloat(this.Evaluate(func.Expressions[0]) as unknown as string));
 
                     break;
 
@@ -985,12 +986,14 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
 
         public Parameters: {[key: string]: any} = {};
 
-        public EvaluateFunction: any; // EvaluateFunctionHandler
+        public EvaluateFunction: any = null;
 
         private OnEvaluateFunction(name: string, args: FunctionArgs): void
         {
             if (this.EvaluateFunction != null)
+            {
                 this.EvaluateFunction(name, args);
+            }       
         }
 
         public VisitIdentifier(parameter: Identifier): void
@@ -1047,9 +1050,6 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
         
     }
 
-const OnEvaluatefunc = (arg0: any, args: { Parameters: any; }) => {
-    throw new Error("func not implemented.");
-}
 
 const equalsIgnoringCase = (text, other) => {
     return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
