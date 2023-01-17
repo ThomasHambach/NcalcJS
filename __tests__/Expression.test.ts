@@ -48,7 +48,6 @@ describe('Expressions', () => {
         // Assert.AreEqual(0, (double) new Expression("Atan2(0,1)").Evaluate(), 1e-16);
     });
     test('ExpressionShouldEvaluateCustomFunctions', () => {
-
         var e = new Expression("SecretOperation(3, 6)");
 
         e.EvaluateFunction["SecretOperation"] = (args: FunctionArgs) =>
@@ -58,6 +57,17 @@ describe('Expressions', () => {
         expect(e.Evaluate()).toBe(9);
 
     });
-    test('Maths', () => {});
+    test('ExpressionShouldEvaluateCustomFunctionsWithParameters', () => {
+        var e = new Expression("SecretOperation(e, 6) + f");
+        e.Parameters["e"] = 3;
+        e.Parameters["f"] = 1;
+
+        e.EvaluateFunction["SecretOperation"] = (args: FunctionArgs) =>
+        {
+            args.Result = args.Parameters[0].Evaluate() + args.Parameters[1].Evaluate();
+        };
+        expect(e.Evaluate()).toBe(10);
+    });
+    // test('Maths', () => {});
 
 });

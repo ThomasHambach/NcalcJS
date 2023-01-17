@@ -279,6 +279,7 @@ export class BinaryExpression extends LogicalExpression
 
 export enum BinaryExpressionType
 {
+    None,
     And,
     Or,
     NotEqual,
@@ -584,11 +585,11 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
             {
                 args.Parameters[i] = new Expression(func.Expressions[i].ToString(), this._options);
                 // @todo custom funcs
-                //args.Parameters[i].Evaluatefunc += Evaluatefunc;
-                // args.Parameters[i].EvaluateParameter += EvaluateParameter;
+                args.Parameters[i].EvaluateFunction = this.EvaluateFunction;
+                args.Parameters[i].EvaluateParameter = this.EvaluateParameter;
 
                 // Assign the parameters of the Expression to the arguments so that custom funcs and Parameters can use them
-                // args.Parameters[i].Parameters = Parameters;
+                args.Parameters[i].Parameters = this.Parameters;
             }
 
             // Calls external implementation
@@ -1002,13 +1003,13 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
         {
             if(this.EvaluateParameter.hasOwnProperty(name))
             {
-                //this.EvaluateParameter[name](args);
+                this.EvaluateParameter[name](args);
             }      
         }
 
         public VisitIdentifier(parameter: Identifier): void
         {
-            if (this.Parameters.ContainsKey(parameter.Name))
+            if (this.Parameters.hasOwnProperty(parameter.Name))
             {
                 // The parameter is defined in the hashtable
                 if (this.Parameters[parameter.Name].constructor.name == "Expression")
@@ -1019,13 +1020,13 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                     // Overloads parameters 
                     // @todo HMMMM
                     expression.Parameters = this.Parameters;
-                    // for(let p in this.Parameters)
-                    // {
-                    //     expression.Parameters[p.Key] = p.Value;
-                    // }
+                    for(let p in this.Parameters)
+                    {
+                        expression.Parameters[p] = this.Parameters[p];
+                    }
 
-                    // expression.Evaluatefunc += Evaluatefunc;
-                    // expression.EvaluateParameter += EvaluateParameter;
+                    expression.EvaluateFunction = this.EvaluateFunction;
+                    expression.EvaluateParameter = this.EvaluateParameter;
 
                     this.Result = (this.Parameters[parameter.Name]).Evaluate();
                 } else {
@@ -1042,7 +1043,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 this.OnEvaluateParameter(parameter.Name, args);
 
                 if (!args.HasResult)
-                    throw new ArgumentException(`Parameter was not defined ${parameter.Name}`);
+                    throw new ArgumentException(`Parameter '${parameter.Name}' was not defined `);
 
                 this.Result = args.Result;
             }
