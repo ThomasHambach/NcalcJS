@@ -1,5 +1,7 @@
 {
     "recommendations": [
-        "mike-lischke.vscode-antlr4"
+        "mike-lischke.vscode-antlr4",
+        "orta.vscode-jest",
+        "esbenp.prettier-vscode"
     ]
 }
