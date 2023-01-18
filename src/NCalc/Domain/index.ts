@@ -154,11 +154,7 @@ export class LogicalExpression {
   public Mult(operand: object): BinaryExpression;
   public Mult(operand: LogicalExpression): BinaryExpression;
   public Mult(operand: any): BinaryExpression {
-    if (Object.getPrototypeOf(operand) === 'LogicalExpression') {
-      return new BinaryExpression(BinaryExpressionType.Plus, this, operand);
-    } else {
-      return new BinaryExpression(BinaryExpressionType.Plus, this, new ValueExpression(operand));
-    }
+    return this.Plus(operand);
   }
 
   public BitwiseOr(operand: object): BinaryExpression;
@@ -359,7 +355,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor {
   public VisitTernary(expression: TernaryExpression) {
     // Evaluates the left expression and saves the value
     expression.LeftExpression.Accept(this);
-    let left = (this.Result as any) == true;
+    let left = this.Result == true;
 
     if (left) {
       expression.MiddleExpression.Accept(this);

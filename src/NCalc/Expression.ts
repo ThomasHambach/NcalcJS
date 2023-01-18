@@ -92,10 +92,6 @@ export class Expression {
       parser.addErrorListener(this.parserErrors);
 
       logicalExpression = parser.GetExpression();
-
-      // if (parser.Errors != null && parser.Errors.length > 0) {
-      //   throw new Error(parser.Errors.join('\n'));
-      // }
     }
 
     return logicalExpression;
@@ -121,7 +117,6 @@ export class Expression {
       // In case HasErrors() is called multiple times for the same expression
       return this.ParsedExpression != null;
     } catch (e) {
-      // this.Error = e.Message;
       return true;
     }
   }
@@ -159,11 +154,7 @@ export class Expression {
       for (let parameter in this.Parameters) {
         const value = this.Parameters[parameter];
         if (Array.isArray(value)) {
-          let localsize = 0;
-          for (let o in value) {
-            localsize++;
-          }
-
+          let localsize = value.length;
           if (size == -1) {
             size = localsize;
           } else if (localsize != size) {

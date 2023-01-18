@@ -451,4 +451,14 @@ describe('Expressions', () => {
   //   expect(new Expression('Round(22.5, 0)').Evaluate()).toBe(22);
   //   expect(new Expression('Round(22.5, 0)', EvaluateOptions.RoundAwayFromZero).Evaluate()).toBe(23);
   // });
+
+  // test('ShouldEvaluateSubExpressions', () => {
+  //   var volume = new Expression('[surface] * h');
+  //   var surface = new Expression('[l] * [L]');
+  //   volume.Parameters['surface'] = surface;
+  //   volume.Parameters['h'] = 3;
+  //   surface.Parameters['l'] = 1;
+  //   surface.Parameters['L'] = 2;
+  //   expect(volume.Evaluate()).toBe(6);
+  // });
 });
