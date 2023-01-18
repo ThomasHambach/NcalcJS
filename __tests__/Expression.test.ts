@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import {EvaluateOptions} from '../src/NCalc/EvaluationOptions';
 
 // To easily convert .net asserts, regex for VS code
-// expect(new Expression($3).Evaluate()).toBe($1);
+// Assert\.AreEqual\((.+),(.+)new Expression\((.+)\)\.Evaluate\(\)\);
 // expect(new Expression($3).Evaluate()).toBe($1);
 
 describe('Expressions', () => {
@@ -420,4 +420,35 @@ describe('Expressions', () => {
     expect(result[3]).toBe(9);
     expect(result[4]).toBe(16);
   });
+
+  test('CustomFunctionReturnsNull', () => {
+    var e = new Expression('SecretOperation(3, 6)');
+
+    e.EvaluateFunction['SecretOperation'] = (args: FunctionArgs) => {
+      args.Result = null;
+    };
+
+    expect(e.Evaluate()).toBe(null);
+  });
+
+  test('CustomParameterReturnsNull', () => {
+    var e = new Expression('x');
+
+    e.EvaluateParameter['x'] = (args: ParameterArgs) => {
+      args.Result = null;
+    };
+
+    expect(e.Evaluate()).toBe(null);
+  });
+
+  test('ShouldCompareDates', () => {
+    expect(new Expression('#1/1/2009#==#1/1/2009#').Evaluate()).toBe(true);
+    expect(new Expression('#2/1/2009#==#1/1/2009#').Evaluate()).toBe(false);
+  });
+
+  // @todo
+  // test('ShouldRoundFromZero', () => {
+  //   expect(new Expression('Round(22.5, 0)').Evaluate()).toBe(22);
+  //   expect(new Expression('Round(22.5, 0)', EvaluateOptions.RoundAwayFromZero).Evaluate()).toBe(23);
+  // });
 });
