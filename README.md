@@ -9,6 +9,7 @@ NCalc is a mathematical expressions evaluator in JavaScript/TypeScript. NCalc ca
 ### Status
 
 - [x] ANTLR4 Grammar
+- [x] Basic math
 - [ ] Math Functions
   - [x] Abs
   - [x] Acos
@@ -28,18 +29,23 @@ NCalc is a mathematical expressions evaluator in JavaScript/TypeScript. NCalc ca
   - [x] Sqrt
   - [x] Tan
   - [x] Truncate
+- [ ] Standard Functions
+  - [x] In
+  - [x] If
+  - [ ] Min
+  - [ ] Max
 - [ ] Custom functions
   - [x] Implementation
   - [ ] Document different API from regular NCalc
 - [x] Custom parameters
-  - [ ] Implementation (partially done)
+  - [x] Implementation (partially done)
   - [ ] Document different API from regular NCalc
-- [ ] Unit tests
+- [ ] Unit tests (partial)
 - [ ] Documentation
 - [ ] Usage examples
 - [ ] Support older Node/JS versions
 - [ ] Confirm browser support
-- [ ] Resolve circular dependencies so we do not need 1 massive file
+- [ ] Resolve circular dependencies so we do not need 1 massive file. See `NCalc/Domain/index.ts`
 
 ## Related projects
 
