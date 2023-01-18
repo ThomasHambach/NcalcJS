@@ -1,5 +1,5 @@
-import { Expression } from "@/NCalc";
+import {Expression} from '@/NCalc';
 
-const res = new Expression("123456").Evaluate();
+const res = new Expression('123456').Evaluate();
 
 console.log(res);
