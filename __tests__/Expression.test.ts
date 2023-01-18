@@ -3,6 +3,10 @@ import { Expression } from "../src/NCalc/Expression";
 import { FunctionArgs } from "../src/NCalc/FunctionArgs";
 import { ParameterArgs } from "../src/NCalc/ParameterArgs";
 
+// To easily convert .net asserts, regex for VS code
+// Assert\.AreEqual\((.+),(.+)new Expression\((.+)\)\.Evaluate\(\)\);
+// expect(new Expression($3).Evaluate()).toBe($1);
+
 describe('Expressions', () => {
     test('ShouldParseValues', () => {
         expect(new Expression("'azerty'").Evaluate()).toBe("azerty");
@@ -181,6 +185,28 @@ describe('Expressions', () => {
         {
             expect(new Expression(pair[0] as string).Evaluate(), `'${pair[0]}' failed, expected '${pair[1]}'`).toBe(pair[1]);
         }
-    })
+    });
+
+    test('ShouldHandleOperatorsPriority', () => {
+        expect(new Expression("2+2+2+2").Evaluate()).toBe(8);
+        expect(new Expression("2*2*2*2").Evaluate()).toBe(16);
+        expect(new Expression("2*2+2").Evaluate()).toBe(6);
+        expect(new Expression("2+2*2").Evaluate()).toBe(6);
+
+        expect(new Expression("1 + 2 + 3 * 4 / 2").Evaluate()).toBe(9);
+        expect(new Expression("18/2/2*3").Evaluate()).toBe(13.5);
+        
+        // @todo
+        // expect(new Expression("-1 ** 2").Evaluate()).toBe(-1);
+        // expect(new Expression("(-1) ** 2").Evaluate()).toBe(1);
+        // expect(new Expression("2 ** 3 ** 2").Evaluate()).toBe(512);
+        // expect(new Expression("(2 ** 3) ** 2").Evaluate()).toBe(64);
+        // expect(new Expression("2 * 3 ** 2").Evaluate()).toBe(18);
+        // expect(new Expression("2 ** 4 / 2").Evaluate()).toBe(8);
+    });
+
+    test('ShouldNotLosePrecision', () => {
+        expect(new Expression("3/6").Evaluate()).toBe(0.5);
+    });
 
 });
