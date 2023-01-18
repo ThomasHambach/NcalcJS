@@ -36,8 +36,8 @@ export enum TypeCode {
             const allowedTypes = ["number", "bigint"]
             
             // Heree we have to consider the JS magic to be a bit different.
-            const typeCodeA = typeof a;
-            const typeCodeB = typeof b;
+            const typeCodeA = typeof aValue;
+            const typeCodeB = typeof bValue;
 
             if (allowedTypes.indexOf(typeCodeA) == -1 || allowedTypes.indexOf(typeCodeB) == -1)
             {

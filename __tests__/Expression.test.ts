@@ -2,6 +2,8 @@ import 'jest-expect-message';
 import { Expression } from "../src/NCalc/Expression";
 import { FunctionArgs } from "../src/NCalc/FunctionArgs";
 import { ParameterArgs } from "../src/NCalc/ParameterArgs";
+import { BinaryExpression, BinaryExpressionType, Identifier, NCalcFunction, UnaryExpression, UnaryExpressionType, ValueExpression } from "../src/NCalc/Domain";
+import dayjs from 'dayjs';
 
 // To easily convert .net asserts, regex for VS code
 // Assert\.AreEqual\((.+),(.+)new Expression\((.+)\)\.Evaluate\(\)\);
@@ -208,5 +210,66 @@ describe('Expressions', () => {
     test('ShouldNotLosePrecision', () => {
         expect(new Expression("3/6").Evaluate()).toBe(0.5);
     });
+
+    // @todo
+    // test('ShoudlThrowsExceptionInvalidNumber', () => {
+    //     expect(new Expression(". + 2").Evaluate()).toThrowError();
+    // })
+
+    test('ShouldNotRoundDecimals', () => {
+        expect(new Expression("0 <= -0.6").Evaluate()).toBe(false);
+    })
+
+    test('ShouldEvaluateTernary', () => {
+        expect(new Expression("1+2<3 ? 3+4 : 1").Evaluate()).toBe(1);
+    })
+
+    test('ShouldSerializeExpression', () => {
+
+        expect(new BinaryExpression(BinaryExpressionType.And, new ValueExpression(true), new ValueExpression(false)).ToString()).toBe("true and false");
+        expect(new BinaryExpression(BinaryExpressionType.Div, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 / 2");
+        expect(new BinaryExpression(BinaryExpressionType.Equal, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 = 2");
+        expect(new BinaryExpression(BinaryExpressionType.Greater, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 > 2");
+        expect(new BinaryExpression(BinaryExpressionType.GreaterOrEqual, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 >= 2");
+
+        expect(new BinaryExpression(BinaryExpressionType.Lesser, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 < 2");
+        expect(new BinaryExpression(BinaryExpressionType.LesserOrEqual, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 <= 2");
+        expect(new BinaryExpression(BinaryExpressionType.Minus, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 - 2");
+        expect(new BinaryExpression(BinaryExpressionType.Modulo, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 % 2");
+        expect(new BinaryExpression(BinaryExpressionType.NotEqual, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 != 2");
+
+        expect(new BinaryExpression(BinaryExpressionType.Or, new ValueExpression(true), new ValueExpression(false)).ToString()).toBe("true or false");
+        expect(new BinaryExpression(BinaryExpressionType.Plus, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 + 2");
+        expect(new BinaryExpression(BinaryExpressionType.Times, new ValueExpression(1), new ValueExpression(2)).ToString()).toBe("1 * 2");
+
+        // @todo JS quircks
+        // expect(new UnaryExpression(UnaryExpressionType.Negate, new BinaryExpression(BinaryExpressionType.And, new ValueExpression(true), new ValueExpression(false))).ToString()).toBe("-(true and false)");
+        // expect(new UnaryExpression(UnaryExpressionType.Not, new BinaryExpression(BinaryExpressionType.And, new ValueExpression(true), new ValueExpression(false))).ToString()).toBe("!(true and false)");
+
+        expect(new ValueExpression(true).ToString()).toBe("true");
+        expect(new ValueExpression(false).ToString()).toBe("false");
+        expect(new ValueExpression(1).ToString()).toBe("1");
+        expect(new ValueExpression(1.234).ToString()).toBe("1.234");
+        expect(new ValueExpression("hello").ToString()).toBe("'hello'");
+        expect(new ValueExpression(dayjs("2009-1-1").format()).ToString()).toBe("#2009-01-01T00:00:00+08:00#");
+        expect(new NCalcFunction(new Identifier("Sum"), [new BinaryExpression(BinaryExpressionType.Plus, new ValueExpression(1), new ValueExpression(2))]).ToString()).toBe("Sum(1 + 2)");
+    });
+
+    test('ShouldHandleStringConcat', () => {
+        expect(new Expression("'to' + 'to'").Evaluate()).toBe("toto");
+        expect(new Expression("'one' + 2").Evaluate()).toBe("one2");
+        expect(new Expression("1 + '2'").Evaluate()).toBe(3);
+    });
+
+    // @todo
+    // test('ShouldDetectSyntaxErrorsBeforeEval', () => {
+    //     var e = new Expression("a + b * (");
+    //     expect(e.Error).toBeNull();
+    //     expect(e.HasErrors()).toBeTruthy();
+
+    //     e = new Expression("* b ");
+    //     expect(e.Error).toBeNull();
+    //     expect(e.HasErrors()).toBeTruthy();
+    // });
 
 });

@@ -8,6 +8,7 @@ export class ErrorListener implements ANTLRErrorListener<number> {
     public syntaxError(...args)
     {
         console.error(args);
+        throw new Error();
     }
 }
 
@@ -24,7 +25,7 @@ export class Expression {
 
     private static _compiledExpression: { [key: string]: WeakRef<any> } = {};
 
-    public Error: string = "";
+    public Error: string = null;
 
     public ParsedExpression: LogicalExpression;
 
@@ -81,7 +82,6 @@ export class Expression {
         let logicalExpression: LogicalExpression | null = null;
         
         // @todo cache logic
-
         if (logicalExpression == null)
         {
 
@@ -91,6 +91,7 @@ export class Expression {
             lexer.addErrorListener(new ErrorListener());
             let tokenStream = new CommonTokenStream(lexer);
             let parser = new NCalcParser(tokenStream);
+            // parser.addErrorListener(new ErrorListener());
 
             logicalExpression = parser.GetExpression();
 
@@ -106,7 +107,21 @@ export class Expression {
 
     public HasErrors(): boolean 
     {
-        return false;
+        try
+        {
+            if (this.ParsedExpression == null)
+            {
+                this.ParsedExpression = Expression.Compile(this.OriginalExpression, (this.Options & EvaluateOptions.NoCache) == EvaluateOptions.NoCache);
+            }
+
+            // In case HasErrors() is called multiple times for the same expression
+            return this.ParsedExpression != null && this.Error != null;
+        }
+        catch(e)
+        {
+            this.Error = e.Message;
+            return true;
+        }
     }
 
     public EvaluateFunction: {[key: string]: EvaluateFunctionHandler} = {};

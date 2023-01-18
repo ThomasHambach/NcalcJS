@@ -46,6 +46,7 @@ NCalc is a mathematical expressions evaluator in JavaScript/TypeScript. NCalc ca
 - [ ] Support older Node/JS versions
 - [ ] Confirm browser support
 - [ ] Resolve circular dependencies so we do not need 1 massive file. See `NCalc/Domain/index.ts`
+- [ ] Improve ANTLR error handling
 
 ## Related projects
 

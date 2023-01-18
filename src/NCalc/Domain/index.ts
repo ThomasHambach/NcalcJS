@@ -1148,7 +1148,7 @@ export class SerializationVisitor extends LogicalExpressionVisitor
             case "ValueExpression":
                 this.VisitValue(arg);
                 break;
-            case "NcalcFunction":
+            case "NCalcFunction":
                 this.VisitFunction(arg);
                 break;
             case "Identifier":
