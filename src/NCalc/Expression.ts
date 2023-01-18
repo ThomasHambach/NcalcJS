@@ -1,10 +1,4 @@
-import {
-  ANTLRErrorListener,
-  ANTLRInputStream,
-  CommonTokenStream,
-  Recognizer,
-  RecognitionException,
-} from 'antlr4ts';
+import {ANTLRErrorListener, ANTLRInputStream, CommonTokenStream} from 'antlr4ts';
 import {NCalcLexer, NCalcParser} from '@/Grammar';
 import {EvaluationException, EvaluationVisitor, LogicalExpression} from '@/NCalc/Domain';
 import {EvaluateOptions} from './EvaluationOptions';
@@ -17,7 +11,6 @@ export class ErrorListener implements ANTLRErrorListener<number> {
   }
   public syntaxError(...args: any) {
     this._errors.push(args);
-    // throw new Error();
   }
 }
 

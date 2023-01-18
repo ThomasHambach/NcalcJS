@@ -16,12 +16,40 @@ or with yarn
 
     yarn ncalcjs
 
-### Basic Usage
+### Usage
+
+#### Basic
 
 ```typescript
 import { Expression } from "ncalcjs"
 const e = new Expression("2 + 3 * 5");
-console.log(e); // 17
+console.log(e.Evaluate()); // 17
+```
+
+#### Custom Functions
+
+The API compared to C# NCalc is a little different. In NCalcJS you define custom functions in the following way. Each function is expected to be of the type `EvaluateFunctionHandler`.
+
+```typescript
+const e = new Expression('SecretOperation(3, 6)');
+
+e.EvaluateFunction['SecretOperation'] = (args: FunctionArgs) => {
+  args.Result = args.Parameters[0].Evaluate() + args.Parameters[1].Evaluate();
+};
+console.log(e.Evaluate()); // 9
+```
+
+#### Handling Errors
+
+You can use the method `Expression.HasErrors()` to check for any errors that are present in your expression. The errors details are stored in `Expression.errors`.
+
+```typescript
+import { Expression } from "ncalcjs"
+const e = new Expression("2 + 3 * 5");
+if(e.HasErrors())
+{
+  console.error(e.errors);
+}
 ```
 
 ### Status
@@ -64,13 +92,12 @@ console.log(e); // 17
 - [ ] Support older Node/JS versions
 - [ ] Confirm browser support
 - [ ] Resolve circular dependencies so we do not need 1 massive file. See `NCalc/Domain/index.ts`
-- [ ] Improve ANTLR error handling
+- [x] Improve ANTLR error handling
 
 ### Known Issues
 
 * Not specifying a custom parameter when evaluating the expression will cause a crash.
 * `Round` does not return the correct value
-* Errors are not properly handled and reported.
 
 ## Building
 
