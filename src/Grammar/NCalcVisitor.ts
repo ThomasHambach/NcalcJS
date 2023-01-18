@@ -17,6 +17,7 @@ import { ShiftExpressionContext } from "./NCalcParser";
 import { AdditiveExpressionContext } from "./NCalcParser";
 import { MultiplicativeExpressionContext } from "./NCalcParser";
 import { UnaryExpressionContext } from "./NCalcParser";
+import { ExponentialExpressionContext } from "./NCalcParser";
 import { PrimaryExpressionContext } from "./NCalcParser";
 import { ValueContext } from "./NCalcParser";
 import { IdentifierContext } from "./NCalcParser";
@@ -94,6 +95,13 @@ export interface NCalcVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitUnaryExpression?: (ctx: UnaryExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `NCalcParser.exponentialExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitExponentialExpression?: (ctx: ExponentialExpressionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `NCalcParser.primaryExpression`.

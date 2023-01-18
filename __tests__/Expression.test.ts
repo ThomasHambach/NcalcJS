@@ -1,3 +1,4 @@
+import 'jest-expect-message';
 import { Expression } from "../src/NCalc/Expression";
 import { FunctionArgs } from "../src/NCalc/FunctionArgs";
 import { ParameterArgs } from "../src/NCalc/ParameterArgs";
@@ -108,6 +109,78 @@ describe('Expressions', () => {
         };
 
         expect(e.Evaluate()).toBe(3);
+    })
+
+    test('ShouldEveluateInOperator', () => {
+            // The last argument should not be evaluated
+            var ein = new Expression("in((2 + 2), [1], [2], 1 + 2, 4, 1 / 0)");
+            ein.Parameters["1"] = 2;
+            ein.Parameters["2"] = 5;
+
+            expect(ein.Evaluate()).toBe(true);
+
+            // @todo Not sure about this test case
+            // var eout = new Expression("in((2 + 2), [1], [2], 1 + 2, 3)");
+            // eout.Parameters["1"] = 2;
+            // eout.Parameters["2"] = 5;
+
+            // expect(ein.Evaluate()).toBe(false);
+
+            // Should work with strings
+            var estring = new Expression("in('to' + 'to', 'titi', 'toto')");
+
+            expect(estring.Evaluate()).toBe(true);
+    });
+
+    test('ShouldEvaluateOperators', () => {
+        const expressions = 
+        [
+            ["!true", false],
+            ["not false", true],
+            ["Not false", true],
+            ["NOT false", true],
+            ["-10", -10],
+            ["+20", 20],
+            ["2**-1", 0.5],
+            ["2**+2", 4.0],
+            ["2 * 3", 6],
+            ["6 / 2", 3],
+            ["7 % 2", 1],
+            ["2 + 3", 5],
+            ["2 - 1", 1],
+            ["1 < 2", true],
+            ["1 > 2", false],
+            ["1 <= 2", true],
+            ["1 <= 1", true],
+            ["1 >= 2", false],
+            ["1 >= 1", true],
+            ["1 = 1", true],
+            ["1 == 1", true],
+            ["1 != 1", false],
+            ["1 <> 1", false],
+            ["1 & 1", 1],
+            ["1 | 1", 1],
+            ["1 ^ 1", 0],
+            ["~1", ~1],
+            ["2 >> 1", 1],
+            ["2 << 1", 4],
+            ["true && false", false],
+            ["True and False", false],
+            ["tRue aNd faLse", false],
+            ["TRUE ANd fALSE", false],
+            ["true AND FALSE", false],
+            ["true || false", true],
+            ["true or false", true],
+            ["true Or false", true],
+            ["true OR false", true],
+            ["if(true, 0, 1)", 0],
+            ["if(false, 0, 1)", 1]
+        ];
+
+        for(const pair of expressions)
+        {
+            expect(new Expression(pair[0] as string).Evaluate(), `'${pair[0]}' failed, expected '${pair[1]}'`).toBe(pair[1]);
+        }
     })
 
 });

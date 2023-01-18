@@ -84,8 +84,8 @@ conditionalExpression returns [LogicalExpression val]
 let type = BinaryExpressionType.Unknown;
 }
 	:	left=booleanExpression { $val = $left.val; } (
-			( ('&&' | 'and') { type = BinaryExpressionType.And; } 
-			| ('||' | 'or') { type = BinaryExpressionType.Or; } )
+			( ('&&' | AND) { type = BinaryExpressionType.And; } 
+			| ('||' | OR) { type = BinaryExpressionType.Or; } )
 			right=booleanExpression { $val = new BinaryExpression(type, $val, $right.val); }
 			)* 
 	;
@@ -153,12 +153,19 @@ let type = BinaryExpressionType.Unknown;
 
 	
 unaryExpression returns [LogicalExpression val]
-	:	WS* ( primaryExpression { $val = $primaryExpression.val; }
-    	|	('!' | 'not') primaryExpression { $val = new UnaryExpression(UnaryExpressionType.Not, $primaryExpression.val); }
-    	|	('~') primaryExpression { $val = new UnaryExpression(UnaryExpressionType.BitwiseNot, $primaryExpression.val); }
-    	|	'-' primaryExpression { $val = new UnaryExpression(UnaryExpressionType.Negate, $primaryExpression.val); } ) WS*
+	:	WS* ( exponentialExpression { $val = $exponentialExpression.val; }
+    	|	('!' | NOT) exponentialExpression { $val = new UnaryExpression(UnaryExpressionType.Not, $exponentialExpression.val); }
+    	|	('~') exponentialExpression { $val = new UnaryExpression(UnaryExpressionType.BitwiseNot, $exponentialExpression.val); }
+    	|	'-' exponentialExpression { $val = new UnaryExpression(UnaryExpressionType.Negate, $exponentialExpression.val); } ) WS*
    	;
-		
+
+exponentialExpression returns [LogicalExpression val]
+	: 	left=primaryExpression { $val = $left.val; } 
+		('**' 
+			right=unaryExpression { $val = new BinaryExpression(BinaryExpressionType.Exponentiation, $val, $right.val); }
+			)*
+	;
+
 primaryExpression returns [LogicalExpression val]
 	:	'(' logicalExpression ')' 	{ $val = $logicalExpression.val; }
 	|	expr=value		{ $val = $expr.val; }
@@ -194,21 +201,25 @@ $val = [];
 	:	'(' ( expressionList {$val = $expressionList.val;} )? ')' 
 	;			
 
-TRUE
-	:	'true'
-	;
 
-FALSE
-	:	'false'
-	;
+NOT: N O T;
+
+TRUE: T R U E;
+
+FALSE: F A L S E;
+
+AND: A N D;
+
+OR: O R;
 			
 ID 
 	: 	LETTER (LETTER | DIGIT)*
 	;
 
 FLOAT 
-	:	DIGIT* '.' DIGIT+ E?
-	|	DIGIT+ E
+	:	DIGIT* '.' DIGIT+ EXPONENT?
+	|	DIGIT+ '.' DIGIT* EXPONENT?
+	|	DIGIT+ EXPONENT
 	;
 
 INTEGER
@@ -226,8 +237,12 @@ DATETIME
 NAME	:	'[' (~('[' | ']') | NAME)*? ']'
 	;
 
-E	:	('E'|'e') ('+'|'-')? DIGIT+ 
+EXPONENT
+	:	('E'|'e') ('+'|'-')? DIGIT+ 
 	;	
+
+// E	:	('E'|'e') ('+'|'-')? DIGIT+ 
+// 	;	
 
 fragment LETTER
 	:	'a'..'z'
@@ -259,3 +274,33 @@ fragment DIGIT
 /* Ignore white spaces */	
 WS	:  (' '|'\r'|'\t'|'\u000C'|'\n')
 	;
+
+/* Allow case-insensitive operators by constructing them out of fragments.
+ * Solution adapted from https://stackoverflow.com/a/22160240
+ */
+fragment A: 'a' | 'A';
+fragment B: 'b' | 'B';
+fragment C: 'c' | 'C';
+fragment D: 'd' | 'D';
+fragment E: 'e' | 'E';
+fragment F: 'f' | 'F';
+fragment G: 'g' | 'G';
+fragment H: 'h' | 'H';
+fragment I: 'i' | 'I';
+fragment J: 'j' | 'J';
+fragment K: 'k' | 'K';
+fragment L: 'l' | 'L';
+fragment M: 'm' | 'M';
+fragment N: 'n' | 'N';
+fragment O: 'o' | 'O';
+fragment P: 'p' | 'P';
+fragment Q: 'q' | 'Q';
+fragment R: 'r' | 'R';
+fragment S: 's' | 'S';
+fragment T: 't' | 'T';
+fragment U: 'u' | 'U';
+fragment V: 'v' | 'V';
+fragment W: 'w' | 'W';
+fragment X: 'x' | 'X';
+fragment Y: 'y' | 'Y';
+fragment Z: 'z' | 'Z';

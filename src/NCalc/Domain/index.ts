@@ -412,7 +412,19 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
                 return 1;
             }
 
-            return a == b ? 0 : 1;
+            if(typeof a == "number" || typeof b == "number")
+            {
+                if(a < b) {
+                    return -1;
+                } else if (a > b) {
+                    return 1;
+                }
+                return 0;
+            } else {
+                return a == b ? 0 : 1;
+            }
+
+            
             // return Comparer.Default.Compare(Convert.ChangeType(a, mpt), Convert.ChangeType(b, mpt));
         }
 
@@ -937,33 +949,32 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
 
                 // end
 
-                // // Start in
-                // case "in":
+                // Start in
+                case "in":
 
-                //     this.CheckCase("in", func.Identifier.Name);
+                    this.CheckCase("in", func.Identifier.Name);
 
-                //     if (func.Expressions.length < 2)
-                //         throw new ArgumentException("in() takes at least 2 arguments");
+                    if (func.Expressions.length < 2)
+                        throw new ArgumentException("in() takes at least 2 arguments");
 
-                //     object parameter = Evaluate(func.Expressions[0]);
+                    const parameter = this.Evaluate(func.Expressions[0]);
+                    let evaluation = false;
 
-                //     bool evaluation = false;
+                    // Goes through any values, and stop whe one is found
+                    for (let i = 1; i < func.Expressions.length; i++)
+                    {
+                        let argument = this.Evaluate(func.Expressions[i]);
+                        if (this.CompareUsingMostPreciseType(parameter, argument) == 0)
+                        {
+                            evaluation = true;
+                            break;
+                        }
+                    }
 
-                //     // Goes through any values, and stop whe one is found
-                //     for (int i = 1; i < func.Expressions.length; i++)
-                //     {
-                //         object argument = Evaluate(func.Expressions[i]);
-                //         if (CompareUsingMostPreciseType(parameter, argument) == 0)
-                //         {
-                //             evaluation = true;
-                //             break;
-                //         }
-                //     }
+                    this.Result = evaluation;
+                    break;
 
-                //     Result = evaluation;
-                //     break;
-
-                // // end
+                // end
 
                 default:
                     throw new ArgumentException(`Function ${func.Identifier.Name} was not found.`);
