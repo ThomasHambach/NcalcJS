@@ -1,0 +1,4 @@
+src/Grammar/.antlr
+dist
+node_modules
+coverage

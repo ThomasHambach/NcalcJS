@@ -1,0 +1,6 @@
+src
+jest.config.js
+__tests__
+sonar-project.properties
+.github
+.vscode

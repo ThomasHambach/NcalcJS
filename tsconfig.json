@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": ["es2022", "ES2021.WeakRef", "dom"],
+    "declaration": true,
+    "outDir": "dist",
+    "strict": false,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*":["src/*"]
+    },
+    "plugins": [
+      // Transform paths in output .js files
+      { "transform": "typescript-transform-paths" },
+  
+      // Transform paths in output .d.ts files (Include this line if you output declarations files)
+      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+    ]
+  },
+  "files": ["node_modules/jest-expect-message/types/index.d.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "__tests__"
+  ],
+  "include": ["src"],
+}
