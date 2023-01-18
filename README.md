@@ -121,6 +121,10 @@ To update the generated files, run
 
     npm run grammar
 
+## Contributors
+
+Special thanks to https://github.com/Thaina for creating the basis of this package's ANTLR4 grammar file. Original C# version available at: https://github.com/Thaina/NCalc2/blob/master/grammer/NCalc.g
+
 ## Related projects
 
 ### [NCalc](https://github.com/ncalc/ncalc/)
