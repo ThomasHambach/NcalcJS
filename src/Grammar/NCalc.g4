@@ -176,7 +176,7 @@ value returns [ValueExpression val]
 
 identifier returns[Identifier val]
 	: 	ID { $val = new Identifier($ID.text); }
-	| 	NAME { $val = new Identifier($NAME.text.substring(1, $NAME.text.length-2)); }
+	| 	NAME { $val = new Identifier($NAME.text.substring(1, $NAME.text.length-1)); }
 	;
 
 expressionList returns [LogicalExpression[] val = []]

@@ -1083,7 +1083,7 @@ export class NCalcParser extends Parser {
 				{
 				this.state = 236;
 				_localctx._NAME = this.match(NCalcParser.NAME);
-				 _localctx.val =  new Identifier((_localctx._NAME != null ? _localctx._NAME.text : undefined).substring(1, (_localctx._NAME != null ? _localctx._NAME.text : undefined).length-2)); 
+				 _localctx.val =  new Identifier((_localctx._NAME != null ? _localctx._NAME.text : undefined).substring(1, (_localctx._NAME != null ? _localctx._NAME.text : undefined).length-1)); 
 				}
 				break;
 			default:

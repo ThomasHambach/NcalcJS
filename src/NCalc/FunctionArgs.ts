@@ -2,7 +2,7 @@ import { Expression } from "./Expression";
 
 export class FunctionArgs
 {
-    private _result: object;
+    private _result: any;
 
     public HasResult: boolean;
 
@@ -12,7 +12,7 @@ export class FunctionArgs
         return this._result;
     }
 
-    public set Result(value: object) {
+    public set Result(value: any) {
         this._result = value;
         this.HasResult = true;
     }

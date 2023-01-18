@@ -386,7 +386,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
         {
             for(let t in this.CommonTypes)
             {
-                if (a == t || b == t)
+                if (typeof a == t || typeof b == t)
                 {
                     return t;
                 }
@@ -395,21 +395,24 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
             return a;
         }
 
-        public CompareUsingMostPreciseType(a: object, b: object): number
+        // @todo Revisit this function for equality
+        public CompareUsingMostPreciseType(a: any, b: any): number
         {
-            let mpt = "";
-            if (a == null)
+
+            if(a == null && b == null)
             {
-                if (b == null)
-                    return 0;
-                mpt = EvaluationVisitor.GetMostPreciseType(null, typeof b);
-            }
-            else
-            {
-                mpt = EvaluationVisitor.GetMostPreciseType(typeof a, typeof b);
+                return 0;
             }
 
-            return 0; // @todo Implement it properly
+            if(a == null) {
+                return -1;
+            }
+
+            if(b == null) {
+                return 1;
+            }
+
+            return a == b ? 0 : 1;
             // return Comparer.Default.Compare(Convert.ChangeType(a, mpt), Convert.ChangeType(b, mpt));
         }
 
@@ -584,7 +587,6 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
             for (let i = 0; i < func.Expressions.length; i++)
             {
                 args.Parameters[i] = new Expression(func.Expressions[i], this._options);
-                // @todo custom funcs
                 args.Parameters[i].EvaluateFunction = this.EvaluateFunction;
                 args.Parameters[i].EvaluateParameter = this.EvaluateParameter;
 
@@ -800,21 +802,22 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
 
                 // end
 
-                // // Start Round
-                // case "round":
+                // Start Round
+                // @todo Implementation is incorrect!
+                case "round":
 
-                //     this.CheckCase("Round", func.Identifier.Name);
+                    this.CheckCase("Round", func.Identifier.Name);
 
-                //     if (func.Expressions.length != 2)
-                //         throw new ArgumentException("Round() takes exactly 2 arguments");
+                    if (func.Expressions.length != 2)
+                        throw new ArgumentException("Round() takes exactly 2 arguments");
 
-                //     const rounding = (this._options & EvaluateOptions.RoundAwayFromZero) == EvaluateOptions.RoundAwayFromZero ? MidpointRounding.AwayFromZero : MidpointRounding.ToEven;
+                    // const rounding = (this._options & EvaluateOptions.RoundAwayFromZero) == EvaluateOptions.RoundAwayFromZero ? MidpointRounding.AwayFromZero : MidpointRounding.ToEven;
 
-                //     Result = Math.round(parseFloat(this.Evaluate(func.Expressions[0])), Convert.ToInt16(Evaluate(func.Expressions[1])), rounding);
+                    this.Result = Math.round(parseFloat(this.Evaluate(func.Expressions[0]))).toFixed(this.Evaluate(func.Expressions[1]));
 
-                //     break;
+                    break;
 
-                // // end
+                // end
 
                 // Start Sign
                 case "sign":
@@ -918,20 +921,21 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
 
                 // // end
 
-                // // Start if
-                // case "if":
+                // Start if
+                case "if":
 
-                //     this.CheckCase("if", func.Identifier.Name);
+                    this.CheckCase("if", func.Identifier.Name);
 
-                //     if (func.Expressions.length != 3)
-                //         throw new ArgumentException("if() takes exactly 3 arguments");
+                    if (func.Expressions.length != 3)
+                        throw new ArgumentException("if() takes exactly 3 arguments");
 
-                //     bool cond = Convert.ToBoolean(Evaluate(func.Expressions[0]));
+                    const val = this.Evaluate(func.Expressions[0]);
+                    const cond = val == true ? true : false;
 
-                //     Result = cond ? Evaluate(func.Expressions[1]) : Evaluate(func.Expressions[2]);
-                //     break;
+                    this.Result = cond ? this.Evaluate(func.Expressions[1]) : this.Evaluate(func.Expressions[2]);
+                    break;
 
-                // // end
+                // end
 
                 // // Start in
                 // case "in":
@@ -961,9 +965,8 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
 
                 // // end
 
-                // default:
-                //     throw new ArgumentException("func not found",
-                //         func.Identifier.Name);
+                default:
+                    throw new ArgumentException(`Function ${func.Identifier.Name} was not found.`);
             }
         }
 

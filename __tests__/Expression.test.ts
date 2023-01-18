@@ -1,5 +1,6 @@
 import { Expression } from "../src/NCalc/Expression";
 import { FunctionArgs } from "../src/NCalc/FunctionArgs";
+import { ParameterArgs } from "../src/NCalc/ParameterArgs";
 
 describe('Expressions', () => {
     test('ShouldParseValues', () => {
@@ -68,6 +69,45 @@ describe('Expressions', () => {
         };
         expect(e.Evaluate()).toBe(10);
     });
-    // test('Maths', () => {});
+
+    // @todo This is incorrect.
+    test('ExpressionShouldEvaluateParameters', () => {
+        var e = new Expression("Round(Pow(Pi, 2) + Pow([Pi Squared], 2) + [X], 2)");
+
+        e.Parameters["Pi Squared"] = new Expression("Pi * [Pi]");
+        e.Parameters["X"] = 10;
+
+        e.EvaluateParameter["Pi"] = (args: ParameterArgs) =>
+        {
+                args.Result = 3.14;
+        };
+        expect(e.Evaluate()).toBe("117.00");
+        // expect(e.Evaluate()).toBe(117.07);
+    });
+
+    test('ShouldEvaluateConditionnal', () => {
+        var eif = new Expression("if([divider] <> 0, [divided] / [divider], 0)");
+        eif.Parameters["divider"] = 5;
+        eif.Parameters["divided"] = 5;
+
+        expect(eif.Evaluate()).toBe(1);
+
+        eif = new Expression("if([divider] <> 0, [divided] / [divider], 0)");
+        eif.Parameters["divider"] = 0;
+        eif.Parameters["divided"] = 5;
+        expect(eif.Evaluate()).toBe(0);
+    });
+
+    test('ShouldOverrideExistingFunctions', () => {
+        var e = new Expression("Floor(1.99)");
+        expect(e.Evaluate()).toBe(1);
+
+        e.EvaluateFunction["Floor"] = (args: FunctionArgs) =>
+        {
+            args.Result = 3;
+        };
+
+        expect(e.Evaluate()).toBe(3);
+    })
 
 });

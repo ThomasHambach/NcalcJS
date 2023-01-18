@@ -23,7 +23,7 @@ NCalc is a mathematical expressions evaluator in JavaScript/TypeScript. NCalc ca
   - [x] Ln
   - [x] Log10
   - [x] Pow
-  - [ ] Round (Needs custom code)
+  - [ ] Round (Incorrect implementation)
   - [x] Sign
   - [x] Sqrt
   - [x] Tan
@@ -31,7 +31,7 @@ NCalc is a mathematical expressions evaluator in JavaScript/TypeScript. NCalc ca
 - [ ] Custom functions
   - [x] Implementation
   - [ ] Document different API from regular NCalc
-- [ ] Custom parameters
+- [x] Custom parameters
   - [ ] Implementation (partially done)
   - [ ] Document different API from regular NCalc
 - [ ] Unit tests
