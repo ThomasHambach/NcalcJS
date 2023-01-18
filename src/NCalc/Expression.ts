@@ -48,18 +48,32 @@ export class Expression {
         }
     }
 
-    public constructor(expression: string, options: EvaluateOptions = EvaluateOptions.None) {
+    public constructor(expression: LogicalExpression);
+    public constructor(expression: string); 
+    public constructor(expression: LogicalExpression, options: EvaluateOptions);
+    public constructor(expression: string, options: EvaluateOptions); 
+    public constructor(expression: any, options: EvaluateOptions = EvaluateOptions.None)
+    {
 
         if (expression == null || expression == "")
         {
             throw new Error("The expression cannot be null or empty");
         }
 
-        this.OriginalExpression = expression;
+        if(typeof expression === "string")
+        {
+            this.OriginalExpression = expression;
+        } else
+        {
+            this.ParsedExpression = expression;
+        }
+
         if (options)
         {
             this.Options = options;
         }
+
+
     }
 
     public static Compile(expression: string, nocache: boolean): LogicalExpression

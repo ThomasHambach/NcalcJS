@@ -583,7 +583,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor
             // Evaluating every value could produce unexpected behaviour
             for (let i = 0; i < func.Expressions.length; i++)
             {
-                args.Parameters[i] = new Expression(func.Expressions[i].ToString(), this._options);
+                args.Parameters[i] = new Expression(func.Expressions[i], this._options);
                 // @todo custom funcs
                 args.Parameters[i].EvaluateFunction = this.EvaluateFunction;
                 args.Parameters[i].EvaluateParameter = this.EvaluateParameter;
