@@ -73,7 +73,7 @@ export class Expression {
   }
 
   public get errors() {
-    return [...this.lexerErrors.errors, this.parserErrors.errors];
+    return this.lexerErrors.errors.concat(this.parserErrors.errors);
   }
 
   public Compile(expression: string, nocache: boolean): LogicalExpression {
@@ -115,7 +115,7 @@ export class Expression {
       }
 
       // In case HasErrors() is called multiple times for the same expression
-      return this.ParsedExpression != null;
+      return this.ParsedExpression === null || this.ParsedExpression === undefined;
     } catch (e) {
       return true;
     }
@@ -126,7 +126,7 @@ export class Expression {
 
   public Evaluate(): any {
     if (this.HasErrors()) {
-      // throw new Error(this.Error);
+      throw new EvaluationException('Failed evaluating the expression. Refer to errors.');
     }
 
     if (this.ParsedExpression == null) {
