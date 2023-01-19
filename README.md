@@ -66,7 +66,6 @@ if (e.HasErrors()) {
 
 ### Known Issues
 
-- Not specifying a custom parameter when evaluating the expression will cause a crash.
 - `Round` does not return the correct value
 - Circular dependencies are causing the massive `Domain/index.ts` file.
 - Unknown browser support
