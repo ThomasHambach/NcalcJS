@@ -84,15 +84,13 @@ export class Expression {
     let logicalExpression: LogicalExpression | null = null;
 
     if (this.CacheEnabled && !nocache) {
-      try {
-        if (Expression._compiledExpression.hasOwnProperty(expression)) {
-          const wr = Expression._compiledExpression[expression];
-          const stored = wr.deref();
-          if (stored && stored !== undefined) {
-            return stored;
-          }
+      if (Expression._compiledExpression.hasOwnProperty(expression)) {
+        const wr = Expression._compiledExpression[expression];
+        const stored = wr.deref();
+        if (stored && stored !== undefined) {
+          return stored;
         }
-      } catch (e) {}
+      }
     }
 
     if (logicalExpression == null) {
