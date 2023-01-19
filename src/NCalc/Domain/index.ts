@@ -862,37 +862,35 @@ export class EvaluationVisitor extends LogicalExpressionVisitor {
 
       // end
 
-      // // Start Max
-      // case "max":
+      // Start Max
+      case 'max':
+        this.CheckCase('Max', func.Identifier.Name);
 
-      //     this.CheckCase("Max", func.Identifier.Name);
+        if (func.Expressions.length != 2)
+          throw new ArgumentException('Max() takes exactly 2 arguments');
 
-      //     if (func.Expressions.length != 2)
-      //         throw new ArgumentException("Max() takes exactly 2 arguments");
+        const maxleft = this.Evaluate(func.Expressions[0]);
+        const maxright = this.Evaluate(func.Expressions[1]);
 
-      //     object maxleft = Evaluate(func.Expressions[0]);
-      //     object maxright = Evaluate(func.Expressions[1]);
+        this.Result = Numbers.Max(maxleft, maxright);
+        break;
 
-      //     Result = Numbers.Max(maxleft, maxright);
-      //     break;
+      // end
 
-      // // end
+      // Start Min
+      case 'min':
+        this.CheckCase('Min', func.Identifier.Name);
 
-      // // Start Min
-      // case "min":
+        if (func.Expressions.length != 2)
+          throw new ArgumentException('Min() takes exactly 2 arguments');
 
-      //     this.CheckCase("Min", func.Identifier.Name);
+        const minleft = this.Evaluate(func.Expressions[0]);
+        const minright = this.Evaluate(func.Expressions[1]);
 
-      //     if (func.Expressions.length != 2)
-      //         throw new ArgumentException("Min() takes exactly 2 arguments");
+        this.Result = Numbers.Min(minleft, minright);
+        break;
 
-      //     object minleft = Evaluate(func.Expressions[0]);
-      //     object minright = Evaluate(func.Expressions[1]);
-
-      //     Result = Numbers.Min(minleft, minright);
-      //     break;
-
-      // // end
+      // end
 
       // Start if
       case 'if':
@@ -980,8 +978,6 @@ export class EvaluationVisitor extends LogicalExpressionVisitor {
         let expression = this.Parameters[parameter.Name];
 
         // Overloads parameters
-        // @todo HMMMM
-        expression.Parameters = this.Parameters;
         for (let p in this.Parameters) {
           expression.Parameters[p] = this.Parameters[p];
         }
