@@ -19,6 +19,13 @@ import {EvaluateOptions} from '../src/NCalc/EvaluationOptions';
 // expect(new Expression($3).Evaluate()).toBe($1);
 
 describe('Expressions', () => {
+  test('ShouldCache', () => {
+    var expression = new Expression('1 + 2');
+    expect(Expression.CachedExpressions['1 + 2']).toBe(undefined);
+    expression.Evaluate();
+    expect(Expression.CachedExpressions).toHaveProperty('1 + 2');
+  });
+
   test('ShouldParseValues', () => {
     expect(new Expression("'azerty'").Evaluate()).toBe('azerty');
     expect(new Expression("'true'").Evaluate()).toBe('true');

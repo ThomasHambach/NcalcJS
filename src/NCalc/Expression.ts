@@ -42,6 +42,10 @@ export class Expression {
     return Expression._cacheEnabled;
   }
 
+  public static get CachedExpressions() {
+    return Expression._compiledExpression;
+  }
+
   public set CacheEnabled(value: boolean) {
     Expression._cacheEnabled = value;
     if (value === false) {
