@@ -1,6 +1,5 @@
 # NCalcJS
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ThomasHambach_NcalcJS&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ThomasHambach_NcalcJS)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ThomasHambach_NcalcJS&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ThomasHambach_NcalcJS)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/thomashambach/NCalcJS.svg)](https://github.com/thomashambach/NCalcJS/graphs/contributors)

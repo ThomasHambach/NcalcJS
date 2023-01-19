@@ -28,7 +28,7 @@ export class Expression {
 
   private static _cacheEnabled: boolean = true;
 
-  private static _compiledExpression: {[key: string]: WeakRef<any>} = {};
+  private static _compiledExpression: {[key: string]: WeakRef<LogicalExpression>} = {};
 
   public ParsedExpression: LogicalExpression;
 
@@ -40,6 +40,10 @@ export class Expression {
 
   public get CacheEnabled() {
     return Expression._cacheEnabled;
+  }
+
+  public static get CachedExpressions() {
+    return Expression._compiledExpression;
   }
 
   public set CacheEnabled(value: boolean) {
@@ -73,13 +77,22 @@ export class Expression {
   }
 
   public get errors() {
-    return [...this.lexerErrors.errors, this.parserErrors.errors];
+    return this.lexerErrors.errors.concat(this.parserErrors.errors);
   }
 
   public Compile(expression: string, nocache: boolean): LogicalExpression {
     let logicalExpression: LogicalExpression | null = null;
 
-    // @todo cache logic
+    if (this.CacheEnabled && !nocache) {
+      if (Expression._compiledExpression.hasOwnProperty(expression)) {
+        const wr = Expression._compiledExpression[expression];
+        const stored = wr.deref();
+        if (stored && stored !== undefined) {
+          return stored;
+        }
+      }
+    }
+
     if (logicalExpression == null) {
       // Create the lexer
       let inputStream = new ANTLRInputStream(expression);
@@ -92,6 +105,10 @@ export class Expression {
       parser.addErrorListener(this.parserErrors);
 
       logicalExpression = parser.GetExpression();
+
+      if (this.CacheEnabled && !nocache) {
+        Expression._compiledExpression[expression] = new WeakRef(logicalExpression);
+      }
     }
 
     return logicalExpression;
@@ -115,7 +132,7 @@ export class Expression {
       }
 
       // In case HasErrors() is called multiple times for the same expression
-      return this.ParsedExpression != null;
+      return this.ParsedExpression === null || this.ParsedExpression === undefined;
     } catch (e) {
       return true;
     }
@@ -126,7 +143,7 @@ export class Expression {
 
   public Evaluate(): any {
     if (this.HasErrors()) {
-      // throw new Error(this.Error);
+      throw new EvaluationException('Failed evaluating the expression. Refer to errors.');
     }
 
     if (this.ParsedExpression == null) {

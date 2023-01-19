@@ -23,13 +23,4 @@ export class FunctionArgs {
   public set Parameters(value: Expression[]) {
     this._parameters = value;
   }
-
-  public EvaluateParameters(): object[] {
-    let values: object[] = [];
-    for (var i = 0; i < values.length; i++) {
-      values[i] = this._parameters[i].Evaluate();
-    }
-
-    return values;
-  }
 }
