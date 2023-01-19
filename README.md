@@ -64,52 +64,14 @@ if (e.HasErrors()) {
 }
 ```
 
-### Status
-
-- [x] ANTLR4 Grammar
-- [x] Basic math
-- [ ] Math Functions
-  - [x] Abs
-  - [x] Acos
-  - [x] Asin
-  - [x] Atan
-  - [ ] Atan2
-  - [x] Ceiling
-  - [x] Cos
-  - [x] Exp
-  - [x] Floor
-  - [ ] IEEEERemainder (Not in JS standard, needs custom code)
-  - [x] Ln
-  - [x] Log10
-  - [x] Pow
-  - [ ] Round (Incorrect implementation)
-  - [x] Sign
-  - [x] Sqrt
-  - [x] Tan
-  - [x] Truncate
-- [ ] Standard Functions
-  - [x] In
-  - [x] If
-  - [ ] Min
-  - [ ] Max
-- [ ] Custom functions
-  - [x] Implementation
-  - [ ] Document different API from regular NCalc
-- [x] Custom parameters
-  - [x] Implementation (partially done)
-  - [ ] Document different API from regular NCalc
-- [ ] Unit tests (partial)
-- [ ] Documentation
-- [ ] Usage examples
-- [ ] Support older Node/JS versions
-- [ ] Confirm browser support
-- [ ] Resolve circular dependencies so we do not need 1 massive file. See `NCalc/Domain/index.ts`
-- [x] Improve ANTLR error handling
-
 ### Known Issues
 
 - Not specifying a custom parameter when evaluating the expression will cause a crash.
 - `Round` does not return the correct value
+- Circular dependencies are causing the massive `Domain/index.ts` file.
+- Unknown browser support
+- Support for Node below v16.6 is unconfirmed.
+- Not all unit tests are implemented
 
 ## Building
 
