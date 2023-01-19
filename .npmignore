@@ -4,3 +4,5 @@ __tests__
 sonar-project.properties
 .github
 .vscode
+docs
+.prettierrc

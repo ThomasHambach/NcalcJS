@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import {EvaluateOptions} from '../src/NCalc/EvaluationOptions';
 
 // To easily convert .net asserts, regex for VS code
-// expect(new Expression($3).Evaluate()).toBe($1);
+// Assert\.AreEqual\((.+),(.+)new Expression\((.+)\)\.Evaluate\(\)\);
 // expect(new Expression($3).Evaluate()).toBe($1);
 
 describe('Expressions', () => {
@@ -59,6 +59,8 @@ describe('Expressions', () => {
     expect(new Expression('Sqrt(4)').Evaluate()).toBe(2);
     expect(new Expression('Tan(0)').Evaluate()).toBe(0);
     expect(new Expression('Truncate(1.7)').Evaluate()).toBe(1);
+    expect(new Expression('Max(1,2)').Evaluate()).toBe(2);
+    expect(new Expression('Min(1,2)').Evaluate()).toBe(1);
     // Assert.AreEqual(-Math.PI/2, (double) new Expression("Atan2(-1,0)").Evaluate(), 1e-16);
     // Assert.AreEqual(Math.PI/2, (double) new Expression("Atan2(1,0)").Evaluate(), 1e-16);
     // Assert.AreEqual(Math.PI, (double) new Expression("Atan2(0,-1)").Evaluate(), 1e-16);
@@ -419,5 +421,69 @@ describe('Expressions', () => {
     expect(result[2]).toBe(4);
     expect(result[3]).toBe(9);
     expect(result[4]).toBe(16);
+  });
+
+  test('CustomFunctionReturnsNull', () => {
+    var e = new Expression('SecretOperation(3, 6)');
+
+    e.EvaluateFunction['SecretOperation'] = (args: FunctionArgs) => {
+      args.Result = null;
+    };
+
+    expect(e.Evaluate()).toBe(null);
+  });
+
+  test('CustomParameterReturnsNull', () => {
+    var e = new Expression('x');
+
+    e.EvaluateParameter['x'] = (args: ParameterArgs) => {
+      args.Result = null;
+    };
+
+    expect(e.Evaluate()).toBe(null);
+  });
+
+  test('ShouldCompareDates', () => {
+    expect(new Expression('#1/1/2009#==#1/1/2009#').Evaluate()).toBe(true);
+    expect(new Expression('#2/1/2009#==#1/1/2009#').Evaluate()).toBe(false);
+  });
+
+  // @todo
+  // test('ShouldRoundFromZero', () => {
+  //   expect(new Expression('Round(22.5, 0)').Evaluate()).toBe(22);
+  //   expect(new Expression('Round(22.5, 0)', EvaluateOptions.RoundAwayFromZero).Evaluate()).toBe(23);
+  // });
+
+  test('ShouldEvaluateSubExpressions', () => {
+    var volume = new Expression('[surface] * h');
+    var surface = new Expression('[l] * [L]');
+    volume.Parameters['surface'] = surface;
+    volume.Parameters['h'] = 3;
+    surface.Parameters['l'] = 1;
+    surface.Parameters['L'] = 2;
+    expect(volume.Evaluate()).toBe(6);
+  });
+
+  test('ShouldHandleLongValues', () => {
+    expect(new Expression('40000000000+1').Evaluate()).toBe(40_000_000_000 + 1);
+  });
+
+  test('ShouldCompareLongValues', () => {
+    expect(new Expression('(0=1500000)||(((0+2200000000)-1500000)<0)').Evaluate()).toBe(false);
+  });
+  test('ShouldDisplayErrorIncompatibleTypes', () => {
+    expect(() => {
+      var e = new Expression('(a > b) + 10');
+      e.Parameters['a'] = 1;
+      e.Parameters['b'] = 2;
+      e.Evaluate();
+    }).toThrowError();
+  });
+
+  test('ShouldShortCircuitBooleans', () => {
+    var e = new Expression('([a] != 0) && ([b]/[a]>2)');
+    e.Parameters['a'] = 0;
+
+    expect(e.Evaluate()).toBe(false);
   });
 });

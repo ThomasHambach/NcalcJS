@@ -25,7 +25,7 @@ export class FunctionArgs {
   }
 
   public EvaluateParameters(): object[] {
-    var values: object[] = [];
+    let values: object[] = [];
     for (var i = 0; i < values.length; i++) {
       values[i] = this._parameters[i].Evaluate();
     }
