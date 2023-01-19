@@ -17,17 +17,17 @@ export enum TypeCode {
 }
 
 export class Numbers {
-  private static ConvertIfString(s: object): object {
+  private static ConvertIfString(s: any): any {
     if (typeof s === 'string' || s instanceof String) {
-      return parseFloat(s as string) as unknown as object;
+      return parseFloat(s as string);
     }
 
     return s;
   }
 
-  public static Add(a: object, b: object): object {
-    const aValue = Numbers.ConvertIfString(a) as unknown as number;
-    const bValue = Numbers.ConvertIfString(b) as unknown as number;
+  public static Add(a: any, b: any): any {
+    const aValue = Numbers.ConvertIfString(a);
+    const bValue = Numbers.ConvertIfString(b);
 
     const allowedTypes = ['number', 'bigint'];
 
@@ -41,12 +41,12 @@ export class Numbers {
       );
     }
 
-    return (aValue + bValue) as unknown as object;
+    return aValue + bValue;
   }
 
-  public static Subtract(a: object, b: object): object {
-    const aValue = Numbers.ConvertIfString(a) as unknown as number;
-    const bValue = Numbers.ConvertIfString(b) as unknown as number;
+  public static Subtract(a: any, b: any): any {
+    const aValue = Numbers.ConvertIfString(a);
+    const bValue = Numbers.ConvertIfString(b);
 
     const allowedTypes = ['number', 'bigint'];
 
@@ -60,12 +60,12 @@ export class Numbers {
       );
     }
 
-    return (aValue - bValue) as unknown as object;
+    return aValue - bValue;
   }
 
-  public static Multiply(a: object, b: object): object {
-    const aValue = Numbers.ConvertIfString(a) as unknown as number;
-    const bValue = Numbers.ConvertIfString(b) as unknown as number;
+  public static Multiply(a: any, b: any): any {
+    const aValue = Numbers.ConvertIfString(a);
+    const bValue = Numbers.ConvertIfString(b);
 
     const allowedTypes = ['number', 'bigint'];
 
@@ -79,12 +79,12 @@ export class Numbers {
       );
     }
 
-    return (aValue * bValue) as unknown as object;
+    return aValue * bValue;
   }
 
-  public static Divide(a: object, b: object): object {
-    const aValue = Numbers.ConvertIfString(a) as unknown as number;
-    const bValue = Numbers.ConvertIfString(b) as unknown as number;
+  public static Divide(a: any, b: any): any {
+    const aValue = Numbers.ConvertIfString(a);
+    const bValue = Numbers.ConvertIfString(b);
 
     const allowedTypes = ['number', 'bigint'];
 
@@ -98,12 +98,12 @@ export class Numbers {
       );
     }
 
-    return (aValue / bValue) as unknown as object;
+    return aValue / bValue;
   }
 
-  public static Modulo(a: object, b: object): object {
-    const aValue = Numbers.ConvertIfString(a) as unknown as number;
-    const bValue = Numbers.ConvertIfString(b) as unknown as number;
+  public static Modulo(a: any, b: any): any {
+    const aValue = Numbers.ConvertIfString(a);
+    const bValue = Numbers.ConvertIfString(b);
 
     const allowedTypes = ['number', 'bigint'];
 
@@ -117,23 +117,23 @@ export class Numbers {
       );
     }
 
-    return (aValue % bValue) as unknown as object;
+    return aValue % bValue;
   }
 
-  public static Max(a: object, b: object): object {
-    const aValue = Numbers.ConvertIfString(a) as unknown as number;
-    const bValue = Numbers.ConvertIfString(b) as unknown as number;
+  public static Max(a: any, b: any): any {
+    const aValue = Numbers.ConvertIfString(a);
+    const bValue = Numbers.ConvertIfString(b);
 
     if (aValue == null && b == null) {
-      return null as unknown as object;
+      return null;
     }
 
     if (aValue == null) {
-      return bValue as unknown as object;
+      return bValue;
     }
 
     if (bValue == null) {
-      return aValue as unknown as object;
+      return aValue;
     }
 
     const allowedTypes = ['number', 'bigint'];
@@ -148,23 +148,23 @@ export class Numbers {
       );
     }
 
-    return Math.max(aValue, bValue) as unknown as object;
+    return Math.max(aValue, bValue);
   }
 
-  public static Min(a: object, b: object): object {
-    const aValue = Numbers.ConvertIfString(a) as unknown as number;
-    const bValue = Numbers.ConvertIfString(b) as unknown as number;
+  public static Min(a: any, b: any): any {
+    const aValue = Numbers.ConvertIfString(a);
+    const bValue = Numbers.ConvertIfString(b);
 
     if (aValue == null && b == null) {
-      return null as unknown as object;
+      return null;
     }
 
     if (aValue == null) {
-      return bValue as unknown as object;
+      return bValue;
     }
 
     if (bValue == null) {
-      return aValue as unknown as object;
+      return aValue;
     }
 
     const allowedTypes = ['number', 'bigint'];
@@ -179,6 +179,6 @@ export class Numbers {
       );
     }
 
-    return Math.min(aValue, bValue) as unknown as object;
+    return Math.min(aValue, bValue);
   }
 }
