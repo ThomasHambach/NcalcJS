@@ -1,6 +1,6 @@
 {
   "name": "ncalcjs",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Typescript/Javascript implementation of NCalc",
   "main": "dist/NCalc/index.js",
   "types": "dist/NCalc/index.d.ts",
