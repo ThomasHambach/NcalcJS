@@ -28,7 +28,7 @@ export class Expression {
 
   private static _cacheEnabled: boolean = true;
 
-  private static _compiledExpression: {[key: string]: WeakRef<any>} = {};
+  private static _compiledExpression: {[key: string]: WeakRef<LogicalExpression>} = {};
 
   public ParsedExpression: LogicalExpression;
 
@@ -79,7 +79,18 @@ export class Expression {
   public Compile(expression: string, nocache: boolean): LogicalExpression {
     let logicalExpression: LogicalExpression | null = null;
 
-    // @todo cache logic
+    if (this.CacheEnabled && !nocache) {
+      try {
+        if (Expression._compiledExpression.hasOwnProperty(expression)) {
+          const wr = Expression._compiledExpression[expression];
+          const stored = wr.deref();
+          if (stored && stored !== undefined) {
+            return stored;
+          }
+        }
+      } catch (e) {}
+    }
+
     if (logicalExpression == null) {
       // Create the lexer
       let inputStream = new ANTLRInputStream(expression);
@@ -92,6 +103,10 @@ export class Expression {
       parser.addErrorListener(this.parserErrors);
 
       logicalExpression = parser.GetExpression();
+
+      if (this.CacheEnabled && !nocache) {
+        Expression._compiledExpression[expression] = new WeakRef(logicalExpression);
+      }
     }
 
     return logicalExpression;
