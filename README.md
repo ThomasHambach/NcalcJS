@@ -1,5 +1,6 @@
 # NCalcJS
 
+[![NPM version](https://img.shields.io/npm/v/ncalcjs)](https://www.npmjs.com/package/ncalcjs)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ThomasHambach_NcalcJS&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ThomasHambach_NcalcJS)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/thomashambach/NCalcJS.svg)](https://github.com/thomashambach/NCalcJS/graphs/contributors)
@@ -11,7 +12,7 @@ expression and evaluate the result, including static or dynamic parameters and c
 
 ### Installation
 
-Get the package from npm.org by running
+Get the package from npm.org (https://www.npmjs.com/package/ncalcjs) by running
 
     npm i --s ncalcjs
 
