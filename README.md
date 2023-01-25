@@ -6,7 +6,9 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/thomashambach/NCalcJS.svg)](https://github.com/thomashambach/NCalcJS/graphs/contributors)
 
 NCalc is a mathematical expressions evaluator in JavaScript/TypeScript. NCalc can parse any
-expression and evaluate the result, including static or dynamic parameters and custom functions.
+expression and evaluate the result, including static or dynamic parameters and custom functions. You
+may also want to look at the example running on CloudFlare workers
+https://github.com/ThomasHambach/expression.worker
 
 ## Project Description
 
@@ -117,3 +119,7 @@ Pure asynchronous C# implementation of NCalc by [Peter Liljenberg](https://githu
 Extension functions for NCalc in C# to handle many general functions,  
 including string functions, switch, if, in, typeOf, cast etc.  
 Developed by David, Dan and all at [Panoramic Data](https://github.com/panoramicdata).
+
+### [Expression.worker](https://github.com/ThomasHambach/expression.worker)
+
+Starter kit to run NCalcJS in a cloudflare worker.
