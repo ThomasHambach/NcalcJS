@@ -1,38 +1,27 @@
-// Generated from src/Grammar/NCalc.g4 by ANTLR 4.9.0-SNAPSHOT
+// Generated from NCalc.g4 by ANTLR 4.12.0
+// noinspection ES6UnusedImports,JSUnusedGlobalSymbols,JSUnusedLocalSymbols
+
+import {
+	ATN,
+	ATNDeserializer, DecisionState, DFA, FailedPredicateException,
+	RecognitionException, NoViableAltException, BailErrorStrategy,
+	Parser, ParserATNSimulator,
+	RuleContext, ParserRuleContext, PredictionMode, PredictionContextCache,
+	TerminalNode, RuleNode,
+	Token, TokenStream,
+	Interval, IntervalSet
+} from 'antlr4';
+import NCalcListener from "./NCalcListener.js";
+// for running tests with parameters, TODO: discuss strategy for typed parameters in CI
+// eslint-disable-next-line no-unused-vars
+type int = number;
 
 
 
 import dayjs from "dayjs";
 import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, LogicalExpressionVisitor, UnaryExpression, UnaryExpressionType, TernaryExpression, ValueExpression, ValueType, LogicalExpression } from "@/NCalc/Domain";
 
-
-import { ATN } from "antlr4ts/atn/ATN";
-import { ATNDeserializer } from "antlr4ts/atn/ATNDeserializer";
-import { FailedPredicateException } from "antlr4ts/FailedPredicateException";
-import { NotNull } from "antlr4ts/Decorators";
-import { NoViableAltException } from "antlr4ts/NoViableAltException";
-import { Override } from "antlr4ts/Decorators";
-import { Parser } from "antlr4ts/Parser";
-import { ParserRuleContext } from "antlr4ts/ParserRuleContext";
-import { ParserATNSimulator } from "antlr4ts/atn/ParserATNSimulator";
-import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
-import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
-import { RecognitionException } from "antlr4ts/RecognitionException";
-import { RuleContext } from "antlr4ts/RuleContext";
-//import { RuleVersion } from "antlr4ts/RuleVersion";
-import { TerminalNode } from "antlr4ts/tree/TerminalNode";
-import { Token } from "antlr4ts/Token";
-import { TokenStream } from "antlr4ts/TokenStream";
-import { Vocabulary } from "antlr4ts/Vocabulary";
-import { VocabularyImpl } from "antlr4ts/VocabularyImpl";
-
-import * as Utils from "antlr4ts/misc/Utils";
-
-import { NCalcListener } from "./NCalcListener";
-import { NCalcVisitor } from "./NCalcVisitor";
-
-
-export class NCalcParser extends Parser {
+export default class NCalcParser extends Parser {
 	public static readonly T__0 = 1;
 	public static readonly T__1 = 2;
 	public static readonly T__2 = 3;
@@ -74,6 +63,7 @@ export class NCalcParser extends Parser {
 	public static readonly NAME = 39;
 	public static readonly EXPONENT = 40;
 	public static readonly WS = 41;
+	public static readonly EOF = Token.EOF;
 	public static readonly RULE_ncalcExpression = 0;
 	public static readonly RULE_logicalExpression = 1;
 	public static readonly RULE_conditionalExpression = 2;
@@ -89,6 +79,43 @@ export class NCalcParser extends Parser {
 	public static readonly RULE_identifier = 12;
 	public static readonly RULE_expressionList = 13;
 	public static readonly RULE_arguments = 14;
+	public static readonly literalNames: (string | null)[] = [ null, "'?'", 
+                                                            "':'", "'&&'", 
+                                                            "'||'", "'&'", 
+                                                            "'|'", "'^'", 
+                                                            "'=='", "'='", 
+                                                            "'!='", "'<>'", 
+                                                            "'<'", "'<='", 
+                                                            "'>'", "'>='", 
+                                                            "'<<'", "'>>'", 
+                                                            "'+'", "'-'", 
+                                                            "'*'", "'/'", 
+                                                            "'%'", "'!'", 
+                                                            "'~'", "'**'", 
+                                                            "'('", "')'", 
+                                                            "','" ];
+	public static readonly symbolicNames: (string | null)[] = [ null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, null, 
+                                                             null, "NOT", 
+                                                             "TRUE", "FALSE", 
+                                                             "AND", "OR", 
+                                                             "ID", "FLOAT", 
+                                                             "INTEGER", 
+                                                             "STRING", "DATETIME", 
+                                                             "NAME", "EXPONENT", 
+                                                             "WS" ];
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
 		"ncalcExpression", "logicalExpression", "conditionalExpression", "booleanExpression", 
@@ -96,37 +123,11 @@ export class NCalcParser extends Parser {
 		"unaryExpression", "exponentialExpression", "primaryExpression", "value", 
 		"identifier", "expressionList", "arguments",
 	];
-
-	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, "'?'", "':'", "'&&'", "'||'", "'&'", "'|'", "'^'", "'=='", 
-		"'='", "'!='", "'<>'", "'<'", "'<='", "'>'", "'>='", "'<<'", "'>>'", "'+'", 
-		"'-'", "'*'", "'/'", "'%'", "'!'", "'~'", "'**'", "'('", "')'", "','",
-	];
-	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
-		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, "NOT", "TRUE", "FALSE", "AND", "OR", "ID", "FLOAT", "INTEGER", 
-		"STRING", "DATETIME", "NAME", "EXPONENT", "WS",
-	];
-	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(NCalcParser._LITERAL_NAMES, NCalcParser._SYMBOLIC_NAMES, []);
-
-	// @Override
-	// @NotNull
-	public get vocabulary(): Vocabulary {
-		return NCalcParser.VOCABULARY;
-	}
-	// tslint:enable:no-trailing-whitespace
-
-	// @Override
 	public get grammarFileName(): string { return "NCalc.g4"; }
-
-	// @Override
+	public get literalNames(): (string | null)[] { return NCalcParser.literalNames; }
+	public get symbolicNames(): (string | null)[] { return NCalcParser.symbolicNames; }
 	public get ruleNames(): string[] { return NCalcParser.ruleNames; }
-
-	// @Override
-	public get serializedATN(): string { return NCalcParser._serializedATN; }
+	public get serializedATN(): number[] { return NCalcParser._serializedATN; }
 
 	protected createFailedPredicateException(predicate?: string, message?: string): FailedPredicateException {
 		return new FailedPredicateException(this, predicate, message);
@@ -190,25 +191,25 @@ export class NCalcParser extends Parser {
 
 	constructor(input: TokenStream) {
 		super(input);
-		this._interp = new ParserATNSimulator(NCalcParser._ATN, this);
+		this._interp = new ParserATNSimulator(this, NCalcParser._ATN, NCalcParser.DecisionsToDFA, new PredictionContextCache());
 	}
 	// @RuleVersion(0)
 	public ncalcExpression(): NcalcExpressionContext {
-		let _localctx: NcalcExpressionContext = new NcalcExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 0, NCalcParser.RULE_ncalcExpression);
+		let localctx: NcalcExpressionContext = new NcalcExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 0, NCalcParser.RULE_ncalcExpression);
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 30;
-			_localctx._logicalExpression = this.logicalExpression();
+			localctx._logicalExpression = this.logicalExpression();
 			this.state = 31;
 			this.match(NCalcParser.EOF);
-			_localctx.val =  _localctx._logicalExpression.val; 
+			localctx.val =  localctx._logicalExpression.val; 
 			}
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -218,29 +219,29 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public logicalExpression(): LogicalExpressionContext {
-		let _localctx: LogicalExpressionContext = new LogicalExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 2, NCalcParser.RULE_logicalExpression);
+		let localctx: LogicalExpressionContext = new LogicalExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 2, NCalcParser.RULE_logicalExpression);
 		let _la: number;
 		try {
 			let _alt: number;
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 34;
-			_localctx._left = this.conditionalExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.conditionalExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 66;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 4, this._ctx) ) {
+			switch ( this._interp.adaptivePredict(this._input, 4, this._ctx) ) {
 			case 1:
 				{
 				this.state = 39;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la === NCalcParser.WS) {
+				while (_la===41) {
 					{
 					{
 					this.state = 36;
@@ -255,7 +256,7 @@ export class NCalcParser extends Parser {
 				this.match(NCalcParser.T__0);
 				this.state = 46;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 1, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 1, this._ctx);
 				while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 					if (_alt === 1) {
 						{
@@ -267,14 +268,14 @@ export class NCalcParser extends Parser {
 					}
 					this.state = 48;
 					this._errHandler.sync(this);
-					_alt = this.interpreter.adaptivePredict(this._input, 1, this._ctx);
+					_alt = this._interp.adaptivePredict(this._input, 1, this._ctx);
 				}
 				this.state = 49;
-				_localctx._middle = this.conditionalExpression();
+				localctx._middle = this.conditionalExpression();
 				this.state = 53;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la === NCalcParser.WS) {
+				while (_la===41) {
 					{
 					{
 					this.state = 50;
@@ -289,7 +290,7 @@ export class NCalcParser extends Parser {
 				this.match(NCalcParser.T__1);
 				this.state = 60;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 3, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 3, this._ctx);
 				while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 					if (_alt === 1) {
 						{
@@ -301,11 +302,11 @@ export class NCalcParser extends Parser {
 					}
 					this.state = 62;
 					this._errHandler.sync(this);
-					_alt = this.interpreter.adaptivePredict(this._input, 3, this._ctx);
+					_alt = this._interp.adaptivePredict(this._input, 3, this._ctx);
 				}
 				this.state = 63;
-				_localctx._right = this.conditionalExpression();
-				 _localctx.val =  new TernaryExpression(_localctx._left.val, _localctx._middle.val, _localctx._right.val); 
+				localctx._right = this.conditionalExpression();
+				 localctx.val =  new TernaryExpression(localctx._left.val, localctx._middle.val, localctx._right.val); 
 							
 				}
 				break;
@@ -314,7 +315,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -324,63 +325,57 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public conditionalExpression(): ConditionalExpressionContext {
-		let _localctx: ConditionalExpressionContext = new ConditionalExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 4, NCalcParser.RULE_conditionalExpression);
+		let localctx: ConditionalExpressionContext = new ConditionalExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 4, NCalcParser.RULE_conditionalExpression);
 
 		let type = BinaryExpressionType.Unknown;
 
 		let _la: number;
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 68;
-			_localctx._left = this.booleanExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.booleanExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 81;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 3)) & ~0x1F) === 0 && ((1 << (_la - 3)) & ((1 << (NCalcParser.T__2 - 3)) | (1 << (NCalcParser.T__3 - 3)) | (1 << (NCalcParser.AND - 3)) | (1 << (NCalcParser.OR - 3)))) !== 0)) {
+			while (((((_la - 3)) & ~0x1F) === 0 && ((1 << (_la - 3)) & 1610612739) !== 0)) {
 				{
 				{
 				this.state = 74;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case NCalcParser.T__2:
-				case NCalcParser.AND:
+				case 3:
+				case 32:
 					{
 					this.state = 70;
 					_la = this._input.LA(1);
-					if (!(_la === NCalcParser.T__2 || _la === NCalcParser.AND)) {
+					if(!(_la===3 || _la===32)) {
 					this._errHandler.recoverInline(this);
-					} else {
-						if (this._input.LA(1) === Token.EOF) {
-							this.matchedEOF = true;
-						}
-
+					}
+					else {
 						this._errHandler.reportMatch(this);
-						this.consume();
+					    this.consume();
 					}
 					 type = BinaryExpressionType.And; 
 					}
 					break;
-				case NCalcParser.T__3:
-				case NCalcParser.OR:
+				case 4:
+				case 33:
 					{
 					this.state = 72;
 					_la = this._input.LA(1);
-					if (!(_la === NCalcParser.T__3 || _la === NCalcParser.OR)) {
+					if(!(_la===4 || _la===33)) {
 					this._errHandler.recoverInline(this);
-					} else {
-						if (this._input.LA(1) === Token.EOF) {
-							this.matchedEOF = true;
-						}
-
+					}
+					else {
 						this._errHandler.reportMatch(this);
-						this.consume();
+					    this.consume();
 					}
 					 type = BinaryExpressionType.Or; 
 					}
@@ -389,8 +384,8 @@ export class NCalcParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				this.state = 76;
-				_localctx._right = this.booleanExpression();
-				 _localctx.val =  new BinaryExpression(type, _localctx.val, _localctx._right.val); 
+				localctx._right = this.booleanExpression();
+				 localctx.val =  new BinaryExpression(type, localctx.val, localctx._right.val); 
 				}
 				}
 				this.state = 83;
@@ -401,7 +396,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -411,46 +406,46 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public booleanExpression(): BooleanExpressionContext {
-		let _localctx: BooleanExpressionContext = new BooleanExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 6, NCalcParser.RULE_booleanExpression);
+		let localctx: BooleanExpressionContext = new BooleanExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 6, NCalcParser.RULE_booleanExpression);
 
 		let type = BinaryExpressionType.Unknown;
 
 		let _la: number;
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 84;
-			_localctx._left = this.relationalExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.relationalExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 99;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << NCalcParser.T__4) | (1 << NCalcParser.T__5) | (1 << NCalcParser.T__6))) !== 0)) {
+			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 224) !== 0)) {
 				{
 				{
 				this.state = 92;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case NCalcParser.T__4:
+				case 5:
 					{
 					this.state = 86;
 					this.match(NCalcParser.T__4);
 					 type = BinaryExpressionType.BitwiseAnd; 
 					}
 					break;
-				case NCalcParser.T__5:
+				case 6:
 					{
 					this.state = 88;
 					this.match(NCalcParser.T__5);
 					 type = BinaryExpressionType.BitwiseOr; 
 					}
 					break;
-				case NCalcParser.T__6:
+				case 7:
 					{
 					this.state = 90;
 					this.match(NCalcParser.T__6);
@@ -461,8 +456,8 @@ export class NCalcParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				this.state = 94;
-				_localctx._right = this.relationalExpression();
-				 _localctx.val =  new BinaryExpression(type, _localctx.val, _localctx._right.val); 
+				localctx._right = this.relationalExpression();
+				 localctx.val =  new BinaryExpression(type, localctx.val, localctx._right.val); 
 				}
 				}
 				this.state = 101;
@@ -473,7 +468,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -483,89 +478,83 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public relationalExpression(): RelationalExpressionContext {
-		let _localctx: RelationalExpressionContext = new RelationalExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 8, NCalcParser.RULE_relationalExpression);
+		let localctx: RelationalExpressionContext = new RelationalExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 8, NCalcParser.RULE_relationalExpression);
 
 		let type = BinaryExpressionType.Unknown;
 
 		let _la: number;
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 102;
-			_localctx._left = this.shiftExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.shiftExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 123;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << NCalcParser.T__7) | (1 << NCalcParser.T__8) | (1 << NCalcParser.T__9) | (1 << NCalcParser.T__10) | (1 << NCalcParser.T__11) | (1 << NCalcParser.T__12) | (1 << NCalcParser.T__13) | (1 << NCalcParser.T__14))) !== 0)) {
+			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 65280) !== 0)) {
 				{
 				{
 				this.state = 116;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case NCalcParser.T__7:
-				case NCalcParser.T__8:
+				case 8:
+				case 9:
 					{
 					this.state = 104;
 					_la = this._input.LA(1);
-					if (!(_la === NCalcParser.T__7 || _la === NCalcParser.T__8)) {
+					if(!(_la===8 || _la===9)) {
 					this._errHandler.recoverInline(this);
-					} else {
-						if (this._input.LA(1) === Token.EOF) {
-							this.matchedEOF = true;
-						}
-
+					}
+					else {
 						this._errHandler.reportMatch(this);
-						this.consume();
+					    this.consume();
 					}
 					 type = BinaryExpressionType.Equal; 
 					}
 					break;
-				case NCalcParser.T__9:
-				case NCalcParser.T__10:
+				case 10:
+				case 11:
 					{
 					this.state = 106;
 					_la = this._input.LA(1);
-					if (!(_la === NCalcParser.T__9 || _la === NCalcParser.T__10)) {
+					if(!(_la===10 || _la===11)) {
 					this._errHandler.recoverInline(this);
-					} else {
-						if (this._input.LA(1) === Token.EOF) {
-							this.matchedEOF = true;
-						}
-
+					}
+					else {
 						this._errHandler.reportMatch(this);
-						this.consume();
+					    this.consume();
 					}
 					 type = BinaryExpressionType.NotEqual; 
 					}
 					break;
-				case NCalcParser.T__11:
+				case 12:
 					{
 					this.state = 108;
 					this.match(NCalcParser.T__11);
 					 type = BinaryExpressionType.Lesser; 
 					}
 					break;
-				case NCalcParser.T__12:
+				case 13:
 					{
 					this.state = 110;
 					this.match(NCalcParser.T__12);
 					 type = BinaryExpressionType.LesserOrEqual; 
 					}
 					break;
-				case NCalcParser.T__13:
+				case 14:
 					{
 					this.state = 112;
 					this.match(NCalcParser.T__13);
 					 type = BinaryExpressionType.Greater; 
 					}
 					break;
-				case NCalcParser.T__14:
+				case 15:
 					{
 					this.state = 114;
 					this.match(NCalcParser.T__14);
@@ -576,8 +565,8 @@ export class NCalcParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				this.state = 118;
-				_localctx._right = this.shiftExpression();
-				 _localctx.val =  new BinaryExpression(type, _localctx.val, _localctx._right.val); 
+				localctx._right = this.shiftExpression();
+				 localctx.val =  new BinaryExpression(type, localctx.val, localctx._right.val); 
 				}
 				}
 				this.state = 125;
@@ -588,7 +577,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -598,39 +587,39 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public shiftExpression(): ShiftExpressionContext {
-		let _localctx: ShiftExpressionContext = new ShiftExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 10, NCalcParser.RULE_shiftExpression);
+		let localctx: ShiftExpressionContext = new ShiftExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 10, NCalcParser.RULE_shiftExpression);
 
 		let type = BinaryExpressionType.Unknown;
 
 		let _la: number;
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 126;
-			_localctx._left = this.additiveExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.additiveExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 139;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la === NCalcParser.T__15 || _la === NCalcParser.T__16) {
+			while (_la===16 || _la===17) {
 				{
 				{
 				this.state = 132;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case NCalcParser.T__15:
+				case 16:
 					{
 					this.state = 128;
 					this.match(NCalcParser.T__15);
 					 type = BinaryExpressionType.LeftShift; 
 					}
 					break;
-				case NCalcParser.T__16:
+				case 17:
 					{
 					this.state = 130;
 					this.match(NCalcParser.T__16);
@@ -641,8 +630,8 @@ export class NCalcParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				this.state = 134;
-				_localctx._right = this.additiveExpression();
-				 _localctx.val =  new BinaryExpression(type, _localctx.val, _localctx._right.val); 
+				localctx._right = this.additiveExpression();
+				 localctx.val =  new BinaryExpression(type, localctx.val, localctx._right.val); 
 				}
 				}
 				this.state = 141;
@@ -653,7 +642,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -663,39 +652,39 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public additiveExpression(): AdditiveExpressionContext {
-		let _localctx: AdditiveExpressionContext = new AdditiveExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 12, NCalcParser.RULE_additiveExpression);
+		let localctx: AdditiveExpressionContext = new AdditiveExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 12, NCalcParser.RULE_additiveExpression);
 
 		let type = BinaryExpressionType.Unknown;
 
 		let _la: number;
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 142;
-			_localctx._left = this.multiplicativeExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.multiplicativeExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 155;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la === NCalcParser.T__17 || _la === NCalcParser.T__18) {
+			while (_la===18 || _la===19) {
 				{
 				{
 				this.state = 148;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case NCalcParser.T__17:
+				case 18:
 					{
 					this.state = 144;
 					this.match(NCalcParser.T__17);
 					 type = BinaryExpressionType.Plus; 
 					}
 					break;
-				case NCalcParser.T__18:
+				case 19:
 					{
 					this.state = 146;
 					this.match(NCalcParser.T__18);
@@ -706,8 +695,8 @@ export class NCalcParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				this.state = 150;
-				_localctx._right = this.multiplicativeExpression();
-				 _localctx.val =  new BinaryExpression(type, _localctx.val, _localctx._right.val); 
+				localctx._right = this.multiplicativeExpression();
+				 localctx.val =  new BinaryExpression(type, localctx.val, localctx._right.val); 
 				}
 				}
 				this.state = 157;
@@ -718,7 +707,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -728,46 +717,46 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public multiplicativeExpression(): MultiplicativeExpressionContext {
-		let _localctx: MultiplicativeExpressionContext = new MultiplicativeExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 14, NCalcParser.RULE_multiplicativeExpression);
+		let localctx: MultiplicativeExpressionContext = new MultiplicativeExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 14, NCalcParser.RULE_multiplicativeExpression);
 
 		let type = BinaryExpressionType.Unknown;
 
 		let _la: number;
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 158;
-			_localctx._left = this.unaryExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.unaryExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 173;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << NCalcParser.T__19) | (1 << NCalcParser.T__20) | (1 << NCalcParser.T__21))) !== 0)) {
+			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 7340032) !== 0)) {
 				{
 				{
 				this.state = 166;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case NCalcParser.T__19:
+				case 20:
 					{
 					this.state = 160;
 					this.match(NCalcParser.T__19);
 					 type = BinaryExpressionType.Times; 
 					}
 					break;
-				case NCalcParser.T__20:
+				case 21:
 					{
 					this.state = 162;
 					this.match(NCalcParser.T__20);
 					 type = BinaryExpressionType.Div; 
 					}
 					break;
-				case NCalcParser.T__21:
+				case 22:
 					{
 					this.state = 164;
 					this.match(NCalcParser.T__21);
@@ -778,8 +767,8 @@ export class NCalcParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				this.state = 168;
-				_localctx._right = this.unaryExpression();
-				 _localctx.val =  new BinaryExpression(type, _localctx.val, _localctx._right.val); 
+				localctx._right = this.unaryExpression();
+				 localctx.val =  new BinaryExpression(type, localctx.val, localctx._right.val); 
 				}
 				}
 				this.state = 175;
@@ -790,7 +779,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -800,21 +789,21 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public unaryExpression(): UnaryExpressionContext {
-		let _localctx: UnaryExpressionContext = new UnaryExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 16, NCalcParser.RULE_unaryExpression);
+		let localctx: UnaryExpressionContext = new UnaryExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 16, NCalcParser.RULE_unaryExpression);
 		let _la: number;
 		try {
 			let _alt: number;
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 179;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la === NCalcParser.WS) {
+			while (_la===41) {
 				{
 				{
 				this.state = 176;
@@ -828,71 +817,68 @@ export class NCalcParser extends Parser {
 			this.state = 201;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case NCalcParser.T__25:
-			case NCalcParser.TRUE:
-			case NCalcParser.FALSE:
-			case NCalcParser.ID:
-			case NCalcParser.FLOAT:
-			case NCalcParser.INTEGER:
-			case NCalcParser.STRING:
-			case NCalcParser.DATETIME:
-			case NCalcParser.NAME:
+			case 26:
+			case 30:
+			case 31:
+			case 34:
+			case 35:
+			case 36:
+			case 37:
+			case 38:
+			case 39:
 				{
 				this.state = 182;
-				_localctx._exponentialExpression = this.exponentialExpression();
-				 _localctx.val =  _localctx._exponentialExpression.val; 
+				localctx._exponentialExpression = this.exponentialExpression();
+				 localctx.val =  localctx._exponentialExpression.val; 
 				}
 				break;
-			case NCalcParser.T__22:
-			case NCalcParser.NOT:
+			case 23:
+			case 29:
 				{
 				this.state = 185;
 				_la = this._input.LA(1);
-				if (!(_la === NCalcParser.T__22 || _la === NCalcParser.NOT)) {
+				if(!(_la===23 || _la===29)) {
 				this._errHandler.recoverInline(this);
-				} else {
-					if (this._input.LA(1) === Token.EOF) {
-						this.matchedEOF = true;
-					}
-
+				}
+				else {
 					this._errHandler.reportMatch(this);
-					this.consume();
+				    this.consume();
 				}
 				this.state = 186;
-				_localctx._exponentialExpression = this.exponentialExpression();
-				 _localctx.val =  new UnaryExpression(UnaryExpressionType.Not, _localctx._exponentialExpression.val); 
+				localctx._exponentialExpression = this.exponentialExpression();
+				 localctx.val =  new UnaryExpression(UnaryExpressionType.Not, localctx._exponentialExpression.val); 
 							
 				}
 				break;
-			case NCalcParser.T__23:
+			case 24:
 				{
 				{
 				this.state = 189;
 				this.match(NCalcParser.T__23);
 				}
 				this.state = 190;
-				_localctx._exponentialExpression = this.exponentialExpression();
-				 _localctx.val =  new UnaryExpression(UnaryExpressionType.BitwiseNot, _localctx._exponentialExpression.val); 
+				localctx._exponentialExpression = this.exponentialExpression();
+				 localctx.val =  new UnaryExpression(UnaryExpressionType.BitwiseNot, localctx._exponentialExpression.val); 
 							
 				}
 				break;
-			case NCalcParser.T__18:
+			case 19:
 				{
 				this.state = 193;
 				this.match(NCalcParser.T__18);
 				this.state = 194;
-				_localctx._exponentialExpression = this.exponentialExpression();
-				 _localctx.val =  new UnaryExpression(UnaryExpressionType.Negate, _localctx._exponentialExpression.val); 
+				localctx._exponentialExpression = this.exponentialExpression();
+				 localctx.val =  new UnaryExpression(UnaryExpressionType.Negate, localctx._exponentialExpression.val); 
 							
 				}
 				break;
-			case NCalcParser.T__17:
+			case 18:
 				{
 				this.state = 197;
 				this.match(NCalcParser.T__17);
 				this.state = 198;
-				_localctx._exponentialExpression = this.exponentialExpression();
-				 _localctx.val =  new UnaryExpression(UnaryExpressionType.Positive, _localctx._exponentialExpression.val); 
+				localctx._exponentialExpression = this.exponentialExpression();
+				 localctx.val =  new UnaryExpression(UnaryExpressionType.Positive, localctx._exponentialExpression.val); 
 					
 				}
 				break;
@@ -901,7 +887,7 @@ export class NCalcParser extends Parser {
 			}
 			this.state = 206;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 19, this._ctx);
+			_alt = this._interp.adaptivePredict(this._input, 19, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
@@ -913,13 +899,13 @@ export class NCalcParser extends Parser {
 				}
 				this.state = 208;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 19, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 19, this._ctx);
 			}
 			}
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -929,22 +915,22 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public exponentialExpression(): ExponentialExpressionContext {
-		let _localctx: ExponentialExpressionContext = new ExponentialExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 18, NCalcParser.RULE_exponentialExpression);
+		let localctx: ExponentialExpressionContext = new ExponentialExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 18, NCalcParser.RULE_exponentialExpression);
 		try {
 			let _alt: number;
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 209;
-			_localctx._left = this.primaryExpression();
-			 _localctx.val =  _localctx._left.val; 
+			localctx._left = this.primaryExpression();
+			 localctx.val =  localctx._left.val; 
 			this.state = 217;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 20, this._ctx);
+			_alt = this._interp.adaptivePredict(this._input, 20, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
@@ -952,21 +938,21 @@ export class NCalcParser extends Parser {
 					this.state = 211;
 					this.match(NCalcParser.T__24);
 					this.state = 212;
-					_localctx._right = this.unaryExpression();
-					 _localctx.val =  new BinaryExpression(BinaryExpressionType.Exponentiation, _localctx.val, _localctx._right.val); 
+					localctx._right = this.unaryExpression();
+					 localctx.val =  new BinaryExpression(BinaryExpressionType.Exponentiation, localctx.val, localctx._right.val); 
 								
 					}
 					}
 				}
 				this.state = 219;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 20, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 20, this._ctx);
 			}
 			}
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -976,57 +962,57 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public primaryExpression(): PrimaryExpressionContext {
-		let _localctx: PrimaryExpressionContext = new PrimaryExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 20, NCalcParser.RULE_primaryExpression);
+		let localctx: PrimaryExpressionContext = new PrimaryExpressionContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 20, NCalcParser.RULE_primaryExpression);
 		let _la: number;
 		try {
 			this.state = 235;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case NCalcParser.T__25:
-				this.enterOuterAlt(_localctx, 1);
+			case 26:
+				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 220;
 				this.match(NCalcParser.T__25);
 				this.state = 221;
-				_localctx._logicalExpression = this.logicalExpression();
+				localctx._logicalExpression = this.logicalExpression();
 				this.state = 222;
 				this.match(NCalcParser.T__26);
-				 _localctx.val =  _localctx._logicalExpression.val; 
+				 localctx.val =  localctx._logicalExpression.val; 
 				}
 				break;
-			case NCalcParser.TRUE:
-			case NCalcParser.FALSE:
-			case NCalcParser.FLOAT:
-			case NCalcParser.INTEGER:
-			case NCalcParser.STRING:
-			case NCalcParser.DATETIME:
-				this.enterOuterAlt(_localctx, 2);
+			case 30:
+			case 31:
+			case 35:
+			case 36:
+			case 37:
+			case 38:
+				this.enterOuterAlt(localctx, 2);
 				{
 				this.state = 225;
-				_localctx._expr = this.value();
-				 _localctx.val =  _localctx._expr.val; 
+				localctx._expr = this.value();
+				 localctx.val =  localctx._expr.val; 
 				}
 				break;
-			case NCalcParser.ID:
-			case NCalcParser.NAME:
-				this.enterOuterAlt(_localctx, 3);
+			case 34:
+			case 39:
+				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 228;
-				_localctx._identifier = this.identifier();
-				_localctx.val =  _localctx._identifier.val; 
+				localctx._identifier = this.identifier();
+				localctx.val =  localctx._identifier.val; 
 				this.state = 233;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === NCalcParser.T__25) {
+				if (_la===26) {
 					{
 					this.state = 230;
-					_localctx._arguments = this.arguments();
-					_localctx.val =  new NCalcFunction(_localctx._identifier.val, (_localctx._arguments.val)); 
+					localctx._arguments = this.arguments();
+					localctx.val =  new NCalcFunction(localctx._identifier.val, (localctx._arguments.val)); 
 					}
 				}
 
@@ -1038,7 +1024,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -1048,64 +1034,64 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public value(): ValueContext {
-		let _localctx: ValueContext = new ValueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 22, NCalcParser.RULE_value);
+		let localctx: ValueContext = new ValueContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 22, NCalcParser.RULE_value);
 		try {
 			this.state = 249;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case NCalcParser.FLOAT:
-				this.enterOuterAlt(_localctx, 1);
+			case 35:
+				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 237;
-				_localctx._FLOAT = this.match(NCalcParser.FLOAT);
-				 _localctx.val =  new ValueExpression(parseFloat((_localctx._FLOAT != null ? _localctx._FLOAT.text : undefined)), ValueType.Float); 
+				localctx._FLOAT = this.match(NCalcParser.FLOAT);
+				 localctx.val =  new ValueExpression(parseFloat((localctx._FLOAT != null ? localctx._FLOAT.text : undefined)), ValueType.Float); 
 				}
 				break;
-			case NCalcParser.INTEGER:
-				this.enterOuterAlt(_localctx, 2);
+			case 36:
+				this.enterOuterAlt(localctx, 2);
 				{
 				this.state = 239;
-				_localctx._INTEGER = this.match(NCalcParser.INTEGER);
-				 try { _localctx.val =  new ValueExpression(parseInt((_localctx._INTEGER != null ? _localctx._INTEGER.text : undefined)), ValueType.Integer); } catch(e) { _localctx.val =  new ValueExpression(parseFloat((_localctx._INTEGER != null ? _localctx._INTEGER.text : undefined)), ValueType.Float); } 
+				localctx._INTEGER = this.match(NCalcParser.INTEGER);
+				 try { localctx.val =  new ValueExpression(parseInt((localctx._INTEGER != null ? localctx._INTEGER.text : undefined)), ValueType.Integer); } catch(e) { localctx.val =  new ValueExpression(parseFloat((localctx._INTEGER != null ? localctx._INTEGER.text : undefined)), ValueType.Float); } 
 						
 				}
 				break;
-			case NCalcParser.STRING:
-				this.enterOuterAlt(_localctx, 3);
+			case 37:
+				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 241;
-				_localctx._STRING = this.match(NCalcParser.STRING);
-				 _localctx.val =  new ValueExpression(this.ExtractString((_localctx._STRING != null ? _localctx._STRING.text : undefined)), ValueType.String); 
+				localctx._STRING = this.match(NCalcParser.STRING);
+				 localctx.val =  new ValueExpression(this.ExtractString((localctx._STRING != null ? localctx._STRING.text : undefined)), ValueType.String); 
 				}
 				break;
-			case NCalcParser.DATETIME:
-				this.enterOuterAlt(_localctx, 4);
+			case 38:
+				this.enterOuterAlt(localctx, 4);
 				{
 				this.state = 243;
-				_localctx._DATETIME = this.match(NCalcParser.DATETIME);
-				 _localctx.val =  new ValueExpression(dayjs((_localctx._DATETIME != null ? _localctx._DATETIME.text : undefined).substring(1, (_localctx._DATETIME != null ? _localctx._DATETIME.text : undefined).length-2)).toString(), ValueType.DateTime); 
+				localctx._DATETIME = this.match(NCalcParser.DATETIME);
+				 localctx.val =  new ValueExpression(dayjs((localctx._DATETIME != null ? localctx._DATETIME.text : undefined).substring(1, (localctx._DATETIME != null ? localctx._DATETIME.text : undefined).length-2)).toString(), ValueType.DateTime); 
 						
 				}
 				break;
-			case NCalcParser.TRUE:
-				this.enterOuterAlt(_localctx, 5);
+			case 30:
+				this.enterOuterAlt(localctx, 5);
 				{
 				this.state = 245;
 				this.match(NCalcParser.TRUE);
-				 _localctx.val =  new ValueExpression(true, ValueType.Boolean); 
+				 localctx.val =  new ValueExpression(true, ValueType.Boolean); 
 				}
 				break;
-			case NCalcParser.FALSE:
-				this.enterOuterAlt(_localctx, 6);
+			case 31:
+				this.enterOuterAlt(localctx, 6);
 				{
 				this.state = 247;
 				this.match(NCalcParser.FALSE);
-				 _localctx.val =  new ValueExpression(false, ValueType.Float); 
+				 localctx.val =  new ValueExpression(false, ValueType.Float); 
 				}
 				break;
 			default:
@@ -1114,7 +1100,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -1124,30 +1110,30 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public identifier(): IdentifierContext {
-		let _localctx: IdentifierContext = new IdentifierContext(this._ctx, this.state);
-		this.enterRule(_localctx, 24, NCalcParser.RULE_identifier);
+		let localctx: IdentifierContext = new IdentifierContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 24, NCalcParser.RULE_identifier);
 		try {
 			this.state = 255;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case NCalcParser.ID:
-				this.enterOuterAlt(_localctx, 1);
+			case 34:
+				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 251;
-				_localctx._ID = this.match(NCalcParser.ID);
-				 _localctx.val =  new Identifier((_localctx._ID != null ? _localctx._ID.text : undefined)); 
+				localctx._ID = this.match(NCalcParser.ID);
+				 localctx.val =  new Identifier((localctx._ID != null ? localctx._ID.text : undefined)); 
 				}
 				break;
-			case NCalcParser.NAME:
-				this.enterOuterAlt(_localctx, 2);
+			case 39:
+				this.enterOuterAlt(localctx, 2);
 				{
 				this.state = 253;
-				_localctx._NAME = this.match(NCalcParser.NAME);
-				 _localctx.val =  new Identifier((_localctx._NAME != null ? _localctx._NAME.text : undefined).substring(1, (_localctx._NAME != null ? _localctx._NAME.text : undefined).length-1)); 
+				localctx._NAME = this.match(NCalcParser.NAME);
+				 localctx.val =  new Identifier((localctx._NAME != null ? localctx._NAME.text : undefined).substring(1, (localctx._NAME != null ? localctx._NAME.text : undefined).length-1)); 
 				}
 				break;
 			default:
@@ -1156,7 +1142,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -1166,33 +1152,33 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public expressionList(): ExpressionListContext {
-		let _localctx: ExpressionListContext = new ExpressionListContext(this._ctx, this.state);
-		this.enterRule(_localctx, 26, NCalcParser.RULE_expressionList);
+		let localctx: ExpressionListContext = new ExpressionListContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 26, NCalcParser.RULE_expressionList);
 
 		let expressions = [];
 
 		let _la: number;
 		try {
 			let _alt: number;
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 257;
-			_localctx._first = this.logicalExpression();
-			expressions.push(_localctx._first.val);
+			localctx._first = this.logicalExpression();
+			expressions.push(localctx._first.val);
 			this.state = 277;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la === NCalcParser.T__27 || _la === NCalcParser.WS) {
+			while (_la===28 || _la===41) {
 				{
 				{
 				this.state = 262;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la === NCalcParser.WS) {
+				while (_la===41) {
 					{
 					{
 					this.state = 259;
@@ -1207,7 +1193,7 @@ export class NCalcParser extends Parser {
 				this.match(NCalcParser.T__27);
 				this.state = 269;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
+				_alt = this._interp.adaptivePredict(this._input, 26, this._ctx);
 				while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 					if (_alt === 1) {
 						{
@@ -1219,23 +1205,23 @@ export class NCalcParser extends Parser {
 					}
 					this.state = 271;
 					this._errHandler.sync(this);
-					_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
+					_alt = this._interp.adaptivePredict(this._input, 26, this._ctx);
 				}
 				this.state = 272;
-				_localctx._follow = this.logicalExpression();
-				expressions.push(_localctx._follow.val);
+				localctx._follow = this.logicalExpression();
+				expressions.push(localctx._follow.val);
 				}
 				}
 				this.state = 279;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			 _localctx.val =  expressions; 
+			 localctx.val =  expressions; 
 			}
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -1245,29 +1231,29 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 	// @RuleVersion(0)
 	public arguments(): ArgumentsContext {
-		let _localctx: ArgumentsContext = new ArgumentsContext(this._ctx, this.state);
-		this.enterRule(_localctx, 28, NCalcParser.RULE_arguments);
+		let localctx: ArgumentsContext = new ArgumentsContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 28, NCalcParser.RULE_arguments);
 
-		_localctx.val =  [];
+		localctx.val =  [];
 
 		let _la: number;
 		try {
-			this.enterOuterAlt(_localctx, 1);
+			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 282;
 			this.match(NCalcParser.T__25);
 			this.state = 286;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (((((_la - 18)) & ~0x1F) === 0 && ((1 << (_la - 18)) & ((1 << (NCalcParser.T__17 - 18)) | (1 << (NCalcParser.T__18 - 18)) | (1 << (NCalcParser.T__22 - 18)) | (1 << (NCalcParser.T__23 - 18)) | (1 << (NCalcParser.T__25 - 18)) | (1 << (NCalcParser.NOT - 18)) | (1 << (NCalcParser.TRUE - 18)) | (1 << (NCalcParser.FALSE - 18)) | (1 << (NCalcParser.ID - 18)) | (1 << (NCalcParser.FLOAT - 18)) | (1 << (NCalcParser.INTEGER - 18)) | (1 << (NCalcParser.STRING - 18)) | (1 << (NCalcParser.DATETIME - 18)) | (1 << (NCalcParser.NAME - 18)) | (1 << (NCalcParser.WS - 18)))) !== 0)) {
+			if (((((_la - 18)) & ~0x1F) === 0 && ((1 << (_la - 18)) & 12532067) !== 0)) {
 				{
 				this.state = 283;
-				_localctx._expressionList = this.expressionList();
-				_localctx.val =  _localctx._expressionList.val;
+				localctx._expressionList = this.expressionList();
+				localctx.val =  localctx._expressionList.val;
 				}
 			}
 
@@ -1277,7 +1263,7 @@ export class NCalcParser extends Parser {
 		}
 		catch (re) {
 			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
+				localctx.exception = re;
 				this._errHandler.reportError(this, re);
 				this._errHandler.recover(this, re);
 			} else {
@@ -1287,183 +1273,142 @@ export class NCalcParser extends Parser {
 		finally {
 			this.exitRule();
 		}
-		return _localctx;
+		return localctx;
 	}
 
-	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03+\u0125\x04\x02" +
-		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
-		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04" +
-		"\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x03\x02\x03\x02\x03\x02\x03\x02" +
-		"\x03\x03\x03\x03\x03\x03\x07\x03(\n\x03\f\x03\x0E\x03+\v\x03\x03\x03\x03" +
-		"\x03\x07\x03/\n\x03\f\x03\x0E\x032\v\x03\x03\x03\x03\x03\x07\x036\n\x03" +
-		"\f\x03\x0E\x039\v\x03\x03\x03\x03\x03\x07\x03=\n\x03\f\x03\x0E\x03@\v" +
-		"\x03\x03\x03\x03\x03\x03\x03\x05\x03E\n\x03\x03\x04\x03\x04\x03\x04\x03" +
-		"\x04\x03\x04\x03\x04\x05\x04M\n\x04\x03\x04\x03\x04\x03\x04\x07\x04R\n" +
-		"\x04\f\x04\x0E\x04U\v\x04\x03\x05\x03\x05\x03\x05\x03\x05\x03\x05\x03" +
-		"\x05\x03\x05\x03\x05\x05\x05_\n\x05\x03\x05\x03\x05\x03\x05\x07\x05d\n" +
-		"\x05\f\x05\x0E\x05g\v\x05\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03" +
-		"\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x05" +
-		"\x06w\n\x06\x03\x06\x03\x06\x03\x06\x07\x06|\n\x06\f\x06\x0E\x06\x7F\v" +
-		"\x06\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x05\x07\x87\n\x07" +
-		"\x03\x07\x03\x07\x03\x07\x07\x07\x8C\n\x07\f\x07\x0E\x07\x8F\v\x07\x03" +
-		"\b\x03\b\x03\b\x03\b\x03\b\x03\b\x05\b\x97\n\b\x03\b\x03\b\x03\b\x07\b" +
-		"\x9C\n\b\f\b\x0E\b\x9F\v\b\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03" +
-		"\t\x05\t\xA9\n\t\x03\t\x03\t\x03\t\x07\t\xAE\n\t\f\t\x0E\t\xB1\v\t\x03" +
-		"\n\x07\n\xB4\n\n\f\n\x0E\n\xB7\v\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n" +
-		"\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03" +
-		"\n\x03\n\x05\n\xCC\n\n\x03\n\x07\n\xCF\n\n\f\n\x0E\n\xD2\v\n\x03\v\x03" +
-		"\v\x03\v\x03\v\x03\v\x03\v\x07\v\xDA\n\v\f\v\x0E\v\xDD\v\v\x03\f\x03\f" +
-		"\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x05" +
-		"\f\xEC\n\f\x05\f\xEE\n\f\x03\r\x03\r\x03\r\x03\r\x03\r\x03\r\x03\r\x03" +
-		"\r\x03\r\x03\r\x03\r\x03\r\x05\r\xFC\n\r\x03\x0E\x03\x0E\x03\x0E\x03\x0E" +
-		"\x05\x0E\u0102\n\x0E\x03\x0F\x03\x0F\x03\x0F\x07\x0F\u0107\n\x0F\f\x0F" +
-		"\x0E\x0F\u010A\v\x0F\x03\x0F\x03\x0F\x07\x0F\u010E\n\x0F\f\x0F\x0E\x0F" +
-		"\u0111\v\x0F\x03\x0F\x03\x0F\x03\x0F\x07\x0F\u0116\n\x0F\f\x0F\x0E\x0F" +
-		"\u0119\v\x0F\x03\x0F\x03\x0F\x03\x10\x03\x10\x03\x10\x03\x10\x05\x10\u0121" +
-		"\n\x10\x03\x10\x03\x10\x03\x10\x02\x02\x02\x11\x02\x02\x04\x02\x06\x02" +
-		"\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A" +
-		"\x02\x1C\x02\x1E\x02\x02\x07\x04\x02\x05\x05\"\"\x04\x02\x06\x06##\x03" +
-		"\x02\n\v\x03\x02\f\r\x04\x02\x19\x19\x1F\x1F\x02\u0140\x02 \x03\x02\x02" +
-		"\x02\x04$\x03\x02\x02\x02\x06F\x03\x02\x02\x02\bV\x03\x02\x02\x02\nh\x03" +
-		"\x02\x02\x02\f\x80\x03\x02\x02\x02\x0E\x90\x03\x02\x02\x02\x10\xA0\x03" +
-		"\x02\x02\x02\x12\xB5\x03\x02\x02\x02\x14\xD3\x03\x02\x02\x02\x16\xED\x03" +
-		"\x02\x02\x02\x18\xFB\x03\x02\x02\x02\x1A\u0101\x03\x02\x02\x02\x1C\u0103" +
-		"\x03\x02\x02\x02\x1E\u011C\x03\x02\x02\x02 !\x05\x04\x03\x02!\"\x07\x02" +
-		"\x02\x03\"#\b\x02\x01\x02#\x03\x03\x02\x02\x02$%\x05\x06\x04\x02%D\b\x03" +
-		"\x01\x02&(\x07+\x02\x02\'&\x03\x02\x02\x02(+\x03\x02\x02\x02)\'\x03\x02" +
-		"\x02\x02)*\x03\x02\x02\x02*,\x03\x02\x02\x02+)\x03\x02\x02\x02,0\x07\x03" +
-		"\x02\x02-/\x07+\x02\x02.-\x03\x02\x02\x02/2\x03\x02\x02\x020.\x03\x02" +
-		"\x02\x0201\x03\x02\x02\x0213\x03\x02\x02\x0220\x03\x02\x02\x0237\x05\x06" +
-		"\x04\x0246\x07+\x02\x0254\x03\x02\x02\x0269\x03\x02\x02\x0275\x03\x02" +
-		"\x02\x0278\x03\x02\x02\x028:\x03\x02\x02\x0297\x03\x02\x02\x02:>\x07\x04" +
-		"\x02\x02;=\x07+\x02\x02<;\x03\x02\x02\x02=@\x03\x02\x02\x02><\x03\x02" +
-		"\x02\x02>?\x03\x02\x02\x02?A\x03\x02\x02\x02@>\x03\x02\x02\x02AB\x05\x06" +
-		"\x04\x02BC\b\x03\x01\x02CE\x03\x02\x02\x02D)\x03\x02\x02\x02DE\x03\x02" +
-		"\x02\x02E\x05\x03\x02\x02\x02FG\x05\b\x05\x02GS\b\x04\x01\x02HI\t\x02" +
-		"\x02\x02IM\b\x04\x01\x02JK\t\x03\x02\x02KM\b\x04\x01\x02LH\x03\x02\x02" +
-		"\x02LJ\x03\x02\x02\x02MN\x03\x02\x02\x02NO\x05\b\x05\x02OP\b\x04\x01\x02" +
-		"PR\x03\x02\x02\x02QL\x03\x02\x02\x02RU\x03\x02\x02\x02SQ\x03\x02\x02\x02" +
-		"ST\x03\x02\x02\x02T\x07\x03\x02\x02\x02US\x03\x02\x02\x02VW\x05\n\x06" +
-		"\x02We\b\x05\x01\x02XY\x07\x07\x02\x02Y_\b\x05\x01\x02Z[\x07\b\x02\x02" +
-		"[_\b\x05\x01\x02\\]\x07\t\x02\x02]_\b\x05\x01\x02^X\x03\x02\x02\x02^Z" +
-		"\x03\x02\x02\x02^\\\x03\x02\x02\x02_`\x03\x02\x02\x02`a\x05\n\x06\x02" +
-		"ab\b\x05\x01\x02bd\x03\x02\x02\x02c^\x03\x02\x02\x02dg\x03\x02\x02\x02" +
-		"ec\x03\x02\x02\x02ef\x03\x02\x02\x02f\t\x03\x02\x02\x02ge\x03\x02\x02" +
-		"\x02hi\x05\f\x07\x02i}\b\x06\x01\x02jk\t\x04\x02\x02kw\b\x06\x01\x02l" +
-		"m\t\x05\x02\x02mw\b\x06\x01\x02no\x07\x0E\x02\x02ow\b\x06\x01\x02pq\x07" +
-		"\x0F\x02\x02qw\b\x06\x01\x02rs\x07\x10\x02\x02sw\b\x06\x01\x02tu\x07\x11" +
-		"\x02\x02uw\b\x06\x01\x02vj\x03\x02\x02\x02vl\x03\x02\x02\x02vn\x03\x02" +
-		"\x02\x02vp\x03\x02\x02\x02vr\x03\x02\x02\x02vt\x03\x02\x02\x02wx\x03\x02" +
-		"\x02\x02xy\x05\f\x07\x02yz\b\x06\x01\x02z|\x03\x02\x02\x02{v\x03\x02\x02" +
-		"\x02|\x7F\x03\x02\x02\x02}{\x03\x02\x02\x02}~\x03\x02\x02\x02~\v\x03\x02" +
-		"\x02\x02\x7F}\x03\x02\x02\x02\x80\x81\x05\x0E\b\x02\x81\x8D\b\x07\x01" +
-		"\x02\x82\x83\x07\x12\x02\x02\x83\x87\b\x07\x01\x02\x84\x85\x07\x13\x02" +
-		"\x02\x85\x87\b\x07\x01\x02\x86\x82\x03\x02\x02\x02\x86\x84\x03\x02\x02" +
-		"\x02\x87\x88\x03\x02\x02\x02\x88\x89\x05\x0E\b\x02\x89\x8A\b\x07\x01\x02" +
-		"\x8A\x8C\x03\x02\x02\x02\x8B\x86\x03\x02\x02\x02\x8C\x8F\x03\x02\x02\x02" +
-		"\x8D\x8B\x03\x02\x02\x02\x8D\x8E\x03\x02\x02\x02\x8E\r\x03\x02\x02\x02" +
-		"\x8F\x8D\x03\x02\x02\x02\x90\x91\x05\x10\t\x02\x91\x9D\b\b\x01\x02\x92" +
-		"\x93\x07\x14\x02\x02\x93\x97\b\b\x01\x02\x94\x95\x07\x15\x02\x02\x95\x97" +
-		"\b\b\x01\x02\x96\x92\x03\x02\x02\x02\x96\x94\x03\x02\x02\x02\x97\x98\x03" +
-		"\x02\x02\x02\x98\x99\x05\x10\t\x02\x99\x9A\b\b\x01\x02\x9A\x9C\x03\x02" +
-		"\x02\x02\x9B\x96\x03\x02\x02\x02\x9C\x9F\x03\x02\x02\x02\x9D\x9B\x03\x02" +
-		"\x02\x02\x9D\x9E\x03\x02\x02\x02\x9E\x0F\x03\x02\x02\x02\x9F\x9D\x03\x02" +
-		"\x02\x02\xA0\xA1\x05\x12\n\x02\xA1\xAF\b\t\x01\x02\xA2\xA3\x07\x16\x02" +
-		"\x02\xA3\xA9\b\t\x01\x02\xA4\xA5\x07\x17\x02\x02\xA5\xA9\b\t\x01\x02\xA6" +
-		"\xA7\x07\x18\x02\x02\xA7\xA9\b\t\x01\x02\xA8\xA2\x03\x02\x02\x02\xA8\xA4" +
-		"\x03\x02\x02\x02\xA8\xA6\x03\x02\x02\x02\xA9\xAA\x03\x02\x02\x02\xAA\xAB" +
-		"\x05\x12\n\x02\xAB\xAC\b\t\x01\x02\xAC\xAE\x03\x02\x02\x02\xAD\xA8\x03" +
-		"\x02\x02\x02\xAE\xB1\x03\x02\x02\x02\xAF\xAD\x03\x02\x02\x02\xAF\xB0\x03" +
-		"\x02\x02\x02\xB0\x11\x03\x02\x02\x02\xB1\xAF\x03\x02\x02\x02\xB2\xB4\x07" +
-		"+\x02\x02\xB3\xB2\x03\x02\x02\x02\xB4\xB7\x03\x02\x02\x02\xB5\xB3\x03" +
-		"\x02\x02\x02\xB5\xB6\x03\x02\x02\x02\xB6\xCB\x03\x02\x02\x02\xB7\xB5\x03" +
-		"\x02\x02\x02\xB8\xB9\x05\x14\v\x02\xB9\xBA\b\n\x01\x02\xBA\xCC\x03\x02" +
-		"\x02\x02\xBB\xBC\t\x06\x02\x02\xBC\xBD\x05\x14\v\x02\xBD\xBE\b\n\x01\x02" +
-		"\xBE\xCC\x03\x02\x02\x02\xBF\xC0\x07\x1A\x02\x02\xC0\xC1\x05\x14\v\x02" +
-		"\xC1\xC2\b\n\x01\x02\xC2\xCC\x03\x02\x02\x02\xC3\xC4\x07\x15\x02\x02\xC4" +
-		"\xC5\x05\x14\v\x02\xC5\xC6\b\n\x01\x02\xC6\xCC\x03\x02\x02\x02\xC7\xC8" +
-		"\x07\x14\x02\x02\xC8\xC9\x05\x14\v\x02\xC9\xCA\b\n\x01\x02\xCA\xCC\x03" +
-		"\x02\x02\x02\xCB\xB8\x03\x02\x02\x02\xCB\xBB\x03\x02\x02\x02\xCB\xBF\x03" +
-		"\x02\x02\x02\xCB\xC3\x03\x02\x02\x02\xCB\xC7\x03\x02\x02\x02\xCC\xD0\x03" +
-		"\x02\x02\x02\xCD\xCF\x07+\x02\x02\xCE\xCD\x03\x02\x02\x02\xCF\xD2\x03" +
-		"\x02\x02\x02\xD0\xCE\x03\x02\x02\x02\xD0\xD1\x03\x02\x02\x02\xD1\x13\x03" +
-		"\x02\x02\x02\xD2\xD0\x03\x02\x02\x02\xD3\xD4\x05\x16\f\x02\xD4\xDB\b\v" +
-		"\x01\x02\xD5\xD6\x07\x1B\x02\x02\xD6\xD7\x05\x12\n\x02\xD7\xD8\b\v\x01" +
-		"\x02\xD8\xDA\x03\x02\x02\x02\xD9\xD5\x03\x02\x02\x02\xDA\xDD\x03\x02\x02" +
-		"\x02\xDB\xD9\x03\x02\x02\x02\xDB\xDC\x03\x02\x02\x02\xDC\x15\x03\x02\x02" +
-		"\x02\xDD\xDB\x03\x02\x02\x02\xDE\xDF\x07\x1C\x02\x02\xDF\xE0\x05\x04\x03" +
-		"\x02\xE0\xE1\x07\x1D\x02\x02\xE1\xE2\b\f\x01\x02\xE2\xEE\x03\x02\x02\x02" +
-		"\xE3\xE4\x05\x18\r\x02\xE4\xE5\b\f\x01\x02\xE5\xEE\x03\x02\x02\x02\xE6" +
-		"\xE7\x05\x1A\x0E\x02\xE7\xEB\b\f\x01\x02\xE8\xE9\x05\x1E\x10\x02\xE9\xEA" +
-		"\b\f\x01\x02\xEA\xEC\x03\x02\x02\x02\xEB\xE8\x03\x02\x02\x02\xEB\xEC\x03" +
-		"\x02\x02\x02\xEC\xEE\x03\x02\x02\x02\xED\xDE\x03\x02\x02\x02\xED\xE3\x03" +
-		"\x02\x02\x02\xED\xE6\x03\x02\x02\x02\xEE\x17\x03\x02\x02\x02\xEF\xF0\x07" +
-		"%\x02\x02\xF0\xFC\b\r\x01\x02\xF1\xF2\x07&\x02\x02\xF2\xFC\b\r\x01\x02" +
-		"\xF3\xF4\x07\'\x02\x02\xF4\xFC\b\r\x01\x02\xF5\xF6\x07(\x02\x02\xF6\xFC" +
-		"\b\r\x01\x02\xF7\xF8\x07 \x02\x02\xF8\xFC\b\r\x01\x02\xF9\xFA\x07!\x02" +
-		"\x02\xFA\xFC\b\r\x01\x02\xFB\xEF\x03\x02\x02\x02\xFB\xF1\x03\x02\x02\x02" +
-		"\xFB\xF3\x03\x02\x02\x02\xFB\xF5\x03\x02\x02\x02\xFB\xF7\x03\x02\x02\x02" +
-		"\xFB\xF9\x03\x02\x02\x02\xFC\x19\x03\x02\x02\x02\xFD\xFE\x07$\x02\x02" +
-		"\xFE\u0102\b\x0E\x01\x02\xFF\u0100\x07)\x02\x02\u0100\u0102\b\x0E\x01" +
-		"\x02\u0101\xFD\x03\x02\x02\x02\u0101\xFF\x03\x02\x02\x02\u0102\x1B\x03" +
-		"\x02\x02\x02\u0103\u0104\x05\x04\x03\x02\u0104\u0117\b\x0F\x01\x02\u0105" +
-		"\u0107\x07+\x02\x02\u0106\u0105\x03\x02\x02\x02\u0107\u010A\x03\x02\x02" +
-		"\x02\u0108\u0106\x03\x02\x02\x02\u0108\u0109\x03\x02\x02\x02\u0109\u010B" +
-		"\x03\x02\x02\x02\u010A\u0108\x03\x02\x02\x02\u010B\u010F\x07\x1E\x02\x02" +
-		"\u010C\u010E\x07+\x02\x02\u010D\u010C\x03\x02\x02\x02\u010E\u0111\x03" +
-		"\x02\x02\x02\u010F\u010D\x03\x02\x02\x02\u010F\u0110\x03\x02\x02\x02\u0110" +
-		"\u0112\x03\x02\x02\x02\u0111\u010F\x03\x02\x02\x02\u0112\u0113\x05\x04" +
-		"\x03\x02\u0113\u0114\b\x0F\x01\x02\u0114\u0116\x03\x02\x02\x02\u0115\u0108" +
-		"\x03\x02\x02\x02\u0116\u0119\x03\x02\x02\x02\u0117\u0115\x03\x02\x02\x02" +
-		"\u0117\u0118\x03\x02\x02\x02\u0118\u011A\x03\x02\x02\x02\u0119\u0117\x03" +
-		"\x02\x02\x02\u011A\u011B\b\x0F\x01\x02\u011B\x1D\x03\x02\x02\x02\u011C" +
-		"\u0120\x07\x1C\x02\x02\u011D\u011E\x05\x1C\x0F\x02\u011E\u011F\b\x10\x01" +
-		"\x02\u011F\u0121\x03\x02\x02\x02\u0120\u011D\x03\x02\x02\x02\u0120\u0121" +
-		"\x03\x02\x02\x02\u0121\u0122\x03\x02\x02\x02\u0122\u0123\x07\x1D\x02\x02" +
-		"\u0123\x1F\x03\x02\x02\x02\x1F)07>DLS^ev}\x86\x8D\x96\x9D\xA8\xAF\xB5" +
-		"\xCB\xD0\xDB\xEB\xED\xFB\u0101\u0108\u010F\u0117\u0120";
-	public static __ATN: ATN;
+	public static readonly _serializedATN: number[] = [4,1,41,291,2,0,7,0,2,
+	1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,
+	10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,1,0,1,0,1,0,1,0,1,1,1,1,
+	1,1,5,1,38,8,1,10,1,12,1,41,9,1,1,1,1,1,5,1,45,8,1,10,1,12,1,48,9,1,1,1,
+	1,1,5,1,52,8,1,10,1,12,1,55,9,1,1,1,1,1,5,1,59,8,1,10,1,12,1,62,9,1,1,1,
+	1,1,1,1,3,1,67,8,1,1,2,1,2,1,2,1,2,1,2,1,2,3,2,75,8,2,1,2,1,2,1,2,5,2,80,
+	8,2,10,2,12,2,83,9,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,3,3,93,8,3,1,3,1,3,
+	1,3,5,3,98,8,3,10,3,12,3,101,9,3,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,
+	4,1,4,1,4,1,4,1,4,3,4,117,8,4,1,4,1,4,1,4,5,4,122,8,4,10,4,12,4,125,9,4,
+	1,5,1,5,1,5,1,5,1,5,1,5,3,5,133,8,5,1,5,1,5,1,5,5,5,138,8,5,10,5,12,5,141,
+	9,5,1,6,1,6,1,6,1,6,1,6,1,6,3,6,149,8,6,1,6,1,6,1,6,5,6,154,8,6,10,6,12,
+	6,157,9,6,1,7,1,7,1,7,1,7,1,7,1,7,1,7,1,7,3,7,167,8,7,1,7,1,7,1,7,5,7,172,
+	8,7,10,7,12,7,175,9,7,1,8,5,8,178,8,8,10,8,12,8,181,9,8,1,8,1,8,1,8,1,8,
+	1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,3,8,202,8,8,
+	1,8,5,8,205,8,8,10,8,12,8,208,9,8,1,9,1,9,1,9,1,9,1,9,1,9,5,9,216,8,9,10,
+	9,12,9,219,9,9,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,
+	10,1,10,3,10,234,8,10,3,10,236,8,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,
+	1,11,1,11,1,11,1,11,1,11,3,11,250,8,11,1,12,1,12,1,12,1,12,3,12,256,8,12,
+	1,13,1,13,1,13,5,13,261,8,13,10,13,12,13,264,9,13,1,13,1,13,5,13,268,8,
+	13,10,13,12,13,271,9,13,1,13,1,13,1,13,5,13,276,8,13,10,13,12,13,279,9,
+	13,1,13,1,13,1,14,1,14,1,14,1,14,3,14,287,8,14,1,14,1,14,1,14,0,0,15,0,
+	2,4,6,8,10,12,14,16,18,20,22,24,26,28,0,5,2,0,3,3,32,32,2,0,4,4,33,33,1,
+	0,8,9,1,0,10,11,2,0,23,23,29,29,318,0,30,1,0,0,0,2,34,1,0,0,0,4,68,1,0,
+	0,0,6,84,1,0,0,0,8,102,1,0,0,0,10,126,1,0,0,0,12,142,1,0,0,0,14,158,1,0,
+	0,0,16,179,1,0,0,0,18,209,1,0,0,0,20,235,1,0,0,0,22,249,1,0,0,0,24,255,
+	1,0,0,0,26,257,1,0,0,0,28,282,1,0,0,0,30,31,3,2,1,0,31,32,5,0,0,1,32,33,
+	6,0,-1,0,33,1,1,0,0,0,34,35,3,4,2,0,35,66,6,1,-1,0,36,38,5,41,0,0,37,36,
+	1,0,0,0,38,41,1,0,0,0,39,37,1,0,0,0,39,40,1,0,0,0,40,42,1,0,0,0,41,39,1,
+	0,0,0,42,46,5,1,0,0,43,45,5,41,0,0,44,43,1,0,0,0,45,48,1,0,0,0,46,44,1,
+	0,0,0,46,47,1,0,0,0,47,49,1,0,0,0,48,46,1,0,0,0,49,53,3,4,2,0,50,52,5,41,
+	0,0,51,50,1,0,0,0,52,55,1,0,0,0,53,51,1,0,0,0,53,54,1,0,0,0,54,56,1,0,0,
+	0,55,53,1,0,0,0,56,60,5,2,0,0,57,59,5,41,0,0,58,57,1,0,0,0,59,62,1,0,0,
+	0,60,58,1,0,0,0,60,61,1,0,0,0,61,63,1,0,0,0,62,60,1,0,0,0,63,64,3,4,2,0,
+	64,65,6,1,-1,0,65,67,1,0,0,0,66,39,1,0,0,0,66,67,1,0,0,0,67,3,1,0,0,0,68,
+	69,3,6,3,0,69,81,6,2,-1,0,70,71,7,0,0,0,71,75,6,2,-1,0,72,73,7,1,0,0,73,
+	75,6,2,-1,0,74,70,1,0,0,0,74,72,1,0,0,0,75,76,1,0,0,0,76,77,3,6,3,0,77,
+	78,6,2,-1,0,78,80,1,0,0,0,79,74,1,0,0,0,80,83,1,0,0,0,81,79,1,0,0,0,81,
+	82,1,0,0,0,82,5,1,0,0,0,83,81,1,0,0,0,84,85,3,8,4,0,85,99,6,3,-1,0,86,87,
+	5,5,0,0,87,93,6,3,-1,0,88,89,5,6,0,0,89,93,6,3,-1,0,90,91,5,7,0,0,91,93,
+	6,3,-1,0,92,86,1,0,0,0,92,88,1,0,0,0,92,90,1,0,0,0,93,94,1,0,0,0,94,95,
+	3,8,4,0,95,96,6,3,-1,0,96,98,1,0,0,0,97,92,1,0,0,0,98,101,1,0,0,0,99,97,
+	1,0,0,0,99,100,1,0,0,0,100,7,1,0,0,0,101,99,1,0,0,0,102,103,3,10,5,0,103,
+	123,6,4,-1,0,104,105,7,2,0,0,105,117,6,4,-1,0,106,107,7,3,0,0,107,117,6,
+	4,-1,0,108,109,5,12,0,0,109,117,6,4,-1,0,110,111,5,13,0,0,111,117,6,4,-1,
+	0,112,113,5,14,0,0,113,117,6,4,-1,0,114,115,5,15,0,0,115,117,6,4,-1,0,116,
+	104,1,0,0,0,116,106,1,0,0,0,116,108,1,0,0,0,116,110,1,0,0,0,116,112,1,0,
+	0,0,116,114,1,0,0,0,117,118,1,0,0,0,118,119,3,10,5,0,119,120,6,4,-1,0,120,
+	122,1,0,0,0,121,116,1,0,0,0,122,125,1,0,0,0,123,121,1,0,0,0,123,124,1,0,
+	0,0,124,9,1,0,0,0,125,123,1,0,0,0,126,127,3,12,6,0,127,139,6,5,-1,0,128,
+	129,5,16,0,0,129,133,6,5,-1,0,130,131,5,17,0,0,131,133,6,5,-1,0,132,128,
+	1,0,0,0,132,130,1,0,0,0,133,134,1,0,0,0,134,135,3,12,6,0,135,136,6,5,-1,
+	0,136,138,1,0,0,0,137,132,1,0,0,0,138,141,1,0,0,0,139,137,1,0,0,0,139,140,
+	1,0,0,0,140,11,1,0,0,0,141,139,1,0,0,0,142,143,3,14,7,0,143,155,6,6,-1,
+	0,144,145,5,18,0,0,145,149,6,6,-1,0,146,147,5,19,0,0,147,149,6,6,-1,0,148,
+	144,1,0,0,0,148,146,1,0,0,0,149,150,1,0,0,0,150,151,3,14,7,0,151,152,6,
+	6,-1,0,152,154,1,0,0,0,153,148,1,0,0,0,154,157,1,0,0,0,155,153,1,0,0,0,
+	155,156,1,0,0,0,156,13,1,0,0,0,157,155,1,0,0,0,158,159,3,16,8,0,159,173,
+	6,7,-1,0,160,161,5,20,0,0,161,167,6,7,-1,0,162,163,5,21,0,0,163,167,6,7,
+	-1,0,164,165,5,22,0,0,165,167,6,7,-1,0,166,160,1,0,0,0,166,162,1,0,0,0,
+	166,164,1,0,0,0,167,168,1,0,0,0,168,169,3,16,8,0,169,170,6,7,-1,0,170,172,
+	1,0,0,0,171,166,1,0,0,0,172,175,1,0,0,0,173,171,1,0,0,0,173,174,1,0,0,0,
+	174,15,1,0,0,0,175,173,1,0,0,0,176,178,5,41,0,0,177,176,1,0,0,0,178,181,
+	1,0,0,0,179,177,1,0,0,0,179,180,1,0,0,0,180,201,1,0,0,0,181,179,1,0,0,0,
+	182,183,3,18,9,0,183,184,6,8,-1,0,184,202,1,0,0,0,185,186,7,4,0,0,186,187,
+	3,18,9,0,187,188,6,8,-1,0,188,202,1,0,0,0,189,190,5,24,0,0,190,191,3,18,
+	9,0,191,192,6,8,-1,0,192,202,1,0,0,0,193,194,5,19,0,0,194,195,3,18,9,0,
+	195,196,6,8,-1,0,196,202,1,0,0,0,197,198,5,18,0,0,198,199,3,18,9,0,199,
+	200,6,8,-1,0,200,202,1,0,0,0,201,182,1,0,0,0,201,185,1,0,0,0,201,189,1,
+	0,0,0,201,193,1,0,0,0,201,197,1,0,0,0,202,206,1,0,0,0,203,205,5,41,0,0,
+	204,203,1,0,0,0,205,208,1,0,0,0,206,204,1,0,0,0,206,207,1,0,0,0,207,17,
+	1,0,0,0,208,206,1,0,0,0,209,210,3,20,10,0,210,217,6,9,-1,0,211,212,5,25,
+	0,0,212,213,3,16,8,0,213,214,6,9,-1,0,214,216,1,0,0,0,215,211,1,0,0,0,216,
+	219,1,0,0,0,217,215,1,0,0,0,217,218,1,0,0,0,218,19,1,0,0,0,219,217,1,0,
+	0,0,220,221,5,26,0,0,221,222,3,2,1,0,222,223,5,27,0,0,223,224,6,10,-1,0,
+	224,236,1,0,0,0,225,226,3,22,11,0,226,227,6,10,-1,0,227,236,1,0,0,0,228,
+	229,3,24,12,0,229,233,6,10,-1,0,230,231,3,28,14,0,231,232,6,10,-1,0,232,
+	234,1,0,0,0,233,230,1,0,0,0,233,234,1,0,0,0,234,236,1,0,0,0,235,220,1,0,
+	0,0,235,225,1,0,0,0,235,228,1,0,0,0,236,21,1,0,0,0,237,238,5,35,0,0,238,
+	250,6,11,-1,0,239,240,5,36,0,0,240,250,6,11,-1,0,241,242,5,37,0,0,242,250,
+	6,11,-1,0,243,244,5,38,0,0,244,250,6,11,-1,0,245,246,5,30,0,0,246,250,6,
+	11,-1,0,247,248,5,31,0,0,248,250,6,11,-1,0,249,237,1,0,0,0,249,239,1,0,
+	0,0,249,241,1,0,0,0,249,243,1,0,0,0,249,245,1,0,0,0,249,247,1,0,0,0,250,
+	23,1,0,0,0,251,252,5,34,0,0,252,256,6,12,-1,0,253,254,5,39,0,0,254,256,
+	6,12,-1,0,255,251,1,0,0,0,255,253,1,0,0,0,256,25,1,0,0,0,257,258,3,2,1,
+	0,258,277,6,13,-1,0,259,261,5,41,0,0,260,259,1,0,0,0,261,264,1,0,0,0,262,
+	260,1,0,0,0,262,263,1,0,0,0,263,265,1,0,0,0,264,262,1,0,0,0,265,269,5,28,
+	0,0,266,268,5,41,0,0,267,266,1,0,0,0,268,271,1,0,0,0,269,267,1,0,0,0,269,
+	270,1,0,0,0,270,272,1,0,0,0,271,269,1,0,0,0,272,273,3,2,1,0,273,274,6,13,
+	-1,0,274,276,1,0,0,0,275,262,1,0,0,0,276,279,1,0,0,0,277,275,1,0,0,0,277,
+	278,1,0,0,0,278,280,1,0,0,0,279,277,1,0,0,0,280,281,6,13,-1,0,281,27,1,
+	0,0,0,282,286,5,26,0,0,283,284,3,26,13,0,284,285,6,14,-1,0,285,287,1,0,
+	0,0,286,283,1,0,0,0,286,287,1,0,0,0,287,288,1,0,0,0,288,289,5,27,0,0,289,
+	29,1,0,0,0,29,39,46,53,60,66,74,81,92,99,116,123,132,139,148,155,166,173,
+	179,201,206,217,233,235,249,255,262,269,277,286];
+
+	private static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!NCalcParser.__ATN) {
-			NCalcParser.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(NCalcParser._serializedATN));
+			NCalcParser.__ATN = new ATNDeserializer().deserialize(NCalcParser._serializedATN);
 		}
 
 		return NCalcParser.__ATN;
 	}
+
+
+	static DecisionsToDFA = NCalcParser._ATN.decisionToState.map( (ds: DecisionState, index: number) => new DFA(ds, index) );
 
 }
 
 export class NcalcExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _logicalExpression!: LogicalExpressionContext;
-	public logicalExpression(): LogicalExpressionContext {
-		return this.getRuleContext(0, LogicalExpressionContext);
-	}
-	public EOF(): TerminalNode { return this.getToken(NCalcParser.EOF, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_ncalcExpression; }
-	// @Override
+	public logicalExpression(): LogicalExpressionContext {
+		return this.getTypedRuleContext(LogicalExpressionContext, 0) as LogicalExpressionContext;
+	}
+	public EOF(): TerminalNode {
+		return this.getToken(NCalcParser.EOF, 0);
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_ncalcExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterNcalcExpression) {
-			listener.enterNcalcExpression(this);
+	    if(listener.enterNcalcExpression) {
+	 		listener.enterNcalcExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitNcalcExpression) {
-			listener.exitNcalcExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitNcalcExpression) {
-			return visitor.visitNcalcExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitNcalcExpression) {
+	 		listener.exitNcalcExpression(this);
 		}
 	}
 }
@@ -1474,47 +1419,33 @@ export class LogicalExpressionContext extends ParserRuleContext {
 	public _left!: ConditionalExpressionContext;
 	public _middle!: ConditionalExpressionContext;
 	public _right!: ConditionalExpressionContext;
-	public conditionalExpression(): ConditionalExpressionContext[];
-	public conditionalExpression(i: number): ConditionalExpressionContext;
-	public conditionalExpression(i?: number): ConditionalExpressionContext | ConditionalExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(ConditionalExpressionContext);
-		} else {
-			return this.getRuleContext(i, ConditionalExpressionContext);
-		}
-	}
-	public WS(): TerminalNode[];
-	public WS(i: number): TerminalNode;
-	public WS(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(NCalcParser.WS);
-		} else {
-			return this.getToken(NCalcParser.WS, i);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_logicalExpression; }
-	// @Override
+	public conditionalExpression_list(): ConditionalExpressionContext[] {
+		return this.getTypedRuleContexts(ConditionalExpressionContext) as ConditionalExpressionContext[];
+	}
+	public conditionalExpression(i: number): ConditionalExpressionContext {
+		return this.getTypedRuleContext(ConditionalExpressionContext, i) as ConditionalExpressionContext;
+	}
+	public WS_list(): TerminalNode[] {
+	    	return this.getTokens(NCalcParser.WS);
+	}
+	public WS(i: number): TerminalNode {
+		return this.getToken(NCalcParser.WS, i);
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_logicalExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterLogicalExpression) {
-			listener.enterLogicalExpression(this);
+	    if(listener.enterLogicalExpression) {
+	 		listener.enterLogicalExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitLogicalExpression) {
-			listener.exitLogicalExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitLogicalExpression) {
-			return visitor.visitLogicalExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitLogicalExpression) {
+	 		listener.exitLogicalExpression(this);
 		}
 	}
 }
@@ -1524,56 +1455,39 @@ export class ConditionalExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _left!: BooleanExpressionContext;
 	public _right!: BooleanExpressionContext;
-	public booleanExpression(): BooleanExpressionContext[];
-	public booleanExpression(i: number): BooleanExpressionContext;
-	public booleanExpression(i?: number): BooleanExpressionContext | BooleanExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(BooleanExpressionContext);
-		} else {
-			return this.getRuleContext(i, BooleanExpressionContext);
-		}
-	}
-	public AND(): TerminalNode[];
-	public AND(i: number): TerminalNode;
-	public AND(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(NCalcParser.AND);
-		} else {
-			return this.getToken(NCalcParser.AND, i);
-		}
-	}
-	public OR(): TerminalNode[];
-	public OR(i: number): TerminalNode;
-	public OR(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(NCalcParser.OR);
-		} else {
-			return this.getToken(NCalcParser.OR, i);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_conditionalExpression; }
-	// @Override
+	public booleanExpression_list(): BooleanExpressionContext[] {
+		return this.getTypedRuleContexts(BooleanExpressionContext) as BooleanExpressionContext[];
+	}
+	public booleanExpression(i: number): BooleanExpressionContext {
+		return this.getTypedRuleContext(BooleanExpressionContext, i) as BooleanExpressionContext;
+	}
+	public AND_list(): TerminalNode[] {
+	    	return this.getTokens(NCalcParser.AND);
+	}
+	public AND(i: number): TerminalNode {
+		return this.getToken(NCalcParser.AND, i);
+	}
+	public OR_list(): TerminalNode[] {
+	    	return this.getTokens(NCalcParser.OR);
+	}
+	public OR(i: number): TerminalNode {
+		return this.getToken(NCalcParser.OR, i);
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_conditionalExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterConditionalExpression) {
-			listener.enterConditionalExpression(this);
+	    if(listener.enterConditionalExpression) {
+	 		listener.enterConditionalExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitConditionalExpression) {
-			listener.exitConditionalExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitConditionalExpression) {
-			return visitor.visitConditionalExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitConditionalExpression) {
+	 		listener.exitConditionalExpression(this);
 		}
 	}
 }
@@ -1583,38 +1497,27 @@ export class BooleanExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _left!: RelationalExpressionContext;
 	public _right!: RelationalExpressionContext;
-	public relationalExpression(): RelationalExpressionContext[];
-	public relationalExpression(i: number): RelationalExpressionContext;
-	public relationalExpression(i?: number): RelationalExpressionContext | RelationalExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(RelationalExpressionContext);
-		} else {
-			return this.getRuleContext(i, RelationalExpressionContext);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_booleanExpression; }
-	// @Override
+	public relationalExpression_list(): RelationalExpressionContext[] {
+		return this.getTypedRuleContexts(RelationalExpressionContext) as RelationalExpressionContext[];
+	}
+	public relationalExpression(i: number): RelationalExpressionContext {
+		return this.getTypedRuleContext(RelationalExpressionContext, i) as RelationalExpressionContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_booleanExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterBooleanExpression) {
-			listener.enterBooleanExpression(this);
+	    if(listener.enterBooleanExpression) {
+	 		listener.enterBooleanExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitBooleanExpression) {
-			listener.exitBooleanExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitBooleanExpression) {
-			return visitor.visitBooleanExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitBooleanExpression) {
+	 		listener.exitBooleanExpression(this);
 		}
 	}
 }
@@ -1624,38 +1527,27 @@ export class RelationalExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _left!: ShiftExpressionContext;
 	public _right!: ShiftExpressionContext;
-	public shiftExpression(): ShiftExpressionContext[];
-	public shiftExpression(i: number): ShiftExpressionContext;
-	public shiftExpression(i?: number): ShiftExpressionContext | ShiftExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(ShiftExpressionContext);
-		} else {
-			return this.getRuleContext(i, ShiftExpressionContext);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_relationalExpression; }
-	// @Override
+	public shiftExpression_list(): ShiftExpressionContext[] {
+		return this.getTypedRuleContexts(ShiftExpressionContext) as ShiftExpressionContext[];
+	}
+	public shiftExpression(i: number): ShiftExpressionContext {
+		return this.getTypedRuleContext(ShiftExpressionContext, i) as ShiftExpressionContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_relationalExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterRelationalExpression) {
-			listener.enterRelationalExpression(this);
+	    if(listener.enterRelationalExpression) {
+	 		listener.enterRelationalExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitRelationalExpression) {
-			listener.exitRelationalExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitRelationalExpression) {
-			return visitor.visitRelationalExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitRelationalExpression) {
+	 		listener.exitRelationalExpression(this);
 		}
 	}
 }
@@ -1665,38 +1557,27 @@ export class ShiftExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _left!: AdditiveExpressionContext;
 	public _right!: AdditiveExpressionContext;
-	public additiveExpression(): AdditiveExpressionContext[];
-	public additiveExpression(i: number): AdditiveExpressionContext;
-	public additiveExpression(i?: number): AdditiveExpressionContext | AdditiveExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(AdditiveExpressionContext);
-		} else {
-			return this.getRuleContext(i, AdditiveExpressionContext);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_shiftExpression; }
-	// @Override
+	public additiveExpression_list(): AdditiveExpressionContext[] {
+		return this.getTypedRuleContexts(AdditiveExpressionContext) as AdditiveExpressionContext[];
+	}
+	public additiveExpression(i: number): AdditiveExpressionContext {
+		return this.getTypedRuleContext(AdditiveExpressionContext, i) as AdditiveExpressionContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_shiftExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterShiftExpression) {
-			listener.enterShiftExpression(this);
+	    if(listener.enterShiftExpression) {
+	 		listener.enterShiftExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitShiftExpression) {
-			listener.exitShiftExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitShiftExpression) {
-			return visitor.visitShiftExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitShiftExpression) {
+	 		listener.exitShiftExpression(this);
 		}
 	}
 }
@@ -1706,38 +1587,27 @@ export class AdditiveExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _left!: MultiplicativeExpressionContext;
 	public _right!: MultiplicativeExpressionContext;
-	public multiplicativeExpression(): MultiplicativeExpressionContext[];
-	public multiplicativeExpression(i: number): MultiplicativeExpressionContext;
-	public multiplicativeExpression(i?: number): MultiplicativeExpressionContext | MultiplicativeExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(MultiplicativeExpressionContext);
-		} else {
-			return this.getRuleContext(i, MultiplicativeExpressionContext);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_additiveExpression; }
-	// @Override
+	public multiplicativeExpression_list(): MultiplicativeExpressionContext[] {
+		return this.getTypedRuleContexts(MultiplicativeExpressionContext) as MultiplicativeExpressionContext[];
+	}
+	public multiplicativeExpression(i: number): MultiplicativeExpressionContext {
+		return this.getTypedRuleContext(MultiplicativeExpressionContext, i) as MultiplicativeExpressionContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_additiveExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterAdditiveExpression) {
-			listener.enterAdditiveExpression(this);
+	    if(listener.enterAdditiveExpression) {
+	 		listener.enterAdditiveExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitAdditiveExpression) {
-			listener.exitAdditiveExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitAdditiveExpression) {
-			return visitor.visitAdditiveExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitAdditiveExpression) {
+	 		listener.exitAdditiveExpression(this);
 		}
 	}
 }
@@ -1747,38 +1617,27 @@ export class MultiplicativeExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _left!: UnaryExpressionContext;
 	public _right!: UnaryExpressionContext;
-	public unaryExpression(): UnaryExpressionContext[];
-	public unaryExpression(i: number): UnaryExpressionContext;
-	public unaryExpression(i?: number): UnaryExpressionContext | UnaryExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(UnaryExpressionContext);
-		} else {
-			return this.getRuleContext(i, UnaryExpressionContext);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_multiplicativeExpression; }
-	// @Override
+	public unaryExpression_list(): UnaryExpressionContext[] {
+		return this.getTypedRuleContexts(UnaryExpressionContext) as UnaryExpressionContext[];
+	}
+	public unaryExpression(i: number): UnaryExpressionContext {
+		return this.getTypedRuleContext(UnaryExpressionContext, i) as UnaryExpressionContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_multiplicativeExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterMultiplicativeExpression) {
-			listener.enterMultiplicativeExpression(this);
+	    if(listener.enterMultiplicativeExpression) {
+	 		listener.enterMultiplicativeExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitMultiplicativeExpression) {
-			listener.exitMultiplicativeExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitMultiplicativeExpression) {
-			return visitor.visitMultiplicativeExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitMultiplicativeExpression) {
+	 		listener.exitMultiplicativeExpression(this);
 		}
 	}
 }
@@ -1787,42 +1646,33 @@ export class MultiplicativeExpressionContext extends ParserRuleContext {
 export class UnaryExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _exponentialExpression!: ExponentialExpressionContext;
-	public exponentialExpression(): ExponentialExpressionContext | undefined {
-		return this.tryGetRuleContext(0, ExponentialExpressionContext);
-	}
-	public WS(): TerminalNode[];
-	public WS(i: number): TerminalNode;
-	public WS(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(NCalcParser.WS);
-		} else {
-			return this.getToken(NCalcParser.WS, i);
-		}
-	}
-	public NOT(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.NOT, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_unaryExpression; }
-	// @Override
+	public exponentialExpression(): ExponentialExpressionContext {
+		return this.getTypedRuleContext(ExponentialExpressionContext, 0) as ExponentialExpressionContext;
+	}
+	public WS_list(): TerminalNode[] {
+	    	return this.getTokens(NCalcParser.WS);
+	}
+	public WS(i: number): TerminalNode {
+		return this.getToken(NCalcParser.WS, i);
+	}
+	public NOT(): TerminalNode {
+		return this.getToken(NCalcParser.NOT, 0);
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_unaryExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterUnaryExpression) {
-			listener.enterUnaryExpression(this);
+	    if(listener.enterUnaryExpression) {
+	 		listener.enterUnaryExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitUnaryExpression) {
-			listener.exitUnaryExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitUnaryExpression) {
-			return visitor.visitUnaryExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitUnaryExpression) {
+	 		listener.exitUnaryExpression(this);
 		}
 	}
 }
@@ -1832,41 +1682,30 @@ export class ExponentialExpressionContext extends ParserRuleContext {
 	public val: LogicalExpression;
 	public _left!: PrimaryExpressionContext;
 	public _right!: UnaryExpressionContext;
-	public primaryExpression(): PrimaryExpressionContext {
-		return this.getRuleContext(0, PrimaryExpressionContext);
-	}
-	public unaryExpression(): UnaryExpressionContext[];
-	public unaryExpression(i: number): UnaryExpressionContext;
-	public unaryExpression(i?: number): UnaryExpressionContext | UnaryExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(UnaryExpressionContext);
-		} else {
-			return this.getRuleContext(i, UnaryExpressionContext);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_exponentialExpression; }
-	// @Override
+	public primaryExpression(): PrimaryExpressionContext {
+		return this.getTypedRuleContext(PrimaryExpressionContext, 0) as PrimaryExpressionContext;
+	}
+	public unaryExpression_list(): UnaryExpressionContext[] {
+		return this.getTypedRuleContexts(UnaryExpressionContext) as UnaryExpressionContext[];
+	}
+	public unaryExpression(i: number): UnaryExpressionContext {
+		return this.getTypedRuleContext(UnaryExpressionContext, i) as UnaryExpressionContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_exponentialExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterExponentialExpression) {
-			listener.enterExponentialExpression(this);
+	    if(listener.enterExponentialExpression) {
+	 		listener.enterExponentialExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitExponentialExpression) {
-			listener.exitExponentialExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitExponentialExpression) {
-			return visitor.visitExponentialExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitExponentialExpression) {
+	 		listener.exitExponentialExpression(this);
 		}
 	}
 }
@@ -1878,41 +1717,33 @@ export class PrimaryExpressionContext extends ParserRuleContext {
 	public _expr!: ValueContext;
 	public _identifier!: IdentifierContext;
 	public _arguments!: ArgumentsContext;
-	public logicalExpression(): LogicalExpressionContext | undefined {
-		return this.tryGetRuleContext(0, LogicalExpressionContext);
-	}
-	public value(): ValueContext | undefined {
-		return this.tryGetRuleContext(0, ValueContext);
-	}
-	public identifier(): IdentifierContext | undefined {
-		return this.tryGetRuleContext(0, IdentifierContext);
-	}
-	public arguments(): ArgumentsContext | undefined {
-		return this.tryGetRuleContext(0, ArgumentsContext);
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_primaryExpression; }
-	// @Override
+	public logicalExpression(): LogicalExpressionContext {
+		return this.getTypedRuleContext(LogicalExpressionContext, 0) as LogicalExpressionContext;
+	}
+	public value(): ValueContext {
+		return this.getTypedRuleContext(ValueContext, 0) as ValueContext;
+	}
+	public identifier(): IdentifierContext {
+		return this.getTypedRuleContext(IdentifierContext, 0) as IdentifierContext;
+	}
+	public arguments(): ArgumentsContext {
+		return this.getTypedRuleContext(ArgumentsContext, 0) as ArgumentsContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_primaryExpression;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterPrimaryExpression) {
-			listener.enterPrimaryExpression(this);
+	    if(listener.enterPrimaryExpression) {
+	 		listener.enterPrimaryExpression(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitPrimaryExpression) {
-			listener.exitPrimaryExpression(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitPrimaryExpression) {
-			return visitor.visitPrimaryExpression(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitPrimaryExpression) {
+	 		listener.exitPrimaryExpression(this);
 		}
 	}
 }
@@ -1924,35 +1755,39 @@ export class ValueContext extends ParserRuleContext {
 	public _INTEGER!: Token;
 	public _STRING!: Token;
 	public _DATETIME!: Token;
-	public FLOAT(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.FLOAT, 0); }
-	public INTEGER(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.INTEGER, 0); }
-	public STRING(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.STRING, 0); }
-	public DATETIME(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.DATETIME, 0); }
-	public TRUE(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.TRUE, 0); }
-	public FALSE(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.FALSE, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_value; }
-	// @Override
+	public FLOAT(): TerminalNode {
+		return this.getToken(NCalcParser.FLOAT, 0);
+	}
+	public INTEGER(): TerminalNode {
+		return this.getToken(NCalcParser.INTEGER, 0);
+	}
+	public STRING(): TerminalNode {
+		return this.getToken(NCalcParser.STRING, 0);
+	}
+	public DATETIME(): TerminalNode {
+		return this.getToken(NCalcParser.DATETIME, 0);
+	}
+	public TRUE(): TerminalNode {
+		return this.getToken(NCalcParser.TRUE, 0);
+	}
+	public FALSE(): TerminalNode {
+		return this.getToken(NCalcParser.FALSE, 0);
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_value;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterValue) {
-			listener.enterValue(this);
+	    if(listener.enterValue) {
+	 		listener.enterValue(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitValue) {
-			listener.exitValue(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitValue) {
-			return visitor.visitValue(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitValue) {
+	 		listener.exitValue(this);
 		}
 	}
 }
@@ -1962,31 +1797,27 @@ export class IdentifierContext extends ParserRuleContext {
 	public val: Identifier;
 	public _ID!: Token;
 	public _NAME!: Token;
-	public ID(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.ID, 0); }
-	public NAME(): TerminalNode | undefined { return this.tryGetToken(NCalcParser.NAME, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_identifier; }
-	// @Override
+	public ID(): TerminalNode {
+		return this.getToken(NCalcParser.ID, 0);
+	}
+	public NAME(): TerminalNode {
+		return this.getToken(NCalcParser.NAME, 0);
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_identifier;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterIdentifier) {
-			listener.enterIdentifier(this);
+	    if(listener.enterIdentifier) {
+	 		listener.enterIdentifier(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitIdentifier) {
-			listener.exitIdentifier(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitIdentifier) {
-			return visitor.visitIdentifier(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitIdentifier) {
+	 		listener.exitIdentifier(this);
 		}
 	}
 }
@@ -1996,47 +1827,33 @@ export class ExpressionListContext extends ParserRuleContext {
 	public val: LogicalExpression[] = [];
 	public _first!: LogicalExpressionContext;
 	public _follow!: LogicalExpressionContext;
-	public logicalExpression(): LogicalExpressionContext[];
-	public logicalExpression(i: number): LogicalExpressionContext;
-	public logicalExpression(i?: number): LogicalExpressionContext | LogicalExpressionContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(LogicalExpressionContext);
-		} else {
-			return this.getRuleContext(i, LogicalExpressionContext);
-		}
-	}
-	public WS(): TerminalNode[];
-	public WS(i: number): TerminalNode;
-	public WS(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(NCalcParser.WS);
-		} else {
-			return this.getToken(NCalcParser.WS, i);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_expressionList; }
-	// @Override
+	public logicalExpression_list(): LogicalExpressionContext[] {
+		return this.getTypedRuleContexts(LogicalExpressionContext) as LogicalExpressionContext[];
+	}
+	public logicalExpression(i: number): LogicalExpressionContext {
+		return this.getTypedRuleContext(LogicalExpressionContext, i) as LogicalExpressionContext;
+	}
+	public WS_list(): TerminalNode[] {
+	    	return this.getTokens(NCalcParser.WS);
+	}
+	public WS(i: number): TerminalNode {
+		return this.getToken(NCalcParser.WS, i);
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_expressionList;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterExpressionList) {
-			listener.enterExpressionList(this);
+	    if(listener.enterExpressionList) {
+	 		listener.enterExpressionList(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitExpressionList) {
-			listener.exitExpressionList(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitExpressionList) {
-			return visitor.visitExpressionList(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitExpressionList) {
+	 		listener.exitExpressionList(this);
 		}
 	}
 }
@@ -2045,34 +1862,24 @@ export class ExpressionListContext extends ParserRuleContext {
 export class ArgumentsContext extends ParserRuleContext {
 	public val: LogicalExpression[] = [];
 	public _expressionList!: ExpressionListContext;
-	public expressionList(): ExpressionListContext | undefined {
-		return this.tryGetRuleContext(0, ExpressionListContext);
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+	constructor(parser?: NCalcParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
+    	this.parser = parser;
 	}
-	// @Override
-	public get ruleIndex(): number { return NCalcParser.RULE_arguments; }
-	// @Override
+	public expressionList(): ExpressionListContext {
+		return this.getTypedRuleContext(ExpressionListContext, 0) as ExpressionListContext;
+	}
+    public get ruleIndex(): number {
+    	return NCalcParser.RULE_arguments;
+	}
 	public enterRule(listener: NCalcListener): void {
-		if (listener.enterArguments) {
-			listener.enterArguments(this);
+	    if(listener.enterArguments) {
+	 		listener.enterArguments(this);
 		}
 	}
-	// @Override
 	public exitRule(listener: NCalcListener): void {
-		if (listener.exitArguments) {
-			listener.exitArguments(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: NCalcVisitor<Result>): Result {
-		if (visitor.visitArguments) {
-			return visitor.visitArguments(this);
-		} else {
-			return visitor.visitChildren(this);
+	    if(listener.exitArguments) {
+	 		listener.exitArguments(this);
 		}
 	}
 }
-
-

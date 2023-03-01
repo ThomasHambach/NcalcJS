@@ -1,10 +1,11 @@
-import {ANTLRErrorListener, ANTLRInputStream, CommonTokenStream} from 'antlr4ts';
-import {NCalcLexer, NCalcParser} from '@/Grammar';
+import {ErrorListener, CharStream, CommonTokenStream} from 'antlr4';
 import {EvaluationException, EvaluationVisitor, LogicalExpression} from '@/NCalc/Domain';
 import {EvaluateOptions} from './EvaluationOptions';
 import {EvaluateFunctionHandler, EvaluateParameterHandler} from './types';
+import NCalcLexer from '@/Grammar/NCalcLexer';
+import NCalcParser from '@/Grammar/NCalcParser';
 
-export class ErrorListener implements ANTLRErrorListener<number> {
+export class NCalcErrorListener implements ErrorListener<number> {
   private _errors: any = [];
   public get errors() {
     return this._errors;
@@ -15,9 +16,9 @@ export class ErrorListener implements ANTLRErrorListener<number> {
 }
 
 export class Expression {
-  private lexerErrors: ErrorListener;
+  private lexerErrors: NCalcErrorListener;
 
-  private parserErrors: ErrorListener;
+  private parserErrors: NCalcErrorListener;
 
   public Options: EvaluateOptions = EvaluateOptions.None;
 
@@ -72,8 +73,8 @@ export class Expression {
       this.Options = options;
     }
 
-    this.lexerErrors = new ErrorListener();
-    this.parserErrors = new ErrorListener();
+    this.lexerErrors = new NCalcErrorListener();
+    this.parserErrors = new NCalcErrorListener();
   }
 
   public get errors() {
@@ -95,7 +96,7 @@ export class Expression {
 
     if (logicalExpression == null) {
       // Create the lexer
-      let inputStream = new ANTLRInputStream(expression);
+      let inputStream = new CharStream(expression);
       let lexer = new NCalcLexer(inputStream);
       lexer.addErrorListener(this.lexerErrors);
 

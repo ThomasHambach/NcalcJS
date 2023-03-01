@@ -1,12 +1,7 @@
-// Generated from src/Grammar/NCalc.g4 by ANTLR 4.9.0-SNAPSHOT
+// Generated from NCalc.g4 by ANTLR 4.12.0
 
+import {ParseTreeListener} from "antlr4";
 
-
-import dayjs from "dayjs";
-import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, LogicalExpressionVisitor, UnaryExpression, UnaryExpressionType, TernaryExpression, ValueExpression, ValueType, LogicalExpression } from "@/NCalc/Domain";
-
-
-import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
 import { NcalcExpressionContext } from "./NCalcParser";
 import { LogicalExpressionContext } from "./NCalcParser";
@@ -29,7 +24,7 @@ import { ArgumentsContext } from "./NCalcParser";
  * This interface defines a complete listener for a parse tree produced by
  * `NCalcParser`.
  */
-export interface NCalcListener extends ParseTreeListener {
+export default class NCalcListener extends ParseTreeListener {
 	/**
 	 * Enter a parse tree produced by `NCalcParser.ncalcExpression`.
 	 * @param ctx the parse tree
@@ -40,7 +35,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitNcalcExpression?: (ctx: NcalcExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.logicalExpression`.
 	 * @param ctx the parse tree
@@ -51,7 +45,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitLogicalExpression?: (ctx: LogicalExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.conditionalExpression`.
 	 * @param ctx the parse tree
@@ -62,7 +55,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitConditionalExpression?: (ctx: ConditionalExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.booleanExpression`.
 	 * @param ctx the parse tree
@@ -73,7 +65,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitBooleanExpression?: (ctx: BooleanExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.relationalExpression`.
 	 * @param ctx the parse tree
@@ -84,7 +75,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitRelationalExpression?: (ctx: RelationalExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.shiftExpression`.
 	 * @param ctx the parse tree
@@ -95,7 +85,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitShiftExpression?: (ctx: ShiftExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.additiveExpression`.
 	 * @param ctx the parse tree
@@ -106,7 +95,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitAdditiveExpression?: (ctx: AdditiveExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.multiplicativeExpression`.
 	 * @param ctx the parse tree
@@ -117,7 +105,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitMultiplicativeExpression?: (ctx: MultiplicativeExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.unaryExpression`.
 	 * @param ctx the parse tree
@@ -128,7 +115,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitUnaryExpression?: (ctx: UnaryExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.exponentialExpression`.
 	 * @param ctx the parse tree
@@ -139,7 +125,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitExponentialExpression?: (ctx: ExponentialExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.primaryExpression`.
 	 * @param ctx the parse tree
@@ -150,7 +135,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitPrimaryExpression?: (ctx: PrimaryExpressionContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.value`.
 	 * @param ctx the parse tree
@@ -161,7 +145,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitValue?: (ctx: ValueContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.identifier`.
 	 * @param ctx the parse tree
@@ -172,7 +155,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitIdentifier?: (ctx: IdentifierContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.expressionList`.
 	 * @param ctx the parse tree
@@ -183,7 +165,6 @@ export interface NCalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitExpressionList?: (ctx: ExpressionListContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `NCalcParser.arguments`.
 	 * @param ctx the parse tree
