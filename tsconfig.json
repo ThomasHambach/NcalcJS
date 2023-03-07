@@ -26,5 +26,5 @@
     "dist",
     "__tests__"
   ],
-  "include": ["src"],
+  "include": ["src", "node_modules/antlr4"],
 }
