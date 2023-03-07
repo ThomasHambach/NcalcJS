@@ -6,7 +6,7 @@
   "types": "dist/NCalc/index.d.ts",
   "scripts": {
     "test": "jest --coverage",
-    "grammar": "antlr4ts -visitor src/Grammar/NCalc.g4 -o src/Grammar",
+    "grammar": "antlr4 -Dlanguage=JavaScript -visitor src/Grammar/NCalc.g4 -o src/Grammar",
     "prepare": "ts-patch install -s",
     "build": "tsc"
   },
@@ -26,12 +26,12 @@
   },
   "homepage": "https://github.com/ThomasHambach/NcalcJS#readme",
   "dependencies": {
-    "antlr4ts": "^0.5.0-alpha.4",
+    "antlr4": "^4.12.0-beta.4",
     "dayjs": "^1.11.7"
   },
   "devDependencies": {
+    "@types/antlr4": "^4.11.2",
     "@types/jest": "^29.2.5",
-    "antlr4ts-cli": "^0.5.0-alpha.4",
     "dpdm": "^3.11.0",
     "jest": "^29.3.1",
     "jest-expect-message": "^1.1.3",
