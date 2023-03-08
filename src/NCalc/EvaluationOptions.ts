@@ -17,5 +17,5 @@ export enum EvaluateOptions {
   //
   // Summary:
   //     When using Round(), if a number is halfway between two others, it is rounded toward the nearest number that is away from zero.
-  RoundAwayFromZero = 16,
+  RoundAwayFromZero = 16
 }
