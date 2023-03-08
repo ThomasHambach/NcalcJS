@@ -1,6 +1,6 @@
 import {EvaluationException, EvaluationVisitor, LogicalExpression} from '@/NCalc/Domain/index';
-import {default as NCalcParser} from '@/Grammar/NCalcParser';
-import {default as NCalcLexer} from '@/Grammar/NCalcLexer';
+import NCalcParser from '@/Grammar/NCalcParser';
+import NCalcLexer from '@/Grammar/NCalcLexer';
 import {EvaluateOptions} from './EvaluationOptions';
 import {EvaluateFunctionHandler, EvaluateParameterHandler} from './types';
 import {default as antlr4} from 'antlr4';

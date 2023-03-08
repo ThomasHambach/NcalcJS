@@ -1,5 +1,6 @@
 module.exports = {
-  preset: 'ts-jest',
+  extensionsToTreatAsEsm: ['.ts'],
+  preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
@@ -7,7 +8,7 @@ module.exports = {
   coveragePathIgnorePatterns: ['<rootDir>/src/Grammar/', '<rootDir>/node_modules/'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
   transform: {
-    '^.+\\.(ts|tsx|js)?$': ['ts-jest'],
+    '^.+\\.(ts|tsx|js)?$': ['ts-jest', {useESM: true}],
     // '<rootDir>/node_modules/antlr4/*.ts': 'ts-jest',
     //'<rootDir>/src/Grammar/*.js': 'ts-jest',
   },

@@ -7,7 +7,7 @@
   "types": "dist/NCalc/index.d.ts",
   "type": "module",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "grammar": "antlr4 -Dlanguage=JavaScript -visitor src/Grammar/NCalc.g4 -o src/Grammar",
     "prepare": "ts-patch install -s",
     "build": "webpack"
