@@ -7,11 +7,8 @@ import {
   BinaryExpressionType,
   Identifier,
   NCalcFunction,
-  UnaryExpression,
-  UnaryExpressionType,
   ValueExpression,
-} from '../src/NCalc/Domain';
-import dayjs from 'dayjs';
+} from '../src/NCalc/Domain/index';
 import {EvaluateOptions} from '../src/NCalc/EvaluationOptions';
 
 // To easily convert .net asserts, regex for VS code

@@ -95,9 +95,9 @@ Note that the files, except for `NCalc.g4` in `/src/Grammar` are automatically g
 changes you wish to make there are to be made in `NCalc.g4`. You will need Java runtime installed on
 your system to generate these files.
 
-To update the generated files, run
+To update the generated files, run this commond inside `/src/Grammar`.
 
-    npm run grammar
+    antlr4 -Dlanguage=TypeScript NCalc.g4
 
 ## Contributors
 
