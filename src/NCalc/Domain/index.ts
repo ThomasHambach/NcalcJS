@@ -348,7 +348,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor {
         this.VisitIdentifier(expression);
         break;
       default:
-        throw new Error('Invalud expression type');
+        throw new Error(`Invalid expression type: ${expression.constructor.name}`);
     }
   }
 
