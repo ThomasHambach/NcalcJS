@@ -1,6 +1,6 @@
 {
   "name": "ncalcjs",
-  "version": "2.0.0-beta1",
+  "version": "2.0.0-beta2",
   "description": "Typescript/Javascript implementation of NCalc",
   "main": "dist/ncalc.node.js",
   "browser": "dist/ncalc.web.js",

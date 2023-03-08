@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const nodeConfig = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/NCalc/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -42,7 +42,7 @@ const nodeConfig = {
 };
 
 const webConfig = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/NCalc/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
