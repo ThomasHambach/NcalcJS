@@ -5,7 +5,7 @@ import {EvaluateOptions} from './EvaluationOptions';
 import {EvaluateFunctionHandler, EvaluateParameterHandler} from './types';
 import {default as antlr4} from 'antlr4';
 
-export class ErrorListener {
+export class ErrorListener<T> {
     private _errors: any = [];
     public get errors() {
         return this._errors;
@@ -13,12 +13,25 @@ export class ErrorListener {
     public syntaxError(...args: any) {
         this._errors.push(args);
     }
+
+    // Left empty on purpose, if we do not implement these methods, NcalcJS will crash.
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    reportAmbiguity(...args) {
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    reportAttemptingFullContext(...args) {
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    reportContextSensitivity(...args) {
+    }
 }
 
 export class Expression {
-    private lexerErrors: ErrorListener;
+    private lexerErrors: ErrorListener<number>;
 
-    private parserErrors: ErrorListener;
+    private parserErrors: ErrorListener<antlr4.Token>;
 
     public Options: EvaluateOptions = EvaluateOptions.None;
 

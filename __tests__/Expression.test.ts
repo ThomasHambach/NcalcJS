@@ -1,7 +1,7 @@
 import 'jest-expect-message';
-import {Expression} from '../src/NCalc/Expression';
-import {FunctionArgs} from '../src/NCalc/FunctionArgs';
-import {ParameterArgs} from '../src/NCalc/ParameterArgs';
+import { Expression } from '../src/NCalc/Expression';
+import { FunctionArgs } from '../src/NCalc/FunctionArgs';
+import { ParameterArgs } from '../src/NCalc/ParameterArgs';
 import {
     BinaryExpression,
     BinaryExpressionType,
@@ -9,11 +9,7 @@ import {
     NCalcFunction,
     ValueExpression
 } from '../src/NCalc/Domain/index';
-import {EvaluateOptions} from '../src/NCalc/EvaluationOptions';
-
-// To easily convert .net asserts, regex for VS code
-// Assert\.AreEqual\((.+),(.+)new Expression\((.+)\)\.Evaluate\(\)\);
-// expect(new Expression($3).Evaluate()).toBe($1);
+import { EvaluateOptions } from '../src/NCalc/EvaluationOptions';
 
 describe('Expressions', () => {
     test('ShouldCache', () => {
@@ -30,8 +26,12 @@ describe('Expressions', () => {
         expect(new Expression('true').Evaluate()).toBe(true);
     });
     test('ShouldHandleUnicode', () => {
-        expect(new Expression('\'経済協力開発機構\'').Evaluate()).toBe('経済協力開発機構');
-        expect(new Expression('\'\u0048\u0065\u006C\u006C\u006F\'').Evaluate()).toBe('Hello');
+        expect(new Expression('\'経済協力開発機構\'').Evaluate()).toBe(
+            '経済協力開発機構'
+        );
+        expect(new Expression('\'\u0048\u0065\u006C\u006C\u006F\'').Evaluate()).toBe(
+            'Hello'
+        );
         expect(new Expression('\'\u3060\'').Evaluate()).toBe('だ');
         expect(new Expression('\'\u0100\'').Evaluate()).toBe('\u0100');
     });
@@ -74,7 +74,8 @@ describe('Expressions', () => {
         const e = new Expression('SecretOperation(3, 6)');
 
         e.EvaluateFunction['SecretOperation'] = (args: FunctionArgs) => {
-            args.Result = args.Parameters[0].Evaluate() + args.Parameters[1].Evaluate();
+            args.Result =
+        args.Parameters[0].Evaluate() + args.Parameters[1].Evaluate();
         };
         expect(e.Evaluate()).toBe(9);
     });
@@ -84,14 +85,17 @@ describe('Expressions', () => {
         e.Parameters['f'] = 1;
 
         e.EvaluateFunction['SecretOperation'] = (args: FunctionArgs) => {
-            args.Result = args.Parameters[0].Evaluate() + args.Parameters[1].Evaluate();
+            args.Result =
+        args.Parameters[0].Evaluate() + args.Parameters[1].Evaluate();
         };
         expect(e.Evaluate()).toBe(10);
     });
 
     // @todo This is incorrect.
     test('ExpressionShouldEvaluateParameters', () => {
-        const e = new Expression('Round(Pow(Pi, 2) + Pow([Pi Squared], 2) + [X], 2)');
+        const e = new Expression(
+            'Round(Pow(Pi, 2) + Pow([Pi Squared], 2) + [X], 2)'
+        );
 
         e.Parameters['Pi Squared'] = new Expression('Pi * [Pi]');
         e.Parameters['X'] = 10;
@@ -156,8 +160,8 @@ describe('Expressions', () => {
             ['NOT false', true],
             ['-10', -10],
             ['+20', 20],
-            //['2**-1', 0.5],
-            //['2**+2', 4.0],
+            ['2**-1', 0.5],
+            ['2**+2', 4.0],
             ['2 * 3', 6],
             ['6 / 2', 3],
             ['7 % 2', 1],
@@ -209,12 +213,12 @@ describe('Expressions', () => {
         expect(new Expression('1 + 2 + 3 * 4 / 2').Evaluate()).toBe(9);
         expect(new Expression('18/2/2*3').Evaluate()).toBe(13.5);
 
-    // expect(new Expression('-1 ** 2').Evaluate()).toBe(-1);
-    // expect(new Expression('(-1) ** 2').Evaluate()).toBe(1);
-    // expect(new Expression('2 ** 3 ** 2').Evaluate()).toBe(512);
-    // expect(new Expression('(2 ** 3) ** 2').Evaluate()).toBe(64);
-    // expect(new Expression('2 * 3 ** 2').Evaluate()).toBe(18);
-    // expect(new Expression('2 ** 4 / 2').Evaluate()).toBe(8);
+        expect(new Expression('-1 ** 2').Evaluate()).toBe(-1);
+        expect(new Expression('(-1) ** 2').Evaluate()).toBe(1);
+        expect(new Expression('2 ** 3 ** 2').Evaluate()).toBe(512);
+        expect(new Expression('(2 ** 3) ** 2').Evaluate()).toBe(64);
+        expect(new Expression('2 * 3 ** 2').Evaluate()).toBe(18);
+        expect(new Expression('2 ** 4 / 2').Evaluate()).toBe(8);
     });
 
     test('ShouldNotLosePrecision', () => {
@@ -369,10 +373,14 @@ describe('Expressions', () => {
     });
 
     test('ShouldHandleCaseSensitive', () => {
-        expect(new Expression('aBs(-1)', EvaluateOptions.IgnoreCase).Evaluate()).toBe(1);
+        expect(
+            new Expression('aBs(-1)', EvaluateOptions.IgnoreCase).Evaluate()
+        ).toBe(1);
         expect(new Expression('Abs(-1)', EvaluateOptions.None).Evaluate()).toBe(1);
 
-        expect(() => new Expression('aBs(-1)', EvaluateOptions.None).Evaluate()).toThrowError();
+        expect(() =>
+            new Expression('aBs(-1)', EvaluateOptions.None).Evaluate()
+        ).toThrowError();
     });
 
     test('ShouldHandleCustomFunctionsInFunctions', () => {
@@ -474,7 +482,9 @@ describe('Expressions', () => {
     });
 
     test('ShouldCompareLongValues', () => {
-        expect(new Expression('(0=1500000)||(((0+2200000000)-1500000)<0)').Evaluate()).toBe(false);
+        expect(
+            new Expression('(0=1500000)||(((0+2200000000)-1500000)<0)').Evaluate()
+        ).toBe(false);
     });
     test('ShouldDisplayErrorIncompatibleTypes', () => {
         expect(() => {
@@ -491,5 +501,4 @@ describe('Expressions', () => {
 
         expect(e.Evaluate()).toBe(false);
     });
-
 });
