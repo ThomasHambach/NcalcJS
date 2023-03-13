@@ -12,6 +12,22 @@ https://github.com/ThomasHambach/expression.worker
 
 ## Project Description
 
+### Browser Support
+
+In theory, all browsers supporting ECMAScript 5.1.
+
+In practice, this target has been extensively tested against:
+
+* Firefox 34.0.5
+* Safari 8.0.2
+* Chrome 39.0.2171
+* Explorer 11.0.3
+
+### Is NodeJS supported?
+
+The package has been extensively tested against Node.js 14 LTS.
+
+
 ### Installation
 
 Get the package from npm.org (https://www.npmjs.com/package/ncalcjs) by running
@@ -69,10 +85,6 @@ if (e.HasErrors()) {
 ### Known Issues
 
 - `Round` does not return the correct value
-- Circular dependencies are causing the massive `Domain/index.ts` file.
-- Unknown browser support
-- Support for Node below v16.6 is unconfirmed.
-- Not all unit tests are implemented
 
 ## Building
 

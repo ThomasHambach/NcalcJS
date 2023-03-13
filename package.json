@@ -6,9 +6,12 @@
   "browser": "dist/ncalc.web.js",
   "types": "dist/NCalc/index.d.ts",
   "type": "module",
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
-    "grammar": "antlr4 -Dlanguage=JavaScript -visitor src/Grammar/NCalc.g4 -o src/Grammar",
+    "grammar": "antlr4 -Dlanguage=TypeScript -visitor src/Grammar/NCalc.g4 -o src/Grammar",
     "prepare": "ts-patch install -s",
     "build": "webpack"
   },
