@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {EvaluationException, EvaluationVisitor, LogicalExpression} from '@/NCalc/Domain/index';
 import NCalcParser from '@/Grammar/NCalcParser';
 import NCalcLexer from '@/Grammar/NCalcLexer';
@@ -5,33 +6,37 @@ import {EvaluateOptions} from './EvaluationOptions';
 import {EvaluateFunctionHandler, EvaluateParameterHandler} from './types';
 import {default as antlr4} from 'antlr4';
 
-export class ErrorListener<T> {
+export class ErrorListener {
+
     private _errors: any = [];
+    
     public get errors() {
         return this._errors;
     }
+
     public syntaxError(...args: any) {
         this._errors.push(args);
     }
 
     // Left empty on purpose, if we do not implement these methods, NcalcJS will crash.
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    reportAmbiguity(...args) {
+    reportAmbiguity() {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    reportAttemptingFullContext(...args) {
+    reportAttemptingFullContext() {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    reportContextSensitivity(...args) {
+    reportContextSensitivity() {
     }
 }
 
 export class Expression {
-    private lexerErrors: ErrorListener<number>;
 
-    private parserErrors: ErrorListener<antlr4.Token>;
+    private lexerErrors: ErrorListener;
+
+    private parserErrors: ErrorListener;
 
     public Options: EvaluateOptions = EvaluateOptions.None;
 
@@ -46,10 +51,12 @@ export class Expression {
 
     public ParsedExpression: LogicalExpression;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected ParameterEnumerators: {[key: string]: any} = {};
 
     protected ParametersBackup: {[key: string]: object} = {};
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public Parameters: {[key: string]: any} = {};
 
     public get CacheEnabled() {
