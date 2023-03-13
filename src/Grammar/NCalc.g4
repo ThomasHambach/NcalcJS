@@ -12,10 +12,10 @@ import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, Logi
 
 @parser::members {
 
-	public BS: string = "\\";
+	public BS = "\\";
 
-	public ExtractString(text: string): string {
-		let sb: string[] = text.split(/(?!$)/u);
+	public ExtractString(text) {
+		let sb = text.split(/(?!$)/u);
         let startIndex = 1; // Skip initial quote
         let slashIndex = -1;
 
@@ -63,12 +63,12 @@ import { Identifier, BinaryExpression, BinaryExpressionType, NCalcFunction, Logi
 	}
 
 	public Errors: any[] = [];
-	public GetExpression(): any { return (this.ncalcExpression().val as any) };
+	public GetExpression() { return (this.ncalcExpression().val) };
 
 }
 
 @init {
-    // numberFormatInfo.NumberDecimalSeparator = ".";
+    test = true;
 }
 
 ncalcExpression

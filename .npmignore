@@ -6,3 +6,5 @@ sonar-project.properties
 .vscode
 docs
 .prettierrc
+.eslintrc.cjs
+.eslintignore
