@@ -37,7 +37,6 @@ export class EvaluationVisitor extends LogicalExpressionVisitor {
         switch (expression.constructor.name) {
         case 'LogicalExpression':
             throw new Error();
-            break;
         case 'TernaryExpression':
             this.VisitTernary(expression);
             break;
