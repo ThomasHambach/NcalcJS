@@ -1,4 +1,3 @@
-export * from "./NCalcParser";
-export * from "./NCalcLexer";
-export * from "./NCalcListener";
-export * from "./NCalcVisitor";
+export * as NCalcParser from './NCalcParser';
+export * as NCalcLexer from './NCalcLexer';
+export * as NCalcListener from './NCalcListener';
