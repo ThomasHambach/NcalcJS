@@ -11,6 +11,8 @@ export class NCalcFunction extends LogicalExpression {
 
     public Expressions: LogicalExpression[];
 
+    public ClassName = 'NCalcFunction';
+
     public Accept(visitor: LogicalExpressionVisitor) {
         visitor.Visit(this);
     }

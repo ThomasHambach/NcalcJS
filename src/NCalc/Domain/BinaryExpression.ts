@@ -18,6 +18,8 @@ export class BinaryExpression extends LogicalExpression {
 
     public Type: BinaryExpressionType;
 
+    public ClassName = 'BinaryExpression';
+
     public Accept(visitor: LogicalExpressionVisitor) {
         visitor.Visit(this);
     }

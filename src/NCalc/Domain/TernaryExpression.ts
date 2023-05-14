@@ -18,6 +18,8 @@ export class TernaryExpression extends LogicalExpression {
 
     public RightExpression: LogicalExpression;
 
+    public ClassName = 'TernaryExpression';
+
     public Accept(visitor: LogicalExpressionVisitor) {
         visitor.Visit(this);
     }

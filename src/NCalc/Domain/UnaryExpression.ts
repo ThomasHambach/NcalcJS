@@ -11,6 +11,8 @@ export class UnaryExpression extends LogicalExpression {
 
     public Type: UnaryExpressionType;
 
+    public ClassName = 'UnaryExpression';
+
     public Accept(visitor: LogicalExpressionVisitor) {
         visitor.Visit(this);
     }
