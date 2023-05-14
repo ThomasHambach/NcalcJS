@@ -62,7 +62,7 @@ export class EvaluationVisitor extends LogicalExpressionVisitor {
     }
 
     public Visit(expression: any): void {
-        switch (expression.constructor.name) {
+        switch (expression.ClassName) {
         case 'LogicalExpression':
             throw new Error();
         case 'TernaryExpression':
