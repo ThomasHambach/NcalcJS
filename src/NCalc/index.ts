@@ -4,3 +4,4 @@ export * from '@/NCalc/FunctionArgs';
 export * from '@/NCalc/Numbers';
 export * from '@/NCalc/ParameterArgs';
 export * from '@/NCalc/Domain';
+export * from '@/NCalc/types';
