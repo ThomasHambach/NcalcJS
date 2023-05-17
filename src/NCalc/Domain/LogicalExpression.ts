@@ -3,7 +3,8 @@ import { BinaryExpression, ValueExpression, BinaryExpressionType, LogicalExpress
 export class LogicalExpression {
     // We need an empty constructor to save it in cache.
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public constructor() {}
+    public constructor() { }
+    public ClassName = 'LogicalExpression';
 
     public And(operand: object): BinaryExpression;
     public And(operand: LogicalExpression): BinaryExpression;

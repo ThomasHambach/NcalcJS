@@ -33,8 +33,30 @@ export class EvaluationVisitor extends LogicalExpressionVisitor {
         return this.Result;
     }
 
+    public static FromJson(expression: any)
+    {
+        switch (expression.ClassName) {
+        case 'LogicalExpression':
+            throw new Error();
+        case 'TernaryExpression':
+            return new TernaryExpression(this.FromJson(expression.LeftExpression), this.FromJson(expression.MiddleExpression), this.FromJson(expression.RightExpression));
+        case 'BinaryExpression':
+            return new BinaryExpression(expression.Type, this.FromJson(expression.LeftExpression), this.FromJson(expression.RightExpression));
+        case 'UnaryExpression':
+            return new UnaryExpression(expression.Type, this.FromJson(expression.Expression));
+        case 'ValueExpression':
+            return new ValueExpression(expression.Value, expression.ValueType);
+        case 'NCalcFunction':
+            return new NCalcFunction(expression.Identifier, expression.Expressions.map(x => this.FromJson(x)));
+        case 'Identifier':
+            return new Identifier(expression.Name);
+        default:
+            throw new Error(`Invalid expression type: ${expression.constructor.name}`);
+        }
+    }
+
     public Visit(expression: any): void {
-        switch (expression.constructor.name) {
+        switch (expression.ClassName) {
         case 'LogicalExpression':
             throw new Error();
         case 'TernaryExpression':

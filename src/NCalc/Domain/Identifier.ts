@@ -7,6 +7,7 @@ export class Identifier extends LogicalExpression {
     }
 
     public Name = '';
+    public ClassName = 'Identifier';
 
     public Accept(visitor: LogicalExpressionVisitor) {
         visitor.Visit(this);

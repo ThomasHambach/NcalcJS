@@ -46,6 +46,7 @@ export class ValueExpression extends LogicalExpression {
 
     public Value: any = '';
     public Type: ValueType = ValueType.Boolean;
+    public ClassName = 'ValueExpression';
 
     public Accept(visitor: LogicalExpressionVisitor) {
         visitor.Visit(this);
