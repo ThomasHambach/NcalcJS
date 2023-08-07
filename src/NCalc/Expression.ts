@@ -76,10 +76,12 @@ export class Expression {
         return this.lexerErrors.errors.concat(this.parserErrors.errors);
     }
 
-    public Compile(expression: string, nocache: boolean): LogicalExpression {
+    public static Compile(expression: string, nocache: boolean): LogicalExpression {
         let logicalExpression: LogicalExpression | null = null;
+        const lexerErrors = new ErrorListener();
+        const parserErrors = new ErrorListener();
 
-        if (this.CacheEnabled && !nocache) {
+        if (Expression._cacheEnabled && !nocache) {
             if (Object.prototype.hasOwnProperty.call(Expression._compiledExpression, expression)) {
                 const wr = Expression._compiledExpression[expression];
                 const stored = wr.deref();
@@ -93,16 +95,16 @@ export class Expression {
             // Create the lexer
             const inputStream = new antlr4.CharStream(expression);
             const lexer = new NCalcLexer(inputStream);
-            lexer.addErrorListener(this.lexerErrors);
+            lexer.addErrorListener(lexerErrors);
 
             // Create parser
             const tokenStream = new antlr4.CommonTokenStream(lexer);
             const parser = new NCalcParser(tokenStream);
-            parser.addErrorListener(this.parserErrors);
+            parser.addErrorListener(parserErrors);
 
             logicalExpression = (parser as any).GetExpression();
 
-            if (this.CacheEnabled && !nocache) {
+            if (Expression._cacheEnabled && !nocache) {
                 Expression._compiledExpression[expression] = new WeakRef(logicalExpression);
             }
         }
