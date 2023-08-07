@@ -9,10 +9,6 @@ import { ErrorListener } from './ErrorListener';
 
 export class Expression {
 
-    private lexerErrors: ErrorListener;
-
-    private parserErrors: ErrorListener;
-
     public Options: EvaluateOptions = EvaluateOptions.None;
 
     /**
@@ -67,14 +63,9 @@ export class Expression {
         if (options) {
             this.Options = options;
         }
-
-        this.lexerErrors = new ErrorListener();
-        this.parserErrors = new ErrorListener();
     }
 
-    public get errors() {
-        return this.lexerErrors.errors.concat(this.parserErrors.errors);
-    }
+    public errors: any[] = [];
 
     public static Compile(expression: string, nocache: boolean): LogicalExpression {
         let logicalExpression: LogicalExpression | null = null;
@@ -104,6 +95,10 @@ export class Expression {
 
             logicalExpression = (parser as any).GetExpression();
 
+            if(lexerErrors.errors.length > 0 || parserErrors.errors.length > 0) {
+                throw new Error('Failed to parse expression');
+            }
+
             if (Expression._cacheEnabled && !nocache) {
                 Expression._compiledExpression[expression] = new WeakRef(logicalExpression);
             }
@@ -119,7 +114,7 @@ export class Expression {
     public HasErrors(): boolean {
         try {
             if (this.ParsedExpression == null) {
-                this.ParsedExpression = this.Compile(
+                this.ParsedExpression = Expression.Compile(
                     this.OriginalExpression,
                     (this.Options & EvaluateOptions.NoCache) == EvaluateOptions.NoCache
                 );
@@ -132,6 +127,7 @@ export class Expression {
             // In case HasErrors() is called multiple times for the same expression
             return this.ParsedExpression === null || this.ParsedExpression === undefined;
         } catch (e) {
+            this.errors = [e];
             return true;
         }
     }
@@ -145,7 +141,7 @@ export class Expression {
         }
 
         if (this.ParsedExpression == null) {
-            this.ParsedExpression = this.Compile(
+            this.ParsedExpression = Expression.Compile(
                 this.OriginalExpression,
                 (this.Options & EvaluateOptions.NoCache) == EvaluateOptions.NoCache
             );
