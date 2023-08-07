@@ -1,7 +1,7 @@
 import 'jest-expect-message';
-import { Expression } from '../src/NCalc/Expression';
-import { FunctionArgs } from '../src/NCalc/FunctionArgs';
-import { ParameterArgs } from '../src/NCalc/ParameterArgs';
+import {Expression} from '../src/NCalc/Expression';
+import {FunctionArgs} from '../src/NCalc/FunctionArgs';
+import {ParameterArgs} from '../src/NCalc/ParameterArgs';
 import {
     BinaryExpression,
     BinaryExpressionType,
@@ -9,7 +9,7 @@ import {
     NCalcFunction,
     ValueExpression
 } from '../src/NCalc/Domain/index';
-import { EvaluateOptions } from '../src/NCalc/EvaluationOptions';
+import {EvaluateOptions} from '../src/NCalc/EvaluationOptions';
 
 describe('Expressions', () => {
     test('ShouldCache', () => {
@@ -363,12 +363,13 @@ describe('Expressions', () => {
     test('ShouldDetectSyntaxErrorsBeforeEval', () => {
         let e = new Expression('a + b * (');
         expect(e.errors.length).toBe(0);
-        expect(Expression.Compile('a + b * (', false)).toBeTruthy();
+        expect(e.HasErrors()).toBeTruthy();
+        expect(e.HasErrors()).toBeTruthy();
         expect(e.errors.length).toBe(1);
 
         e = new Expression('* b ');
         expect(e.errors.length).toBe(0);
-        expect(Expression.Compile('* b ', false)).toBeTruthy();
+        expect(e.HasErrors()).toBeTruthy();
         expect(e.errors.length).toBe(1);
     });
 
