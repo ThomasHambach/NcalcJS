@@ -15,7 +15,7 @@ describe('Expressions', () => {
     test('ShouldCache', () => {
         const expression = new Expression('1 + 2');
         expect(Expression.CachedExpressions['1 + 2']).toBe(undefined);
-        expression.Evaluate();
+        Expression.Compile('1 + 2');
         expect(Expression.CachedExpressions).toHaveProperty('1 + 2');
     });
 
@@ -363,12 +363,12 @@ describe('Expressions', () => {
     test('ShouldDetectSyntaxErrorsBeforeEval', () => {
         let e = new Expression('a + b * (');
         expect(e.errors.length).toBe(0);
-        expect(e.HasErrors()).toBeTruthy();
+        expect(Expression.Compile('a + b * (')).toBeTruthy();
         expect(e.errors.length).toBe(1);
 
         e = new Expression('* b ');
         expect(e.errors.length).toBe(0);
-        expect(e.HasErrors()).toBeTruthy();
+        expect(Expression.Compile('* b ')).toBeTruthy();
         expect(e.errors.length).toBe(1);
     });
 
