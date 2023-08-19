@@ -113,8 +113,10 @@ To update the generated files, run this commond inside `/src/Grammar`.
 
 ## Contributors
 
-Special thanks to https://github.com/Thaina for creating the basis of this package's ANTLR4 grammar
+Special thanks to:
+* [Thaina](https://github.com/Thaina) for creating the basis of this package's ANTLR4 grammar
 file. Original C# version available at: https://github.com/Thaina/NCalc2/blob/master/grammer/NCalc.g
+* [robmarti12](https://github.com/robmarti12) for implementing the static `Compile` as in original NCalc.
 
 ## Related projects
 
